@@ -29,6 +29,6 @@ Mirrors the Notion "Technical Decisions" database (as read on 2026-11-23).
 | D-024 | `run/main_scene` now points to `scenes/ships/ship_inspection.tscn` so F5 shows the ship in the environment (the Phase 00 `main.tscn` is an empty scene and shows only a grey screen). Revisit when a real game entry point exists. | Decided (user problem report) |
 | D-019 | Ship root is a CharacterBody3D with floating motion mode, provisionally; only the root type changes if Phase 03 picks RigidBody3D | Proposed |
 | D-020 | Add `scripts/ships/` for ship code (adapts D-006) | Proposed |
-| D-021 | Light Fighter model is procedural GDScript geometry (no modeling tool available, Blender excluded by D-002); replacement via glTF into `ShipModel` | Proposed |
+| D-021 | Keep ship visuals replaceable in `ShipModel`. Current Light Fighter visual is a custom Blender-authored GLB; the procedural GDScript model remains as fallback. The exported GLB adds no Blender runtime/build dependency and D-002 still applies to the toolchain. Godot import/appearance remains unvalidated. | Proposed |
 | D-022 | Ship coordinate convention: 1 unit = 1 m, forward -Z, up +Y, right +X, engines +Z, Marker3D -Z = emission direction | Proposed |
 | D-023 | Phase 02 started on the user's Phase 02 prompt although Phase 01 and Phase 00 were never run in Godot; branch `feature/phase02-light-fighter` is based on `feature/phase01-space-environment` | Decided (see 06) |

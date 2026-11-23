@@ -1,21 +1,19 @@
 # Phase 02: Light Fighter (reference)
 
-Status: **Implemented, NOT executed or tested in Godot.** No Godot binary, Blender or modeling tool was available
-to the author. Phase 01 (the environment it is shown in) is also untested. Treat all geometry as a first guess.
+Status: **Custom GLB integrated; this model revision has NOT been executed or tested in Godot.** The user previously opened the procedural-model build in Godot 4.7.2 and reported that F5 works; that does not verify this imported model.
+Phase 01 (the environment it is shown in) is also untested. Treat the new model and scene integration as unvalidated until opened in Godot.
 
 ## Asset strategy (what was and was not created)
 
-- Tools available: none for 3D modeling (no Blender, and Blender is excluded by decision D-002; no Godot binary).
-- **No Blender file, no .glb, no .obj exists.** The ship is generated at runtime by GDScript (`ShipHullBuilder`):
-  flat-shaded lofted and extruded convex parts. It looks like a fighter (swept wings, canards, canted fins, wing-mounted
-  engine nacelles, canopy), not like cubes, but it is a procedural placeholder.
-- Replacement strategy for the final model (user or artist, any tool that exports glTF):
-  1. Model in ship space (convention below) and export `light_fighter_model.glb`, one mesh per material slot.
-  2. Import into `assets/models/ships/` (Godot imports it as a scene; default import settings are fine; do not bake scale).
-  3. In `scenes/ships/light_fighter.tscn`, replace the node `VisualRoot/ShipModel` with the imported scene (keep the name
-     `ShipModel`) or assign `visual_scene` in `resources/ships/light_fighter.tres`.
-  4. Do NOT touch `EnginePoints`, `WeaponPoints`, `CameraTarget` or the collision shapes unless the new model's proportions
-     require it; they live on the ship root on purpose.
+- Current model: `assets/models/ships/light_fighter_model.glb`, a weathered hard-surface fighter with swept armored wings,
+  a raised central bay, layered nose armor, exposed hoses and three rear thrusters.
+- Editable source: `assets/models/ships/light_fighter_source.blend`. It was authored in Blender as a one-off asset at the user's request. The game imports the GLB directly and has
+  no Blender runtime or build-time dependency; D-002 remains unchanged.
+- The export root maps the source axes to ship space (nose -Z, up +Y, right +X) and scales the model to approximately
+  15.2 m span, 3.5 m height and 19 m length. The studio stage, camera and lights are not in the game GLB.
+- `scenes/ships/light_fighter.tscn` instances the imported GLB as `VisualRoot/ShipModel`. The procedural
+  `ShipHullBuilder` and `light_fighter_model.gd` remain as an unused fallback/reference; engine visuals stay separate.
+- Do NOT touch `EnginePoints`, `WeaponPoints`, `CameraTarget` or the collision shapes for this visual replacement.
 
 ## Coordinate convention (ALL future ships)
 
@@ -35,7 +33,7 @@ to the author. Phase 01 (the environment it is shown in) is also untested. Treat
 ```
 LightFighter              CharacterBody3D   spaceship.gd (Spaceship), config = light_fighter.tres
 |- VisualRoot             Node3D            presentation only
-|  |- ShipModel           Node3D            light_fighter_model.gd (@tool): builds 7 MeshInstance3D parts
+|  |- ShipModel           PackedScene       assets/models/ships/light_fighter_model.glb
 |  `- EngineVisuals       Node3D            ship_engine_visuals.gd: nozzle glow + flame cone per engine marker
 |- CollisionFuselage      CollisionShape3D  BoxShape3D 3.2 x 1.9 x 17.0
 |- CollisionWings         CollisionShape3D  BoxShape3D 15.2 x 0.7 x 7.7
@@ -53,10 +51,7 @@ LightFighter              CharacterBody3D   spaceship.gd (Spaceship), config = l
 
 Deviations from the suggested hierarchy (documented reasons):
 - No `CollisionRoot` node: CollisionShape3D must be a direct child of a CollisionObject3D (the root body).
-- The model parts are visuals only; `ShipModel` is a single replaceable node.
-- Materials per part (all `StandardMaterial3D`, set in `light_fighter_model.gd`):
-  Fuselage and Fins = dark navy metal; Wings and Canards = graphite metal; Nacelles = dark engine housing;
-  Canopy = dark glass with faint cyan emission; Accents = orange (controlled accent, emissive); engine glow = cyan.
+- The model is visual only; `ShipModel` is a replaceable imported scene and `EngineVisuals` remains separate.
 
 ## Scripts and resources
 
@@ -64,8 +59,10 @@ Deviations from the suggested hierarchy (documented reasons):
 |------|------|
 | `scripts/ships/spaceship.gd` | Generic ship entity (root). Config, attachment lookups, `validate()`. No flight logic. |
 | `scripts/ships/ship_config.gd` + `resources/ships/light_fighter.tres` | ShipConfig resource. All `_ref` values are PLACEHOLDERS (`is_placeholder_balance = true`). |
-| `scripts/ships/ship_hull_builder.gd` | Procedural geometry (@tool, static functions). |
-| `scripts/ships/light_fighter_model.gd` | Assembles the parts and materials (@tool). |
+| `assets/models/ships/light_fighter_model.glb` | Current imported visual model. |
+| `assets/models/ships/light_fighter_source.blend` | Editable Blender source; not needed to run the game. |
+| `scripts/ships/ship_hull_builder.gd` | Procedural fallback geometry (@tool, static functions). |
+| `scripts/ships/light_fighter_model.gd` | Procedural fallback assembly and materials (@tool); not instanced by the ship scene. |
 | `scripts/ships/ship_engine_visuals.gd` | Engine glow; `set_thrust(0..1)`. Presentation only. |
 | `scripts/ships/ship_intent.gd` | ShipIntent data object (D-009). Defined, not consumed yet. |
 | `scripts/ships/ship_network_state.gd` | Ownership and replicated-state placeholder. No networking. |
@@ -122,8 +119,8 @@ Steps (Godot 4.7.2):
 
 ## Known limits
 
-- Never run in Godot. Winding order/normals of the procedural parts were checked only by a Python simulation of the same math
+- This GLB revision has not yet been run in Godot. The earlier procedural-model build was reported working by the user. Winding order/normals of the procedural fallback were checked only by a Python simulation of the same math
   (84 fuselage triangles, 0 inconsistent). If a part looks inside-out or invisible, the winding in `_add_tri()` is the first suspect.
 - Collision uses simple boxes (nose and wing tips are over-approximated). Convex shapes can replace them later.
 - Provisional root type CharacterBody3D (D-019); physics body type is still open.
-- Proportions, colors and glow strength are untuned.
+- Inspect imported model orientation, appearance and collision fit in the Godot views before validating.

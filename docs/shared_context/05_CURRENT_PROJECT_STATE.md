@@ -2,9 +2,9 @@
 
 Last updated: 2026-11-23
 
-**Phase:** 02 - First Spacecraft: Light Fighter (implemented on a feature branch, NOT executed in Godot, NOT validated).
-Phases 00 and 01 have also never been run in Godot or validated by the user. Each new phase was started on the user's phase prompt (D-018, D-023).
-**User test 2026-11-23 21:23:** the user opened the phase 02 branch in Godot 4.7.2, pressed F5 and reported "funciona perfecto" (works perfectly). No details given (no checklist, errors, FPS or GPU). Treat Phases 01 and 02 as "Executed and reported working by the user", not as formally validated.
+**Phase:** 02 - Light Fighter. The earlier procedural-model build was opened by the user in Godot 4.7.2 and reported working; the new GLB replacement is integrated on the feature branch but has not yet been run or visually checked.
+**User test 2026-11-23 21:23:** the user opened the earlier Phase 02 build in Godot 4.7.2, pressed F5 and reported "funciona perfecto" (works perfectly). No details were given (no checklist, errors, FPS or GPU); the new GLB model still needs its own check.
+Phase 00 has not been validated. The user's earlier F5 test showed the Phase 02 inspection scene with its Phase 01 environment; it was a general smoke test, not a formal phase checklist. Each new phase was started on the user's phase prompt (D-018, D-023).
 **Godot version:** 4.7.2 (confirmed by the user). Hardware target (Q-002) unknown.
 
 ## Branches (GitHub KAITO500/VOID-HORIZON)
@@ -20,14 +20,14 @@ Phases 00 and 01 have also never been run in Godot or validated by the user. Eac
 |------|-------|
 | Phase 00 scaffold | Implemented, not tested in Godot |
 | Phase 01 environment (stars, nebulae, gas giant, lighting, test scene) | Implemented, never compiled or run |
-| Light Fighter scene, procedural model, collision boxes, markers, config, state classes | Implemented, never compiled or run |
-| Ship inspection scene and headless checks | Written, never run |
-| Blender/glTF ship model | Does NOT exist (procedural placeholder only) |
+| Light Fighter scene, imported custom GLB, procedural fallback, collision boxes, markers, config, state classes | Earlier build reported working; new GLB wiring not yet run in Godot |
+| Ship inspection scene and headless checks | Inspection scene was run by the user before GLB replacement; headless checks remain unrun |
+| Blender/glTF ship model | Custom GLB and editable source integrated; new import appearance/orientation and collision fit unvalidated |
 | Flight, camera controller, weapons, networking | Not implemented (later phases) |
 | Statically checked | Indentation, brackets, `res://` paths, Python simulation of hull triangle winding and sizes |
 
 ## Remaining work
-1. User opens the project in Godot 4.7.2 and runs `scenes/environment/space_environment_test.tscn` and `scenes/ships/ship_inspection.tscn`; reports errors and visuals.
+1. Open the updated `scenes/ships/ship_inspection.tscn` in Godot 4.7.2 and check the imported GLB orientation, materials, silhouette and collision fit; the earlier F5 report predates this model replacement.
 2. Fix first-run errors (likely in shaders and procedural mesh code) on the feature branches.
 3. Approve phases in order, merge branches into `develop`.
 4. Reconcile Drive docs with repo docs (KI-002).

@@ -31,7 +31,11 @@ func _init() -> void:
 			_check(ship.get_weapon_points().size() == 2, "two weapon points")
 			_check(ship.get_collision_shapes().size() == 4, "four collision shapes")
 			_check(ship.network_state != null and ship.network_state.is_owned_locally(), "offline owner is local")
-			_check(ship.get_node("VisualRoot/ShipModel").get_child_count() == 7, "model has 7 parts")
+			var ship_model := ship.get_node_or_null("VisualRoot/ShipModel")
+			_check(ship_model != null, "ShipModel visual instance exists")
+			if ship_model != null:
+				var model_meshes := ship_model.find_children("*", "MeshInstance3D", true, false)
+				_check(not model_meshes.is_empty(), "imported GLB has visible mesh parts")
 
 	print("phase02_ship_check: %s" % ("PASS" if _failures == 0 else "FAIL (%d)" % _failures))
 	quit(0 if _failures == 0 else 1)
