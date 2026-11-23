@@ -13,8 +13,7 @@ Arcade flight, third-person camera, stylized sci-fi.
 
 ## Status
 
-Phase 00 (Project Foundation) is implemented but **not validated**. Phase 01 (Space Environment)
-is implemented on `feature/phase01-space-environment` and Phase 02 (Light Fighter) on `feature/phase02-light-fighter`. Nothing has been opened or tested in Godot yet.
+Phase 00 is not validated in Godot. The user opened the earlier Phase 02 build in Godot 4.7.2 and reported that F5 works; the current custom GLB replacement in `VisualRoot/ShipModel` still needs to be checked in Godot.
 To see Phase 01: open `scenes/environment/space_environment_test.tscn` and press F6 (details in `docs/PHASE_01_SPACE_ENVIRONMENT.md`).
 To see the ship: open `scenes/ships/ship_inspection.tscn` and press F6 (`docs/PHASE_02_LIGHT_FIGHTER.md`). See `docs/shared_context/05_CURRENT_PROJECT_STATE.md`.
 
@@ -36,7 +35,7 @@ Empty folders contain a `.gitkeep` only so Git tracks them. Remove it when real 
 
 - Godot 4.x editor (standard build, GDScript; no .NET needed)
 - Git
-- No Blender (decision D-002). Asset strategy is open (Q-008).
+- Blender is not required to run or build the project; ship models are imported as GLB assets (D-002).
 
 ## Open the project in Godot
 

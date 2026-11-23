@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/ships/spaceship.gd" id="1_ship"]
 [ext_resource type="Resource" path="res://resources/ships/light_fighter.tres" id="2_cfg"]
-[ext_resource type="Script" path="res://scripts/ships/light_fighter_model.gd" id="3_model"]
+[ext_resource type="PackedScene" path="res://assets/models/ships/light_fighter_model.glb" id="3_model"]
 [ext_resource type="Script" path="res://scripts/ships/ship_engine_visuals.gd" id="4_engine"]
 [ext_resource type="Script" path="res://scripts/ships/ship_network_state.gd" id="5_net"]
 
@@ -21,8 +21,7 @@ config = ExtResource("2_cfg")
 
 [node name="VisualRoot" type="Node3D" parent="."]
 
-[node name="ShipModel" type="Node3D" parent="VisualRoot"]
-script = ExtResource("3_model")
+[node name="ShipModel" parent="VisualRoot" instance=ExtResource("3_model")]
 
 [node name="EngineVisuals" type="Node3D" parent="VisualRoot"]
 script = ExtResource("4_engine")

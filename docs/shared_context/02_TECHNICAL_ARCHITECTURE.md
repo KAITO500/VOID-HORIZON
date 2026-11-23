@@ -63,7 +63,7 @@ Full reference: `docs/PHASE_01_SPACE_ENVIRONMENT.md`.
 Full reference: `docs/PHASE_02_LIGHT_FIGHTER.md`.
 - `scenes/ships/light_fighter.tscn`: `Spaceship` (CharacterBody3D, provisional D-019) with VisualRoot (ShipModel, EngineVisuals), CollisionShape3D boxes, CameraTarget, EnginePoints, WeaponPoints, MultiplayerSyncRoot.
 - Ship coordinate convention for all ships: 1 unit = 1 m, origin at center, forward -Z, up +Y, right +X, engines at +Z; Marker3D -Z = emission direction.
-- Model is a replaceable node; attachments, collision, camera target and config stay on the root.
+- Current visual is the imported `assets/models/ships/light_fighter_model.glb`, authored as a one-off Blender asset with editable source at `assets/models/ships/light_fighter_source.blend`. It is exported in Godot axes (-Z nose, +Y up, +X right; about 19 x 15.2 x 3.5 m). The GLB is replaceable; procedural GDScript remains as fallback. The source is not required at runtime or build time. Attachments, collision, camera target and config stay on the root.
 - Data: `ShipConfig` resource (`resources/ships/light_fighter.tres`), all `_ref` values are placeholders. `ShipIntent` (D-009) defined, unused.
 - State separation for multiplayer: transform (root), gameplay (`ShipNetworkState`), visual (derived locally), ownership (`owner_peer_id`).
 - Folder adaptation: `scripts/ships/` added (D-020).
