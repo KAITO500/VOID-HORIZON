@@ -4,6 +4,7 @@ Last updated: 2026-11-23
 
 **Phase:** 02 - First Spacecraft: Light Fighter (implemented on a feature branch, NOT executed in Godot, NOT validated).
 Phases 00 and 01 have also never been run in Godot or validated by the user. Each new phase was started on the user's phase prompt (D-018, D-023).
+**User test 2026-11-23 21:23:** the user opened the phase 02 branch in Godot 4.7.2, pressed F5 and reported "funciona perfecto" (works perfectly). No details given (no checklist, errors, FPS or GPU). Treat Phases 01 and 02 as "Executed and reported working by the user", not as formally validated.
 **Godot version:** 4.7.2 (confirmed by the user). Hardware target (Q-002) unknown.
 
 ## Branches (GitHub KAITO500/VOID-HORIZON)
