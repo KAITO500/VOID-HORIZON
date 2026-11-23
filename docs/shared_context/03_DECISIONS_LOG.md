@@ -26,6 +26,7 @@ Mirrors the Notion "Technical Decisions" database (as read on 2026-11-23).
 | D-016 | One DirectionalLight3D (`StarLightingController`) for the primary star; no per-star lights | Proposed |
 | D-017 | Distant bodies are placed by apparent size (radius = distance * tan(angular/2)) and follow the camera | Proposed |
 | D-018 | Phase 01 work done on `feature/phase01-space-environment`; user prompt for Phase 01 treated as approval to start although Phase 00 was never validated in Godot | Decided (see 06) |
+| D-024 | `run/main_scene` now points to `scenes/ships/ship_inspection.tscn` so F5 shows the ship in the environment (the Phase 00 `main.tscn` is an empty scene and shows only a grey screen). Revisit when a real game entry point exists. | Decided (user problem report) |
 | D-019 | Ship root is a CharacterBody3D with floating motion mode, provisionally; only the root type changes if Phase 03 picks RigidBody3D | Proposed |
 | D-020 | Add `scripts/ships/` for ship code (adapts D-006) | Proposed |
 | D-021 | Light Fighter model is procedural GDScript geometry (no modeling tool available, Blender excluded by D-002); replacement via glTF into `ShipModel` | Proposed |
