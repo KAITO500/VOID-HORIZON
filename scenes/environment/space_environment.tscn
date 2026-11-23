@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/environment/space_environment.gd" id="1_env"]
+[ext_resource type="Script" path="res://scripts/environment/star_lighting_controller.gd" id="2_light"]
+[ext_resource type="Script" path="res://scripts/environment/star_field.gd" id="3_stars"]
+[ext_resource type="Script" path="res://scripts/environment/nebula_layer.gd" id="4_nebula"]
+[ext_resource type="Script" path="res://scripts/environment/celestial_backdrop.gd" id="5_backdrop"]
+[ext_resource type="Script" path="res://scripts/environment/celestial_body.gd" id="6_body"]
+
+[node name="SpaceEnvironment" type="Node3D"]
+script = ExtResource("1_env")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+
+[node name="StarLight" type="DirectionalLight3D" parent="."]
+script = ExtResource("2_light")
+
+[node name="StarField" type="Node3D" parent="."]
+script = ExtResource("3_stars")
+
+[node name="NebulaFar" type="Node3D" parent="."]
+script = ExtResource("4_nebula")
+
+[node name="NebulaNear" type="Node3D" parent="."]
+script = ExtResource("4_nebula")
+radius = 340000.0
+seed_offset = Vector3(41.7, 3.3, 19.1)
+noise_scale = 3.4
+density_threshold = 0.58
+intensity = 0.22
+color_a = Color(0.05, 0.25, 0.7, 1)
+color_b = Color(0.0, 0.6, 0.85, 1)
+color_c = Color(0.45, 0.2, 0.8, 1)
+render_priority = -19
+
+[node name="CelestialBackdrop" type="Node3D" parent="."]
+script = ExtResource("5_backdrop")
+
+[node name="GasGiant" type="Node3D" parent="CelestialBackdrop"]
+script = ExtResource("6_body")

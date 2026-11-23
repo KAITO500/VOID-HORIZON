@@ -51,6 +51,14 @@ Single-precision floats lose accuracy far from the origin. Options: floating ori
 ## 13. Terrain streaming (future)
 Needs chunked, level-of-detail terrain loaded on a background thread with seamless space-to-surface transition. Placeholder folder: `systems/streaming`. Not implemented.
 
+## 13b. Phase 01 environment architecture (Implemented, not tested in Godot)
+Full reference: `docs/PHASE_01_SPACE_ENVIRONMENT.md`.
+- `scenes/environment/space_environment.tscn`: SpaceEnvironment root with StarLight, StarField, NebulaLayer x2, CelestialBackdrop > CelestialBody (gas giant).
+- Independent modules: `SkyAnchor` (base, follows camera), `StarField`, `NebulaLayer`, `CelestialBackdrop`, `CelestialBody`, `StarLightingController`, `SpaceEnvironment`, `SkyMath`.
+- Visuals are procedural shaders in `assets/materials/space/` (no textures, no Blender).
+- Folder adaptation: `scripts/environment/` added (D-014). Dev-only `scripts/core/debug_free_camera.gd`.
+- Camera far plane must be >= `SpaceEnvironment.get_required_far_plane()` (~385000 with defaults).
+
 ## 14. Unresolved questions
 | ID | Question |
 |----|----------|
@@ -61,5 +69,6 @@ Needs chunked, level-of-detail terrain loaded on a background thread with seamle
 | New | Physics body type for ships. |
 | New | Multiplayer topology and authority model. |
 | New | Player count per session. |
+| New | Gameplay camera near/far planes and ship scale (Phase 02). Phase 01 assumes ship ~20 units. |
 
 Note: the earlier Phase 00 account listed Q-001 to Q-009 in an unreadable Drive document. Only Q-001, Q-002 and Q-008 are known to this author; the rest are marked "New" and may duplicate unseen IDs. Renumber after reconciling with Drive.

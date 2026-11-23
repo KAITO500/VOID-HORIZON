@@ -20,3 +20,4 @@ window/size/viewport_height=720
 [rendering]
 
 renderer/rendering_method="forward_plus"
+anti_aliasing/quality/use_debanding=true

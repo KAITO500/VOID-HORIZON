@@ -13,14 +13,15 @@ Arcade flight, third-person camera, stylized sci-fi.
 
 ## Status
 
-Phase 00 (Project Foundation) is implemented but **not validated**. Nothing has been
-opened or tested in Godot yet. See `docs/shared_context/05_CURRENT_PROJECT_STATE.md`.
+Phase 00 (Project Foundation) is implemented but **not validated**. Phase 01 (Space Environment)
+is implemented on `feature/phase01-space-environment`. Nothing has been opened or tested in Godot yet.
+To see Phase 01: open `scenes/environment/space_environment_test.tscn` and press F6 (details in `docs/PHASE_01_SPACE_ENVIRONMENT.md`). See `docs/shared_context/05_CURRENT_PROJECT_STATE.md`.
 
 ## Project structure
 
 ```
 scenes/      main/ universe/ ships/ planets/ environment/ ui/
-scripts/     core/ flight/ multiplayer/ planets/ combat/ ai/
+scripts/     core/ environment/ flight/ multiplayer/ planets/ combat/ ai/
 assets/      models/ materials/ textures/ audio/ vfx/
 resources/   ships/ planets/ weapons/ settings/
 systems/     world_generation/ navigation/ networking/ streaming/

@@ -21,3 +21,8 @@ Mirrors the Notion "Technical Decisions" database (as read on 2026-11-23).
 |----|----------|--------|
 | D-012 | Phase 00 was rebuilt directly in the GitHub repo at the user's request, because the earlier zip and Drive docs were not available to this account. Documents are stored in `docs/shared_context/` in addition to Drive. | Decided (user) |
 | D-013 | `project.godot` assumes Godot 4.3 / Forward+ until Q-001 is answered. | Proposed |
+| D-014 | Add `scripts/environment/` and `assets/materials/space/` (adapts D-006; documented reason: environment code and shaders had no home) | Proposed |
+| D-015 | Sky layers are procedural (MultiMesh stars, noise-shader nebulae, sky shader); no texture assets | Proposed |
+| D-016 | One DirectionalLight3D (`StarLightingController`) for the primary star; no per-star lights | Proposed |
+| D-017 | Distant bodies are placed by apparent size (radius = distance * tan(angular/2)) and follow the camera | Proposed |
+| D-018 | Phase 01 work done on `feature/phase01-space-environment`; user prompt for Phase 01 treated as approval to start although Phase 00 was never validated in Godot | Decided (see 06) |
