@@ -9,8 +9,9 @@ Phases 00 and 01 have also never been run in Godot or validated by the user. Eac
 ## Branches (GitHub KAITO500/VOID-HORIZON)
 | Branch | State |
 |--------|-------|
-| main, develop | Phase 00 scaffold, commit 0de06b8 |
-| feature/phase01-space-environment | Phase 01, pushed (commit 16660f5) |
+| main | Phase 00 + Phase 01: the user merged PR #1 (phase 01) at 13:44, merge commit 0ea9c3a. Whether the user ran it in Godot before merging is unknown. |
+| develop | Phase 00 scaffold only (0de06b8); not updated by the PR |
+| feature/phase01-space-environment | Phase 01, pushed (16660f5), already merged into main |
 | feature/phase02-light-fighter | Phase 02, based on the phase 01 branch; push status in 06_HANDOFF_REPORT.md |
 
 ## Status per item
