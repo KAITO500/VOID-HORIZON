@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/ships/ship_inspection.gd" id="1_inspect"]
+[ext_resource type="PackedScene" path="res://scenes/environment/space_environment.tscn" id="2_env"]
+[ext_resource type="PackedScene" path="res://scenes/ships/light_fighter.tscn" id="3_ship"]
+[ext_resource type="Script" path="res://scripts/ships/ship_inspection_camera.gd" id="4_cam"]
+
+[node name="ShipInspection" type="Node3D"]
+script = ExtResource("1_inspect")
+
+[node name="SpaceEnvironment" parent="." instance=ExtResource("2_env")]
+
+[node name="LightFighter" parent="." instance=ExtResource("3_ship")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+fov = 60.0
+near = 0.3
+far = 500000.0
+script = ExtResource("4_cam")

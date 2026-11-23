@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ShipConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ships/ship_config.gd" id="1_cfg"]
+
+[resource]
+script = ExtResource("1_cfg")
+ship_id = &"light_fighter"
+display_name = "Light Fighter"
+ship_class = 1
+is_placeholder_balance = true
+mass_ref = 1000.0
+max_speed_ref = 300.0
+acceleration_ref = 100.0
+rotation_responsiveness_ref = 1.0
+engine_point_names = PackedStringArray("EngineLeft", "EngineRight")
+weapon_point_names = PackedStringArray("WeaponLeft", "WeaponRight")
+camera_distance_ref = 28.0
+camera_height_ref = 6.0
+camera_base_fov_ref = 70.0

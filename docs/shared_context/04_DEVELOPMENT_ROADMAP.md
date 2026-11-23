@@ -4,7 +4,7 @@
 |-------|------|-------|--------|
 | 00 | Project Foundation | Architecture, documentation, repository, configuration, workflow, task tracking | Implemented, awaiting validation |
 | 01 | Space Environment | Space rendering, stars, nebulae, lighting, scale, background | Implemented on feature branch, not tested in Godot, not validated |
-| 02 | First Spacecraft | Initial fighter, spacecraft scene, camera, basic structure | Not started |
+| 02 | First Spacecraft | Initial fighter, spacecraft scene, camera, basic structure | Implemented on feature branch (based on phase 01 branch), not tested in Godot, not validated |
 | 03 | Flight System | Arcade controls, acceleration, rotation, boost, overdrive, speed effects | Not started |
 | 04 | Star Systems | Stars, planets, orbital organization, navigation, travel | Not started |
 | 05 | Planetary Systems | Planet classes, rendering, scale, procedural/modular generation | Not started |

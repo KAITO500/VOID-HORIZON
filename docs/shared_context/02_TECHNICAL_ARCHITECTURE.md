@@ -59,6 +59,15 @@ Full reference: `docs/PHASE_01_SPACE_ENVIRONMENT.md`.
 - Folder adaptation: `scripts/environment/` added (D-014). Dev-only `scripts/core/debug_free_camera.gd`.
 - Camera far plane must be >= `SpaceEnvironment.get_required_far_plane()` (~385000 with defaults).
 
+## 13c. Phase 02 ship architecture (Implemented, not tested in Godot)
+Full reference: `docs/PHASE_02_LIGHT_FIGHTER.md`.
+- `scenes/ships/light_fighter.tscn`: `Spaceship` (CharacterBody3D, provisional D-019) with VisualRoot (ShipModel, EngineVisuals), CollisionShape3D boxes, CameraTarget, EnginePoints, WeaponPoints, MultiplayerSyncRoot.
+- Ship coordinate convention for all ships: 1 unit = 1 m, origin at center, forward -Z, up +Y, right +X, engines at +Z; Marker3D -Z = emission direction.
+- Model is a replaceable node; attachments, collision, camera target and config stay on the root.
+- Data: `ShipConfig` resource (`resources/ships/light_fighter.tres`), all `_ref` values are placeholders. `ShipIntent` (D-009) defined, unused.
+- State separation for multiplayer: transform (root), gameplay (`ShipNetworkState`), visual (derived locally), ownership (`owner_peer_id`).
+- Folder adaptation: `scripts/ships/` added (D-020).
+
 ## 14. Unresolved questions
 | ID | Question |
 |----|----------|
