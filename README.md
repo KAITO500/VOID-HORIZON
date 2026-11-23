@@ -7,7 +7,7 @@ Arcade flight, third-person camera, stylized sci-fi.
 
 ## Engine and language
 
-- Godot 4.x (exact version: open question Q-001, see `docs/shared_context/02_TECHNICAL_ARCHITECTURE.md`)
+- Godot 4.7.2 (confirmed by the user)
 - Typed GDScript
 - Renderer: Forward+ (PC first)
 

@@ -68,7 +68,7 @@ Class relationships: `StarField`, `NebulaLayer`, `CelestialBackdrop` extend `Sky
 
 ## G. Testing instructions (user)
 
-1. Open the project in Godot 4.x (Phase 00 steps in README), let it import.
+1. Open the project in Godot 4.7.2 (Phase 00 steps in README), let it import.
 2. Open `res://scenes/environment/space_environment_test.tscn` and press **F6** (Run Current Scene).
 3. Look around (right mouse + move, or arrow keys). Check:
    - Dark navy sky, many small stars, a denser band, a few brighter warm and cyan stars.

@@ -62,7 +62,7 @@ Full reference: `docs/PHASE_01_SPACE_ENVIRONMENT.md`.
 ## 14. Unresolved questions
 | ID | Question |
 |----|----------|
-| Q-001 | Exact Godot 4.x version in use (project.godot assumes 4.3). |
+| Q-001 | ANSWERED 2026-11-23: Godot 4.7.2. Context7 docs for 4.7 exist; Phase 01 code was written against stable docs and 4.x APIs, not yet run on 4.7.2. |
 | Q-002 | Hardware target and minimum specs. |
 | Q-008 | Asset strategy without Blender (D-002), decided in Phase 02. |
 | New | Float precision approach (floating origin vs double build). |

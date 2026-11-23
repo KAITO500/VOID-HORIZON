@@ -20,7 +20,7 @@ Mirrors the Notion "Technical Decisions" database (as read on 2026-11-23).
 | ID | Decision | Status |
 |----|----------|--------|
 | D-012 | Phase 00 was rebuilt directly in the GitHub repo at the user's request, because the earlier zip and Drive docs were not available to this account. Documents are stored in `docs/shared_context/` in addition to Drive. | Decided (user) |
-| D-013 | `project.godot` assumes Godot 4.3 / Forward+ until Q-001 is answered. | Proposed |
+| D-013 | `project.godot` targets Godot 4.7.2 / Forward+ (version confirmed by the user; was assumed 4.3 before). | Decided (user) |
 | D-014 | Add `scripts/environment/` and `assets/materials/space/` (adapts D-006; documented reason: environment code and shaders had no home) | Proposed |
 | D-015 | Sky layers are procedural (MultiMesh stars, noise-shader nebulae, sky shader); no texture assets | Proposed |
 | D-016 | One DirectionalLight3D (`StarLightingController`) for the primary star; no per-star lights | Proposed |

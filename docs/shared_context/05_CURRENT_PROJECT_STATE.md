@@ -11,6 +11,8 @@ Phase 00 is still unvalidated by the user. The user's Phase 01 prompt was treate
 | main, develop | Phase 00 scaffold, commit 0de06b8 (pushed, confirmed) |
 | feature/phase01-space-environment | Phase 01 work, committed LOCALLY; push status in 06_HANDOFF_REPORT.md |
 
+**Godot version:** 4.7.2 (confirmed by the user, Q-001 closed). Hardware target (Q-002) still unknown.
+
 ## Status per item
 | Item | State |
 |------|-------|
