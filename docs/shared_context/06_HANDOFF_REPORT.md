@@ -3,56 +3,65 @@
 PROJECT: VOID HORIZON
 
 PHASE:
-00 - Project Foundation
+01 - Space Environment and Universe Visual Foundation
 
 TASK:
-Rebuild Phase 00 in the GitHub repository
+Build the first procedural space environment (background, stars, nebulae, distant gas giant, star lighting, test scene)
 
 STATUS:
-Partially completed (awaiting user validation; Godot never executed)
+Partially completed. Code and documentation are written; nothing has been compiled or run in Godot.
 
 SUMMARY:
-The earlier Phase 00 account created Drive docs and a Notion workspace, and delivered a scaffold zip.
-This account could not read the Drive docs or the zip and the GitHub repo was empty, so, at the user's
-request, it rebuilt the scaffold and documents from the Phase 00 prompt and Notion records and pushed
-them to the repository.
+Modular environment built from procedural shaders and small scripts. See `docs/PHASE_01_SPACE_ENVIRONMENT.md`
+for the hierarchy, Inspector settings, rendering configuration, testing and performance notes.
+Phase 00 was re-verified statically only (project.godot, main scene, paths); it was never run in Godot.
 
 FILES CREATED:
-- README.md, .gitignore, .gitattributes, project.godot
-- scenes/main/main.tscn, scripts/core/main.gd
-- `.gitkeep` in every other folder from the proposed structure
-- docs/shared_context/00 to 07 (this set)
+- scenes/environment/space_environment.tscn, scenes/environment/space_environment_test.tscn
+- scripts/environment/: sky_math.gd, sky_anchor.gd, star_field.gd, nebula_layer.gd, celestial_body.gd, celestial_backdrop.gd, star_lighting_controller.gd, space_environment.gd, space_environment_test.gd
+- scripts/core/debug_free_camera.gd
+- assets/materials/space/: space_sky.gdshader, star_field.gdshader, nebula_layer.gdshader, gas_giant.gdshader, planet_ring.gdshader, space_noise.gdshaderinc
+- tests/unit/phase01_math_check.gd
+- docs/PHASE_01_SPACE_ENVIRONMENT.md
 
 FILES MODIFIED:
-None (repository was empty).
+- project.godot (debanding on)
+- README.md, docs/shared_context/02, 03, 04, 05, 06
 
 FILES NOT INTEGRATED:
-The earlier scaffold zip (held by the user) and the Drive documents. They may conflict with this rebuild.
+Everything above lives only on `feature/phase01-space-environment`, not in `develop` or `main`.
 
 TECHNICAL DECISIONS:
-D-012, D-013 (see 03_DECISIONS_LOG.md).
+D-014 to D-018 (see 03_DECISIONS_LOG.md).
 
 VALIDATION:
-Performed: file contents reviewed; Git status checked. Not performed: opening in Godot, running the scene,
-reading Drive docs, comparing against the earlier zip.
+Performed: static review, tab indentation, bracket balance, all `res://` paths exist, apparent-size math
+(radius ~19,946 for 28 deg at 80,000), Godot docs checked via Context7 for render modes, sky shader built-ins and MultiMesh setup order.
+NOT performed: opening in Godot, shader compilation, running either scene, running the math check, any visual or performance measurement.
+The billboard `MODELVIEW_MATRIX` snippet in star_field.gdshader is from memory of the Godot docs; the Context7 result did not show it.
 
 KNOWN ISSUES:
-See 07_KNOWN_ISSUES.md.
+See 07_KNOWN_ISSUES.md (KI-006 to KI-010).
 
 NEXT STEPS:
-1. User runs the validation checklist below.
-2. Compare the earlier zip and Drive docs with this repo; keep the Drive docs as authority, merge differences on a feature branch.
-3. After the user approves Phase 00, plan Phase 01. Do not start it automatically.
+1. User runs `space_environment_test.tscn` (F6) and reports: Output panel errors, what each layer looks like (keys 1-4), FPS/draw calls from the HUD, GPU model, Godot version.
+2. Fix compile/visual problems on the same feature branch.
+3. Tune colors/intensities so space stays dark and the planet reads as enormous.
+4. After user approval merge to `develop`. Do not start Phase 02 automatically.
 
 INSTRUCTIONS FOR THE NEXT CLAUDE ACCOUNT:
-Read documents 00-07 (Drive first, repo copy as fallback), inspect `develop`, check Notion Tasks, present the context report,
-and wait. Do not change structure until the repo/Drive conflict is reported to the user.
+Check out `feature/phase01-space-environment`. Read `docs/PHASE_01_SPACE_ENVIRONMENT.md` first. Treat every file as
+untested. If the user pastes Godot errors, fix them with minimal edits; do not rewrite modules or rename classes.
+Keep layers independent (SkyAnchor subclasses + SkyMath). Do not add per-star lights. Do not start Phase 02 without approval.
 
-## Phase 00 validation checklist (user)
-- [ ] Locate the documentation (Drive folder and `docs/shared_context/`).
-- [ ] Access the repository and see `main` and `develop`.
-- [ ] Understand the folder structure from README.md.
-- [ ] Open `project.godot` in Godot 4.x, run it (F5), see the boot line; note the version.
-- [ ] Identify the next task (Notion Tasks 9 and 10).
-- [ ] Start a new Claude chat with the bootstrap prompt in 00_MASTER_CONTEXT.md and confirm it recovers context.
-- [ ] Configure branch protection on `main` (GitHub settings).
+## Phase 01 validation checklist (user)
+- [ ] Test scene opens and runs with no errors in the Output panel.
+- [ ] Stars visible, varied size/brightness, denser band, no square artifacts.
+- [ ] Nebulae visible but subtle; no visible sphere seam or edge.
+- [ ] Gas giant with rings looks monumental; lit side faces the sun direction.
+- [ ] Moving the camera does not move the backdrop; no popping or clipping at the far plane.
+- [ ] Toggles 1-4 work; HUD shows draw calls in the single digits to low teens.
+- [ ] Report FPS with vsync off and GPU model.
+
+## Earlier report: Phase 00 rebuild (summary)
+Scaffold and docs pushed to `main` and `develop` at commit 0de06b8 after the Drive folder and the earlier zip were unavailable. Still unvalidated by the user.

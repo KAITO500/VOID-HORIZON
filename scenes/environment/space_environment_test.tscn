@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/environment/space_environment_test.gd" id="1_test"]
+[ext_resource type="PackedScene" path="res://scenes/environment/space_environment.tscn" id="2_env"]
+[ext_resource type="Script" path="res://scripts/core/debug_free_camera.gd" id="3_cam"]
+
+[node name="SpaceEnvironmentTest" type="Node3D"]
+script = ExtResource("1_test")
+
+[node name="SpaceEnvironment" parent="." instance=ExtResource("2_env")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+fov = 70.0
+near = 1.0
+far = 500000.0
+script = ExtResource("3_cam")
