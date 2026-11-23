@@ -13,7 +13,7 @@ Phase 00 has not been validated. The user's earlier F5 test showed the Phase 02 
 | main | Phase 00 + Phase 01: the user merged PR #1 (phase 01) at 13:44, merge commit 0ea9c3a. Whether the user ran it in Godot before merging is unknown. |
 | develop | Phase 00 scaffold only (0de06b8); not updated by the PR |
 | feature/phase01-space-environment | Phase 01, pushed (16660f5), already merged into main |
-| feature/phase02-light-fighter | Phase 02, based on the phase 01 branch; push status in 06_HANDOFF_REPORT.md |
+| feature/phase02-light-fighter | Phase 02 based on Phase 01; custom GLB integration pushed in commit `f4e74b6`; updated model still needs Godot inspection. |
 
 ## Status per item
 | Item | State |

@@ -27,7 +27,7 @@ FILES MODIFIED:
 README.md, docs/shared_context/02, 03, 04, 05, 06, 07. Removed placeholder `.gitkeep` in scenes/ships and resources/ships.
 
 FILES NOT INTEGRATED:
-All Phase 02 files exist only on `feature/phase02-light-fighter` (based on `feature/phase01-space-environment`); nothing is in `develop` or `main`.
+Phase 02 is pushed to `feature/phase02-light-fighter` (based on `feature/phase01-space-environment`); the custom GLB integration is commit `f4e74b6`. Nothing is merged into `develop` or `main`.
 
 TECHNICAL DECISIONS:
 D-019 to D-023 (see 03_DECISIONS_LOG.md).
