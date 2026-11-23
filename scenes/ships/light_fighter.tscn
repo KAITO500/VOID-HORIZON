@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/ships/spaceship.gd" id="1_ship"]
+[ext_resource type="Resource" path="res://resources/ships/light_fighter.tres" id="2_cfg"]
+[ext_resource type="Script" path="res://scripts/ships/light_fighter_model.gd" id="3_model"]
+[ext_resource type="Script" path="res://scripts/ships/ship_engine_visuals.gd" id="4_engine"]
+[ext_resource type="Script" path="res://scripts/ships/ship_network_state.gd" id="5_net"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fuselage"]
+size = Vector3(3.2, 1.9, 17.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wings"]
+size = Vector3(15.2, 0.7, 7.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nacelle"]
+size = Vector3(1.4, 1.4, 8.0)
+
+[node name="LightFighter" type="CharacterBody3D"]
+script = ExtResource("1_ship")
+config = ExtResource("2_cfg")
+
+[node name="VisualRoot" type="Node3D" parent="."]
+
+[node name="ShipModel" type="Node3D" parent="VisualRoot"]
+script = ExtResource("3_model")
+
+[node name="EngineVisuals" type="Node3D" parent="VisualRoot"]
+script = ExtResource("4_engine")
+
+[node name="CollisionFuselage" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.1, -0.5)
+shape = SubResource("BoxShape3D_fuselage")
+
+[node name="CollisionWings" type="CollisionShape3D" parent="."]
+position = Vector3(0, -0.45, 2.4)
+shape = SubResource("BoxShape3D_wings")
+
+[node name="CollisionNacelleLeft" type="CollisionShape3D" parent="."]
+position = Vector3(-2.9, -0.3, 4.8)
+shape = SubResource("BoxShape3D_nacelle")
+
+[node name="CollisionNacelleRight" type="CollisionShape3D" parent="."]
+position = Vector3(2.9, -0.3, 4.8)
+shape = SubResource("BoxShape3D_nacelle")
+
+[node name="CameraTarget" type="Marker3D" parent="."]
+position = Vector3(0, 1.2, 1)
+
+[node name="EnginePoints" type="Node3D" parent="."]
+
+[node name="EngineLeft" type="Marker3D" parent="EnginePoints"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -2.9, -0.3, 8.8)
+
+[node name="EngineRight" type="Marker3D" parent="EnginePoints"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 2.9, -0.3, 8.8)
+
+[node name="WeaponPoints" type="Node3D" parent="."]
+
+[node name="WeaponLeft" type="Marker3D" parent="WeaponPoints"]
+position = Vector3(-4.6, -0.6, 0.6)
+
+[node name="WeaponRight" type="Marker3D" parent="WeaponPoints"]
+position = Vector3(4.6, -0.6, 0.6)
+
+[node name="MultiplayerSyncRoot" type="Node" parent="."]
+script = ExtResource("5_net")

@@ -14,14 +14,15 @@ Arcade flight, third-person camera, stylized sci-fi.
 ## Status
 
 Phase 00 (Project Foundation) is implemented but **not validated**. Phase 01 (Space Environment)
-is implemented on `feature/phase01-space-environment`. Nothing has been opened or tested in Godot yet.
-To see Phase 01: open `scenes/environment/space_environment_test.tscn` and press F6 (details in `docs/PHASE_01_SPACE_ENVIRONMENT.md`). See `docs/shared_context/05_CURRENT_PROJECT_STATE.md`.
+is implemented on `feature/phase01-space-environment` and Phase 02 (Light Fighter) on `feature/phase02-light-fighter`. Nothing has been opened or tested in Godot yet.
+To see Phase 01: open `scenes/environment/space_environment_test.tscn` and press F6 (details in `docs/PHASE_01_SPACE_ENVIRONMENT.md`).
+To see the ship: open `scenes/ships/ship_inspection.tscn` and press F6 (`docs/PHASE_02_LIGHT_FIGHTER.md`). See `docs/shared_context/05_CURRENT_PROJECT_STATE.md`.
 
 ## Project structure
 
 ```
 scenes/      main/ universe/ ships/ planets/ environment/ ui/
-scripts/     core/ environment/ flight/ multiplayer/ planets/ combat/ ai/
+scripts/     core/ environment/ ships/ flight/ multiplayer/ planets/ combat/ ai/
 assets/      models/ materials/ textures/ audio/ vfx/
 resources/   ships/ planets/ weapons/ settings/
 systems/     world_generation/ navigation/ networking/ streaming/
@@ -42,7 +43,7 @@ Empty folders contain a `.gitkeep` only so Git tracks them. Remove it when real 
 1. Clone the repository and check out `develop`.
 2. Start Godot, choose **Import**, select `project.godot`.
 3. Open the project. If Godot offers to upgrade the project file, accept and note the version.
-4. Press **F5**. The output panel should print `VOID HORIZON booted. Phase 00 - Project Foundation.`
+4. Press **F5**. On the Phase 02 branch this runs `scenes/ships/ship_inspection.tscn` (the ship against the planet). The old Phase 00 `scenes/main/main.tscn` is an empty scene: it only shows a grey screen and prints `VOID HORIZON booted. Phase 00 - Project Foundation.` in the Output panel.
 5. Report the result and Godot version (Notion Task 9).
 
 ## Branching and workflow
