@@ -23,12 +23,12 @@ var _controller: FlightController
 var _camera: Camera3D
 var _root: Control
 var _frame: Control
-var _identity: PanelContainer
-var _heading: PanelContainer
-var _speed_panel: PanelContainer
-var _engine_panel: PanelContainer
-var _target_panel: PanelContainer
-var _alert_panel: PanelContainer
+var _identity: Control
+var _heading: Control
+var _speed_panel: Control
+var _engine_panel: Control
+var _target_panel: Control
+var _alert_panel: Control
 var _reticle: _FlightReticle
 var _help_label: Label
 var _heading_label: Label
@@ -37,6 +37,7 @@ var _heading_ribbon: _HeadingRibbon
 var _speed_value: Label
 var _speed_unit: Label
 var _speed_bar: ProgressBar
+var _throttle_bar: ProgressBar
 var _throttle_value: Label
 var _boost_value: Label
 var _boost_bar: ProgressBar
@@ -95,91 +96,72 @@ func _build() -> void:
 	_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_root)
 
-	_frame = _HudFrame.new()
+	_frame = _HudOrnaments.new()
 	_frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_root.add_child(_frame)
 
-	_identity = _make_panel("IDENTITY", 256.0, 76.0)
-	_place(_identity, Control.PRESET_TOP_LEFT, 42.0, 34.0, 256.0, 76.0)
-	var identity_box := _content(_identity)
-	var id := _label("VH-01  /  WRAITH", 19, IVORY)
-	id.add_theme_font_size_override("font_size", 19)
-	identity_box.add_child(id)
-	var mode_row := HBoxContainer.new()
-	mode_row.add_theme_constant_override("separation", 8)
-	identity_box.add_child(mode_row)
-	var mode_marker := ColorRect.new()
-	mode_marker.color = TURQUOISE
-	mode_marker.custom_minimum_size = Vector2(5.0, 5.0)
-	mode_marker.size = Vector2(5.0, 5.0)
-	mode_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	mode_row.add_child(mode_marker)
-	var mode := _label("FLIGHT SYSTEM  /  ACTIVE", 10, STONE)
-	mode_row.add_child(mode)
+	# Open, borderless instrument groups. Their visual reference is authored at 1920×1080.
+	_identity = _group("Identity", Vector2(82.0, 66.0), Vector2(390.0, 112.0))
+	_add_label(_identity, "VOID HORIZON", Vector2(42.0, 0.0), Vector2(300.0, 18.0), 11, STONE, 2.0)
+	_add_label(_identity, "VH-01  /  WRAITH", Vector2(0.0, 31.0), Vector2(340.0, 32.0), 21, IVORY, 1.0)
+	_add_status_dot(_identity, Vector2(3.0, 81.0), TURQUOISE)
+	_add_label(_identity, "FLIGHT INTERFACE / ACTIVE", Vector2(17.0, 74.0), Vector2(300.0, 20.0), 10, STONE, 1.5)
 
-	_heading = _make_panel("NAVIGATION", 310.0, 76.0)
-	_place(_heading, Control.PRESET_CENTER_TOP, -155.0, 28.0, 310.0, 76.0)
-	var heading_box := _content(_heading)
-	_heading_label = _label("000°  /  N", 18, IVORY)
+	_heading = _group("Navigation", Vector2(810.0, 66.0), Vector2(300.0, 160.0))
+	_heading_label = _add_label(_heading, "000°  N", Vector2(0.0, 20.0), Vector2(300.0, 44.0), 34, IVORY, 1.0)
 	_heading_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	heading_box.add_child(_heading_label)
 	_heading_ribbon = _HeadingRibbon.new()
-	_heading_ribbon.custom_minimum_size = Vector2(270.0, 18.0)
+	_heading_ribbon.position = Vector2(10.0, 78.0)
+	_heading_ribbon.size = Vector2(280.0, 25.0)
 	_heading_ribbon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	heading_box.add_child(_heading_ribbon)
-	_pitch_roll_label = _label("PITCH  +00°     ROLL  +00°", 9, STEEL)
+	_heading.add_child(_heading_ribbon)
+	_pitch_roll_label = _add_label(_heading, "PITCH  +00°     ROLL  +00°", Vector2(0.0, 111.0), Vector2(300.0, 20.0), 9, STONE, 1.0)
 	_pitch_roll_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	heading_box.add_child(_pitch_roll_label)
+	var sector := _group("Sector", Vector2(1518.0, 72.0), Vector2(320.0, 75.0))
+	var sector_label := _add_label(sector, "ORBITAL DATA  /  UNAVAILABLE", Vector2(0.0, 0.0), Vector2(320.0, 20.0), 10, STONE, 1.5)
+	sector_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	var zone_label := _add_label(sector, "DEEP SPACE  ·  FREE FLIGHT", Vector2(0.0, 29.0), Vector2(320.0, 20.0), 9, STONE, 1.5)
+	zone_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 
-	_speed_panel = _make_panel("VELOCITY  /  M/S", 228.0, 136.0)
-	_place(_speed_panel, Control.PRESET_CENTER_LEFT, 42.0, -45.0, 228.0, 136.0)
-	_speed_panel.rotation_degrees = -0.55
-	var speed_box := _content(_speed_panel)
-	var speed_row := HBoxContainer.new()
-	speed_row.alignment = BoxContainer.ALIGNMENT_BEGIN
-	speed_box.add_child(speed_row)
-	_speed_value = _label("000", 34, IVORY)
-	speed_row.add_child(_speed_value)
-	_speed_unit = _label("m/s", 11, STONE)
-	_speed_unit.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
-	_speed_unit_box(speed_row, _speed_unit)
+	_speed_panel = _group("Velocity", Vector2(84.0, 423.0), Vector2(250.0, 200.0))
+	_add_label(_speed_panel, "VELOCITY", Vector2(23.0, 0.0), Vector2(210.0, 18.0), 11, STONE, 2.0)
+	_add_label(_speed_panel, "RELATIVE  /  M·S⁻¹", Vector2(23.0, 20.0), Vector2(220.0, 17.0), 9, STEEL, 1.5)
+	_speed_value = _add_label(_speed_panel, "000", Vector2(19.0, 45.0), Vector2(180.0, 66.0), 52, IVORY)
+	_speed_unit = _add_label(_speed_panel, "M/S", Vector2(23.0, 112.0), Vector2(160.0, 18.0), 11, STONE, 1.0)
 	_speed_bar = _make_bar(TURQUOISE)
-	speed_box.add_child(_speed_bar)
-	var speed_caption := _label("RELATIVE VELOCITY", 9, STEEL)
-	speed_box.add_child(speed_caption)
+	_speed_bar.position = Vector2(22.0, 141.0)
+	_speed_bar.size = Vector2(183.0, 5.0)
+	_speed_panel.add_child(_speed_bar)
+	_add_label(_speed_panel, "SPEED ENVELOPE", Vector2(22.0, 162.0), Vector2(160.0, 17.0), 8, STEEL, 1.4)
 
-	_engine_panel = _make_panel("PROPULSION", 228.0, 186.0)
-	_place(_engine_panel, Control.PRESET_CENTER_RIGHT, -270.0, -90.0, 228.0, 186.0)
-	_engine_panel.rotation_degrees = 0.55
-	var engine_box := _content(_engine_panel)
-	var throttle_row := _readout_row("ENGINE OUTPUT", "0%", IVORY)
-	engine_box.add_child(throttle_row[0])
-	_throttle_value = throttle_row[1]
-	var boost_label := _label("BOOST RESERVE", 9, STEEL)
-	engine_box.add_child(boost_label)
+	_engine_panel = _group("Propulsion", Vector2(1612.0, 389.0), Vector2(224.0, 240.0))
+	_add_label(_engine_panel, "PROPULSION", Vector2(0.0, 0.0), Vector2(210.0, 18.0), 11, STONE, 2.0)
+	_add_label(_engine_panel, "ENGINE OUTPUT", Vector2(0.0, 26.0), Vector2(170.0, 28.0), 18, IVORY, 0.4)
+	_throttle_value = _add_label(_engine_panel, "0%", Vector2(156.0, 26.0), Vector2(68.0, 28.0), 20, AMBER)
+	_throttle_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_throttle_bar = _make_bar(TURQUOISE)
+	_throttle_bar.position = Vector2(0.0, 61.0)
+	_throttle_bar.size = Vector2(224.0, 4.0)
+	_engine_panel.add_child(_throttle_bar)
+	_add_label(_engine_panel, "BOOST RESERVE", Vector2(0.0, 81.0), Vector2(160.0, 17.0), 9, STONE, 1.5)
 	_boost_bar = _make_bar(AMBER)
-	engine_box.add_child(_boost_bar)
-	_boost_value = _label("READY", 10, AMBER)
-	engine_box.add_child(_boost_value)
-	_assist_value = _label("ASSIST  /  ON", 10, TURQUOISE)
-	engine_box.add_child(_assist_value)
+	_boost_bar.position = Vector2(0.0, 101.0)
+	_boost_bar.size = Vector2(224.0, 7.0)
+	_engine_panel.add_child(_boost_bar)
+	_boost_value = _add_label(_engine_panel, "READY  ·  100%", Vector2(0.0, 115.0), Vector2(224.0, 18.0), 10, AMBER, 1.0)
+	_assist_value = _add_label(_engine_panel, "FLIGHT ASSIST  /  ON", Vector2(0.0, 151.0), Vector2(224.0, 18.0), 10, TURQUOISE, 1.5)
+	_add_label(_engine_panel, "THROTTLE  /  MANUAL", Vector2(0.0, 181.0), Vector2(224.0, 18.0), 9, STEEL, 1.5)
 
-	_target_panel = _make_panel("NAVIGATION TARGET", 228.0, 92.0)
-	_place(_target_panel, Control.PRESET_BOTTOM_RIGHT, -270.0, -152.0, 228.0, 92.0)
-	_target_panel.rotation_degrees = 0.4
-	var target_box := _content(_target_panel)
-	_target_name = _label("NO TARGET LOCK", 12, STONE)
-	target_box.add_child(_target_name)
-	_target_distance = _label("NAV FEED  /  UNAVAILABLE", 9, STEEL)
-	target_box.add_child(_target_distance)
+	_alert_panel = _group("SystemFeed", Vector2(84.0, 896.0), Vector2(300.0, 90.0))
+	_add_label(_alert_panel, "SYSTEM FEED", Vector2(0.0, 7.0), Vector2(230.0, 18.0), 10, STONE, 1.8)
+	_add_status_dot(_alert_panel, Vector2(3.0, 42.0), STEEL)
+	_alert_value = _add_label(_alert_panel, "ALERT FEED  /  NO DATA", Vector2(18.0, 34.0), Vector2(280.0, 20.0), 10, IVORY, 0.8)
 
-	_alert_panel = _make_panel("SYSTEM FEED", 228.0, 58.0)
-	_place(_alert_panel, Control.PRESET_BOTTOM_LEFT, 42.0, -52.0, 228.0, 58.0)
-	_alert_panel.rotation_degrees = -0.4
-	var alert_box := _content(_alert_panel)
-	_alert_value = _label("ALERT FEED  /  NO DATA", 10, STONE)
-	alert_box.add_child(_alert_value)
+	_target_panel = _group("NavigationTarget", Vector2(1612.0, 866.0), Vector2(224.0, 104.0))
+	_add_label(_target_panel, "NAVIGATION TARGET", Vector2(0.0, 7.0), Vector2(224.0, 18.0), 10, STONE, 1.8)
+	_target_name = _add_label(_target_panel, "NO TARGET LOCK", Vector2(18.0, 34.0), Vector2(206.0, 20.0), 11, IVORY, 0.5)
+	_target_distance = _add_label(_target_panel, "NAV FEED  /  UNAVAILABLE", Vector2(0.0, 62.0), Vector2(224.0, 18.0), 8, STEEL, 1.1)
 
 	_reticle = _FlightReticle.new()
 	_reticle.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -187,12 +169,12 @@ func _build() -> void:
 	_reticle.color = IVORY
 	_root.add_child(_reticle)
 
-	_help_label = _label("W/S  THRUST     MOUSE / ARROWS  PITCH · YAW     Q/E  ROLL     SHIFT  BOOST     X  BRAKE     F  ASSIST     ESC  MOUSE", 10, STONE)
+	_help_label = _label("W / S  THRUST     MOUSE  FLIGHT     Q / E  ROLL     SHIFT  BOOST     X  BRAKE", 9, STONE)
 	_help_label.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	_help_label.offset_left = 300.0
-	_help_label.offset_right = -300.0
-	_help_label.offset_top = -27.0
-	_help_label.offset_bottom = -9.0
+	_help_label.offset_left = 360.0
+	_help_label.offset_right = -360.0
+	_help_label.offset_top = -48.0
+	_help_label.offset_bottom = -24.0
 	_help_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_help_label.visible = false
 	_root.add_child(_help_label)
@@ -201,7 +183,7 @@ func _build() -> void:
 	_add_parallax(_target_panel)
 	_add_parallax(_alert_panel)
 	if visual_preview:
-		var banner := _label("VISUAL PREVIEW  ·  MOCK DATA  ·  1–5 CHANGE STATE  ·  H TOGGLE HELP", 10, AMBER)
+		var banner := _label("VISUAL PREVIEW  ·  MOCK DATA  ·  1–5 CHANGE STATE  ·  H TOGGLE HELP", 9, AMBER)
 		banner.name = "PreviewBanner"
 		banner.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 		banner.offset_top = -48.0
@@ -223,6 +205,7 @@ func _process(_delta: float) -> void:
 	_speed_bar.value = clampf(speed / maxf(maximum, 0.001), 0.0, 1.0)
 	var engine_output: float = _ship.network_state.thrust if _ship.network_state != null else clampf(maxf(_controller.throttle, 0.0), 0.0, 1.0)
 	_throttle_value.text = "%d%%" % int(round(clampf(engine_output, 0.0, 1.0) * 100.0))
+	_throttle_bar.value = clampf(engine_output, 0.0, 1.0)
 	_boost_bar.value = _controller.boost.energy
 	if _controller.boost.active:
 		_boost_value.text = "BOOST ENGAGED"
@@ -284,7 +267,8 @@ func _apply_responsive_scale() -> void:
 	var viewport_size := get_viewport().get_visible_rect().size
 	if viewport_size.y <= 0.0:
 		return
-	var factor := clampf(viewport_size.y / 1080.0, 0.78, 1.35)
+	var factor := minf(viewport_size.y / 1080.0, viewport_size.x / 1920.0)
+	factor = minf(factor, 1.35)
 	_root.scale = Vector2.ONE * factor
 	_root.position = viewport_size * (1.0 - factor) * 0.5
 	_frame.queue_redraw()
@@ -303,6 +287,7 @@ func _render_preview() -> void:
 	_speed_value.text = ["000", "286", "142", "094", "061"][_preview_state - 1]
 	_speed_bar.value = [0.0, 0.82, 0.43, 0.28, 0.18][_preview_state - 1]
 	_throttle_value.text = ["0%", "100%", "68%", "42%", "26%"][_preview_state - 1]
+	_throttle_bar.value = [0.0, 1.0, 0.68, 0.42, 0.26][_preview_state - 1]
 	_boost_bar.value = [1.0, 0.43, 0.72, 0.88, 0.18][_preview_state - 1]
 	_boost_value.text = ["READY  ·  100%", "BOOST ENGAGED", "READY  ·  72%", "READY  ·  88%", "RECHARGING"][_preview_state - 1]
 	_boost_value.add_theme_color_override("font_color", COPPER if _preview_state == 5 else AMBER)
@@ -332,73 +317,32 @@ func _format_speed(speed: float) -> String:
 	return "%03d" % int(round(maxf(speed, 0.0))) if speed < 1000.0 else "%.1fk" % (speed / 1000.0)
 
 
-func _make_panel(title: String, width: float, height: float) -> PanelContainer:
-	var panel := PanelContainer.new()
-	panel.name = title.replace(" ", "")
-	panel.custom_minimum_size = Vector2(width, height)
-	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(GRAPHITE.r, GRAPHITE.g, GRAPHITE.b, 0.82)
-	style.border_color = Color(COPPER.r, COPPER.g, COPPER.b, 0.66)
-	style.set_border_width_all(1)
-	style.corner_radius_top_left = 3
-	style.corner_radius_top_right = 3
-	style.corner_radius_bottom_left = 3
-	style.corner_radius_bottom_right = 3
-	style.content_margin_left = 12.0
-	style.content_margin_right = 12.0
-	style.content_margin_top = 8.0
-	style.content_margin_bottom = 8.0
-	style.shadow_color = Color(0.0, 0.0, 0.0, 0.28)
-	style.shadow_size = 4
-	style.shadow_offset = Vector2(1.0, 2.0)
-	panel.add_theme_stylebox_override("panel", style)
-	_root.add_child(panel)
-	var stack := VBoxContainer.new()
-	stack.add_theme_constant_override("separation", 5)
-	stack.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	panel.add_child(stack)
-	var title_label := _label(title, 9, COPPER)
-	stack.add_child(title_label)
-	return panel
+func _group(group_name: String, origin: Vector2, group_size: Vector2) -> Control:
+	var group := Control.new()
+	group.name = group_name
+	group.position = origin
+	group.size = group_size
+	group.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_root.add_child(group)
+	return group
 
 
-func _content(panel: PanelContainer) -> VBoxContainer:
-	return panel.get_child(0) as VBoxContainer
+func _add_label(parent: Control, value: String, origin: Vector2, label_size: Vector2, font_size: int, color: Color, tracking: float = 0.0) -> Label:
+	var label := _label(value, font_size, color)
+	label.position = origin
+	label.size = label_size
+	label.add_theme_constant_override("font_spacing", int(round(tracking)))
+	parent.add_child(label)
+	return label
 
 
-func _place(panel: Control, preset: Control.LayoutPreset, x: float, y: float, width: float, height: float) -> void:
-	panel.set_anchors_and_offsets_preset(preset)
-	if preset == Control.PRESET_CENTER_LEFT:
-		panel.offset_left = x
-		panel.offset_right = x + width
-		panel.offset_top = y
-		panel.offset_bottom = y + height
-	elif preset == Control.PRESET_CENTER_RIGHT:
-		panel.offset_left = x
-		panel.offset_right = x + width
-		panel.offset_top = y
-		panel.offset_bottom = y + height
-	elif preset == Control.PRESET_CENTER_TOP:
-		panel.offset_left = x
-		panel.offset_right = x + width
-		panel.offset_top = y
-		panel.offset_bottom = y + height
-	elif preset == Control.PRESET_BOTTOM_LEFT:
-		panel.offset_left = x
-		panel.offset_right = x + width
-		panel.offset_top = y - height
-		panel.offset_bottom = y
-	elif preset == Control.PRESET_BOTTOM_RIGHT:
-		panel.offset_left = x
-		panel.offset_right = x + width
-		panel.offset_top = y - height
-		panel.offset_bottom = y
-	else:
-		panel.offset_left = x
-		panel.offset_right = x + width
-		panel.offset_top = y
-		panel.offset_bottom = y + height
+func _add_status_dot(parent: Control, origin: Vector2, color: Color) -> void:
+	var dot := ColorRect.new()
+	dot.position = origin
+	dot.size = Vector2(6.0, 6.0)
+	dot.color = color
+	dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(dot)
 
 
 func _label(value: String, font_size: int, color: Color) -> Label:
@@ -428,49 +372,57 @@ func _make_bar(color: Color) -> ProgressBar:
 	return bar
 
 
-func _readout_row(caption: String, value: String, color: Color) -> Array:
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 6)
-	row.add_child(_label(caption, 10, STONE))
-	var value_label := _label(value, 10, color)
-	value_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	row.add_child(value_label)
-	return [row, value_label]
-
-
-func _speed_unit_box(row: HBoxContainer, unit: Label) -> void:
-	var spacer := Control.new()
-	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(spacer)
-	row.add_child(unit)
-
-
 func _add_parallax(panel: Control) -> void:
 	_parallax_panels.append(panel)
 	_parallax_origins.append(panel.position)
 
 
-class _HudFrame:
+class _HudOrnaments:
 	extends Control
 
 	func _draw() -> void:
 		var size := get_rect().size
 		if size.x <= 0.0 or size.y <= 0.0:
 			return
-		var safe := Rect2(Vector2(20.0, 18.0), size - Vector2(40.0, 36.0))
-		draw_rect(safe, Color(STEEL.r, STEEL.g, STEEL.b, 0.14), false, 1.0)
-		var mid := size * 0.5
-		var rail_color := Color(TURQUOISE.r, TURQUOISE.g, TURQUOISE.b, 0.22)
-		var left_points := PackedVector2Array([Vector2(18, mid.y - size.y * 0.29), Vector2(36, mid.y - size.y * 0.36), Vector2(52, mid.y - size.y * 0.22), Vector2(52, mid.y + size.y * 0.22), Vector2(36, mid.y + size.y * 0.36), Vector2(18, mid.y + size.y * 0.29)])
-		var right_points := PackedVector2Array()
-		for point in left_points:
-			right_points.append(Vector2(size.x - point.x, point.y))
-		draw_polyline(left_points, rail_color, 1.0, true)
-		draw_polyline(right_points, rail_color, 1.0, true)
-		var tick_color := Color(COPPER.r, COPPER.g, COPPER.b, 0.56)
-		draw_line(Vector2(30.0, 28.0), Vector2(82.0, 28.0), tick_color, 1.0, true)
-		draw_line(Vector2(size.x - 82.0, 28.0), Vector2(size.x - 30.0, 28.0), tick_color, 1.0, true)
+		var edge := Color(STEEL.r, STEEL.g, STEEL.b, 0.30)
+		var hair := Color(STONE.r, STONE.g, STONE.b, 0.17)
+		var teal := Color(TURQUOISE.r, TURQUOISE.g, TURQUOISE.b, 0.30)
+		var amber := Color(AMBER.r, AMBER.g, AMBER.b, 0.55)
+		# Clipped perimeter instead of boxed panels.
+		draw_line(Vector2(30, 92), Vector2(30, 32), edge)
+		draw_line(Vector2(30, 32), Vector2(90, 32), edge)
+		draw_line(Vector2(size.x - 90, 32), Vector2(size.x - 30, 32), edge)
+		draw_line(Vector2(size.x - 30, 32), Vector2(size.x - 30, 92), edge)
+		draw_line(Vector2(30, size.y - 92), Vector2(30, size.y - 32), edge)
+		draw_line(Vector2(30, size.y - 32), Vector2(90, size.y - 32), edge)
+		draw_line(Vector2(size.x - 90, size.y - 32), Vector2(size.x - 30, size.y - 32), edge)
+		draw_line(Vector2(size.x - 30, size.y - 32), Vector2(size.x - 30, size.y - 92), edge)
+		# Inward-curving side rails echo the reference craft's wing profile.
+		var left_rail := PackedVector2Array([Vector2(30, size.y * 0.24), Vector2(44, size.y * 0.34), Vector2(52, size.y * 0.46), Vector2(52, size.y * 0.60), Vector2(44, size.y * 0.72), Vector2(30, size.y * 0.82)])
+		var right_rail := PackedVector2Array()
+		for point in left_rail:
+			right_rail.append(Vector2(size.x - point.x, point.y))
+		draw_polyline(left_rail, teal, 1.0, true)
+		draw_polyline(right_rail, teal, 1.0, true)
+		# Short registration ticks give the interface a technical drawing quality.
+		draw_colored_polygon(PackedVector2Array([Vector2(82, 66), Vector2(110, 66), Vector2(96, 91), Vector2(82, 91)]), AMBER)
+		# Open, center sight and sparse attitude ladder.
+		var center := size * 0.5
+		for offset in [-130.0, 130.0]:
+			var y := center.y + 82.0
+			var direction := 1.0 if offset > 0.0 else -1.0
+			draw_line(center + Vector2(offset, y - center.y), center + Vector2(offset + direction * 36.0, y - center.y), hair)
+			draw_line(center + Vector2(offset, y - center.y), center + Vector2(offset, y - center.y - 4.0), hair)
+		for offset in [-190.0, 190.0]:
+			var y := center.y + 135.0
+			var direction := 1.0 if offset > 0.0 else -1.0
+			draw_line(center + Vector2(offset, y - center.y), center + Vector2(offset + direction * 28.0, y - center.y), hair)
+		# Instrument anchor strokes, deliberately not full rectangles.
+		draw_line(Vector2(84, 423), Vector2(84, 604), amber, 2.0)
+		draw_line(Vector2(size.x - 62, 389), Vector2(size.x - 62, 612), teal, 2.0)
+		draw_line(Vector2(84, 896), Vector2(294, 896), edge)
+		draw_line(Vector2(size.x - 308, 866), Vector2(size.x - 84, 866), edge)
+		draw_line(Vector2(700, size.y - 64), Vector2(size.x - 700, size.y - 64), hair)
 
 
 class _HeadingRibbon:
@@ -483,14 +435,14 @@ class _HeadingRibbon:
 			return
 		var center := size.x * 0.5
 		var baseline := size.y - 2.0
-		draw_line(Vector2(0.0, baseline), Vector2(size.x, baseline), Color(STEEL.r, STEEL.g, STEEL.b, 0.42), 1.0, true)
+		draw_line(Vector2(0.0, baseline), Vector2(size.x, baseline), Color(STONE.r, STONE.g, STONE.b, 0.40), 1.0, true)
 		for index in range(-6, 7):
 			var degrees := wrapf(heading_degrees + index * 10.0, 0.0, 360.0)
 			var x := center + index * 22.0
 			var cardinal := int(round(degrees / 90.0)) % 4 == 0
-			var tick_height := 8.0 if cardinal else 4.0
-			draw_line(Vector2(x, baseline - tick_height), Vector2(x, baseline), Color(IVORY.r, IVORY.g, IVORY.b, 0.65), 1.0, true)
-		draw_colored_polygon(PackedVector2Array([Vector2(center - 3.0, 0.0), Vector2(center + 3.0, 0.0), Vector2(center, 4.0)]), AMBER)
+			var tick_height := 15.0 if index == 0 else 9.0 if cardinal else 5.0
+			draw_line(Vector2(x, baseline - tick_height), Vector2(x, baseline), Color(IVORY.r, IVORY.g, IVORY.b, 0.60), 1.0, true)
+		draw_colored_polygon(PackedVector2Array([Vector2(center - 4.0, 0.0), Vector2(center + 4.0, 0.0), Vector2(center, 6.0)]), AMBER)
 
 
 class _FlightReticle:
@@ -504,13 +456,14 @@ class _FlightReticle:
 
 	func _draw() -> void:
 		var point := screen_point
-		var tint := Color(color.r, color.g, color.b, 0.72)
-		draw_arc(point, 10.0, deg_to_rad(36.0), deg_to_rad(144.0), 12, tint, 1.2, true)
-		draw_arc(point, 10.0, deg_to_rad(216.0), deg_to_rad(324.0), 12, tint, 1.2, true)
-		draw_line(point + Vector2(-17.0, 0.0), point + Vector2(-11.0, 0.0), tint, 1.0, true)
-		draw_line(point + Vector2(11.0, 0.0), point + Vector2(17.0, 0.0), tint, 1.0, true)
-		draw_line(point + Vector2(0.0, -17.0), point + Vector2(0.0, -11.0), tint, 1.0, true)
-		draw_line(point + Vector2(0.0, 11.0), point + Vector2(0.0, 17.0), tint, 1.0, true)
+		var tint := Color(color.r, color.g, color.b, 0.75)
+		draw_line(point + Vector2(-30.0, 0.0), point + Vector2(-12.0, 0.0), tint, 1.0, true)
+		draw_line(point + Vector2(12.0, 0.0), point + Vector2(30.0, 0.0), tint, 1.0, true)
+		draw_line(point + Vector2(0.0, -30.0), point + Vector2(0.0, -12.0), tint, 1.0, true)
+		draw_line(point + Vector2(0.0, 12.0), point + Vector2(0.0, 30.0), tint, 1.0, true)
+		draw_arc(point, 8.0, deg_to_rad(35.0), deg_to_rad(145.0), 16, tint, 1.0, true)
+		draw_arc(point, 8.0, deg_to_rad(215.0), deg_to_rad(325.0), 16, tint, 1.0, true)
 		draw_circle(point, 1.5, AMBER)
+
 
 
