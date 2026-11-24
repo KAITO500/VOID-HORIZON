@@ -13,6 +13,7 @@ Status: **Custom GLB integrated; its orientation and dimensions are verified wit
   The studio stage, camera and lights are not in the game GLB.
 - `scenes/ships/light_fighter.tscn` instances the imported GLB as `VisualRoot/ShipModel`. The procedural
   `ShipHullBuilder` and `light_fighter_model.gd` remain as an unused fallback/reference; engine visuals stay separate.
+- Phase 03 note: `EnginePoints` now has three engines (x -3.75, 0, 3.75; z 9.8) matching the GLB.
 - Do NOT touch `EnginePoints`, `WeaponPoints`, `CameraTarget` or the collision shapes for this visual replacement.
 
 ## Coordinate convention (ALL future ships)

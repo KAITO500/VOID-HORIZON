@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/ships/spaceship.gd" id="1_ship"]
 [ext_resource type="Resource" path="res://resources/ships/light_fighter.tres" id="2_cfg"]
 [ext_resource type="PackedScene" path="res://assets/models/ships/light_fighter_model.glb" id="3_model"]
 [ext_resource type="Script" path="res://scripts/ships/ship_engine_visuals.gd" id="4_engine"]
 [ext_resource type="Script" path="res://scripts/ships/ship_network_state.gd" id="5_net"]
+[ext_resource type="Script" path="res://scripts/flight/flight_controller.gd" id="6_flight"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fuselage"]
 size = Vector3(3.2, 1.9, 17.0)
@@ -48,10 +49,13 @@ position = Vector3(0, 1.2, 1)
 [node name="EnginePoints" type="Node3D" parent="."]
 
 [node name="EngineLeft" type="Marker3D" parent="EnginePoints"]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -2.9, -0.3, 8.8)
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -3.75, 0, 9.8)
+
+[node name="EngineCenter" type="Marker3D" parent="EnginePoints"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 9.8)
 
 [node name="EngineRight" type="Marker3D" parent="EnginePoints"]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 2.9, -0.3, 8.8)
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 3.75, 0, 9.8)
 
 [node name="WeaponPoints" type="Node3D" parent="."]
 
@@ -63,3 +67,6 @@ position = Vector3(4.6, -0.6, 0.6)
 
 [node name="MultiplayerSyncRoot" type="Node" parent="."]
 script = ExtResource("5_net")
+
+[node name="FlightController" type="Node" parent="."]
+script = ExtResource("6_flight")
