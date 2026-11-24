@@ -3,14 +3,16 @@ extends CanvasLayer
 ## WRAITH instruments rendered as independent planes on three concave 3D display layers.
 ## The source UI stays flat and readable; physical surface transforms create the wraparound view.
 
-const VOID := Color("171C20")
-const GRAPHITE := Color("252B31")
-const IVORY := Color("D6CEB8")
-const COPPER := Color("9B6848")
-const AMBER := Color("C58D50")
-const TURQUOISE := Color("527F7D")
-const STEEL := Color("777D83")
-const STONE := Color("A8A99E")
+# COSMIC VIOLET is an interface-only palette; space, ship and planet assets keep their own colors.
+const VOID := Color("171323")
+const GRAPHITE := Color("20152F")
+const ICE_WHITE := Color("F1DFFF")
+const MAGENTA := Color("C04DDB")
+const LUMINOUS_VIOLET := Color("A45BDF")
+const COSMIC_PURPLE := Color("7139A8")
+const PURPLE_SURFACE := Color("302044")
+const LAVENDER := Color("C9A5F0")
+const MUTED_TEXT := Color("A99AB8")
 
 @export var ship_path: NodePath
 @export var camera_path: NodePath
@@ -150,84 +152,84 @@ func _setup_spatial_display() -> void:
 func _build() -> void:
 	# Most recessed: peripheral identification and system context, far around the cockpit arc.
 	_identity = _group("Identity", Vector2(78.0, 70.0), Vector2(450.0, 132.0), 11.4, 0)
-	_add_label(_identity, "VOID HORIZON", Vector2(0.0, 8.0), Vector2(420.0, 18.0), 10, STONE, 2.1)
-	_add_label(_identity, "VH-01  /  WRAITH", Vector2(0.0, 36.0), Vector2(420.0, 34.0), 22, IVORY, 0.8)
-	_add_status_dot(_identity, Vector2(2.0, 91.0), TURQUOISE)
-	_add_label(_identity, "FLIGHT INTERFACE / ACTIVE", Vector2(18.0, 82.0), Vector2(370.0, 20.0), 10, STONE, 1.3)
+	_add_label(_identity, "VOID HORIZON", Vector2(0.0, 8.0), Vector2(420.0, 18.0), 10, MUTED_TEXT, 2.1)
+	_add_label(_identity, "VH-01  /  WRAITH", Vector2(0.0, 36.0), Vector2(420.0, 34.0), 22, ICE_WHITE, 0.8)
+	_add_status_dot(_identity, Vector2(2.0, 91.0), COSMIC_PURPLE)
+	_add_label(_identity, "FLIGHT INTERFACE / ACTIVE", Vector2(18.0, 82.0), Vector2(370.0, 20.0), 10, MUTED_TEXT, 1.3)
 	var sector := _group("Sector", Vector2(1392.0, 76.0), Vector2(450.0, 112.0), 11.4, 0)
-	var sector_label := _add_label(sector, "ORBITAL DATA / UNAVAILABLE", Vector2(0.0, 8.0), Vector2(440.0, 20.0), 10, STONE, 1.5)
+	var sector_label := _add_label(sector, "ORBITAL DATA / UNAVAILABLE", Vector2(0.0, 8.0), Vector2(440.0, 20.0), 10, MUTED_TEXT, 1.5)
 	sector_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	var zone_label := _add_label(sector, "DEEP SPACE  ·  FREE FLIGHT", Vector2(0.0, 37.0), Vector2(440.0, 20.0), 9, IVORY, 1.3)
+	var zone_label := _add_label(sector, "DEEP SPACE  Â·  FREE FLIGHT", Vector2(0.0, 37.0), Vector2(440.0, 20.0), 9, ICE_WHITE, 1.3)
 	zone_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_add_label(sector, "VH-01  /  SYSTEM STATUS", Vector2(0.0, 68.0), Vector2(440.0, 18.0), 8, STEEL, 1.5).horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_add_label(sector, "VH-01  /  SYSTEM STATUS", Vector2(0.0, 68.0), Vector2(440.0, 18.0), 8, PURPLE_SURFACE, 1.5).horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 
 	_alert_panel = _group("SystemFeed", Vector2(78.0, 904.0), Vector2(450.0, 106.0), 11.4, 2)
-	_add_label(_alert_panel, "SYSTEM FEED", Vector2(0.0, 7.0), Vector2(420.0, 18.0), 10, STONE, 1.8)
-	_add_status_dot(_alert_panel, Vector2(2.0, 48.0), STEEL)
-	_alert_value = _add_label(_alert_panel, "ALERT FEED  /  NO DATA", Vector2(18.0, 39.0), Vector2(390.0, 20.0), 10, IVORY, 0.8)
+	_add_label(_alert_panel, "SYSTEM FEED", Vector2(0.0, 7.0), Vector2(420.0, 18.0), 10, MUTED_TEXT, 1.8)
+	_add_status_dot(_alert_panel, Vector2(2.0, 48.0), PURPLE_SURFACE)
+	_alert_value = _add_label(_alert_panel, "ALERT FEED  /  NO DATA", Vector2(18.0, 39.0), Vector2(390.0, 20.0), 10, ICE_WHITE, 0.8)
 
 	# Recessed side instruments sit farther back and face the pilot from each side of the arc.
 	_engine_panel = _group("Propulsion", Vector2(90.0, 625.0), Vector2(500.0, 260.0), 10.0, 1)
-	_add_label(_engine_panel, "PROPULSION", Vector2(18.0, 14.0), Vector2(450.0, 18.0), 10, STONE, 2.0)
-	_add_label(_engine_panel, "ENGINE OUTPUT", Vector2(18.0, 49.0), Vector2(300.0, 32.0), 18, IVORY, 0.4)
-	_throttle_value = _add_label(_engine_panel, "0%", Vector2(380.0, 49.0), Vector2(90.0, 32.0), 22, AMBER)
+	_add_label(_engine_panel, "PROPULSION", Vector2(18.0, 14.0), Vector2(450.0, 18.0), 10, MUTED_TEXT, 2.0)
+	_add_label(_engine_panel, "ENGINE OUTPUT", Vector2(18.0, 49.0), Vector2(300.0, 32.0), 18, ICE_WHITE, 0.4)
+	_throttle_value = _add_label(_engine_panel, "0%", Vector2(380.0, 49.0), Vector2(90.0, 32.0), 22, LUMINOUS_VIOLET)
 	_throttle_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_throttle_bar = _make_bar(TURQUOISE)
+	_throttle_bar = _make_bar(COSMIC_PURPLE)
 	_throttle_bar.position = Vector2(18.0, 91.0)
 	_throttle_bar.size = Vector2(450.0, 5.0)
 	_engine_panel.add_child(_throttle_bar)
-	_add_label(_engine_panel, "BOOST RESERVE", Vector2(18.0, 121.0), Vector2(260.0, 18.0), 9, STONE, 1.5)
-	_boost_bar = _make_bar(AMBER)
+	_add_label(_engine_panel, "BOOST RESERVE", Vector2(18.0, 121.0), Vector2(260.0, 18.0), 9, MUTED_TEXT, 1.5)
+	_boost_bar = _make_bar(LUMINOUS_VIOLET)
 	_boost_bar.position = Vector2(18.0, 145.0)
 	_boost_bar.size = Vector2(450.0, 7.0)
 	_engine_panel.add_child(_boost_bar)
-	_boost_value = _add_label(_engine_panel, "READY  ·  100%", Vector2(18.0, 165.0), Vector2(300.0, 18.0), 10, AMBER, 1.0)
-	_assist_value = _add_label(_engine_panel, "FLIGHT ASSIST  /  ON", Vector2(18.0, 212.0), Vector2(440.0, 18.0), 10, TURQUOISE, 1.5)
+	_boost_value = _add_label(_engine_panel, "READY  Â·  100%", Vector2(18.0, 165.0), Vector2(300.0, 18.0), 10, LUMINOUS_VIOLET, 1.0)
+	_assist_value = _add_label(_engine_panel, "FLIGHT ASSIST  /  ON", Vector2(18.0, 212.0), Vector2(440.0, 18.0), 10, COSMIC_PURPLE, 1.5)
 
 	_target_panel = _group("NavigationTarget", Vector2(1390.0, 206.0), Vector2(450.0, 206.0), 10.0, 1)
-	_add_label(_target_panel, "NAVIGATION TARGET", Vector2(18.0, 14.0), Vector2(400.0, 18.0), 10, STONE, 1.8)
-	_target_name = _add_label(_target_panel, "NO TARGET LOCK", Vector2(18.0, 52.0), Vector2(400.0, 32.0), 18, IVORY, 0.5)
-	_target_distance = _add_label(_target_panel, "NAV FEED  /  UNAVAILABLE", Vector2(18.0, 95.0), Vector2(400.0, 18.0), 9, STEEL, 1.1)
-	_add_label(_target_panel, "LOCK DATA NOT PROVIDED", Vector2(18.0, 152.0), Vector2(400.0, 18.0), 8, STEEL, 1.3)
+	_add_label(_target_panel, "NAVIGATION TARGET", Vector2(18.0, 14.0), Vector2(400.0, 18.0), 10, MUTED_TEXT, 1.8)
+	_target_name = _add_label(_target_panel, "NO TARGET LOCK", Vector2(18.0, 52.0), Vector2(400.0, 32.0), 18, ICE_WHITE, 0.5)
+	_target_distance = _add_label(_target_panel, "NAV FEED  /  UNAVAILABLE", Vector2(18.0, 95.0), Vector2(400.0, 18.0), 9, PURPLE_SURFACE, 1.1)
+	_add_label(_target_panel, "LOCK DATA NOT PROVIDED", Vector2(18.0, 152.0), Vector2(400.0, 18.0), 8, PURPLE_SURFACE, 1.3)
 
 	# Closest display glass: primary flight data, sight and heading stay near the pilot's sightline.
 	_heading = _group("Navigation", Vector2(790.0, 62.0), Vector2(340.0, 142.0), 8.6, 0)
-	_heading_label = _add_label(_heading, "000°  N", Vector2(0.0, 20.0), Vector2(300.0, 44.0), 34, IVORY, 1.0)
+	_heading_label = _add_label(_heading, "000Â°  N", Vector2(0.0, 20.0), Vector2(300.0, 44.0), 34, ICE_WHITE, 1.0)
 	_heading_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_heading_ribbon = _HeadingRibbon.new()
 	_heading_ribbon.position = Vector2(20.0, 76.0)
 	_heading_ribbon.size = Vector2(300.0, 25.0)
 	_heading_ribbon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_heading.add_child(_heading_ribbon)
-	_pitch_roll_label = _add_label(_heading, "PITCH  +00°     ROLL  +00°", Vector2(0.0, 111.0), Vector2(300.0, 20.0), 9, STONE, 1.0)
+	_pitch_roll_label = _add_label(_heading, "PITCH  +00Â°     ROLL  +00Â°", Vector2(0.0, 111.0), Vector2(300.0, 20.0), 9, MUTED_TEXT, 1.0)
 	_pitch_roll_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	_speed_panel = _group("Velocity", Vector2(748.0, 711.0), Vector2(424.0, 246.0), 8.8, 0)
-	_add_label(_speed_panel, "VELOCITY  /  RELATIVE", Vector2(24.0, 16.0), Vector2(350.0, 18.0), 10, STONE, 1.8)
-	_speed_value = _add_label(_speed_panel, "000", Vector2(22.0, 49.0), Vector2(250.0, 76.0), 60, IVORY, -1.0)
-	_speed_unit = _add_label(_speed_panel, "M/S", Vector2(282.0, 90.0), Vector2(95.0, 18.0), 11, STONE, 1.0)
-	_speed_bar = _make_bar(TURQUOISE)
+	_add_label(_speed_panel, "VELOCITY  /  RELATIVE", Vector2(24.0, 16.0), Vector2(350.0, 18.0), 10, MUTED_TEXT, 1.8)
+	_speed_value = _add_label(_speed_panel, "000", Vector2(22.0, 49.0), Vector2(250.0, 76.0), 60, ICE_WHITE, -1.0)
+	_speed_unit = _add_label(_speed_panel, "M/S", Vector2(282.0, 90.0), Vector2(95.0, 18.0), 11, LAVENDER, 1.0)
+	_speed_bar = _make_bar(COSMIC_PURPLE)
 	_speed_bar.position = Vector2(24.0, 147.0)
 	_speed_bar.size = Vector2(370.0, 5.0)
 	_speed_panel.add_child(_speed_bar)
-	_add_label(_speed_panel, "SPEED ENVELOPE", Vector2(24.0, 177.0), Vector2(300.0, 18.0), 8, STEEL, 1.4)
+	_add_label(_speed_panel, "SPEED ENVELOPE", Vector2(24.0, 177.0), Vector2(300.0, 18.0), 8, PURPLE_SURFACE, 1.4)
 
 	_reticle = _FlightReticle.new()
 	_reticle.position = Vector2(922.0, 502.0)
 	_reticle.size = Vector2(76.0, 76.0)
 	_reticle.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_reticle.color = IVORY
+	_reticle.color = ICE_WHITE
 	_root.add_child(_reticle)
 	_register_surface_panel(_reticle, Rect2(922.0, 502.0, 76.0, 76.0), 8.45)
 	_reticle.set_screen_point(Vector2(38.0, 38.0))
 
-	_help_label = _label("W / S  THRUST     MOUSE  FLIGHT     Q / E  ROLL     SHIFT  BOOST     X  BRAKE     F  ASSIST", 9, STONE)
+	_help_label = _label("W / S  THRUST     MOUSE  FLIGHT     Q / E  ROLL     SHIFT  BOOST     X  BRAKE     F  ASSIST", 9, MUTED_TEXT)
 	_help_label.position = Vector2(700.0, 1020.0)
 	_help_label.size = Vector2(520.0, 20.0)
 	_help_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_help_label.visible = false
 	_root.add_child(_help_label)
-	_preview_banner = _label("VISUAL PREVIEW  ·  MOCK DATA  ·  1–5 CHANGE STATE  ·  H TOGGLE HELP", 9, AMBER)
+	_preview_banner = _label("VISUAL PREVIEW  Â·  MOCK DATA  Â·  1â€“5 CHANGE STATE  Â·  H TOGGLE HELP", 9, LUMINOUS_VIOLET)
 	_preview_banner.name = "PreviewBanner"
 	_preview_banner.position = Vector2(650.0, 1050.0)
 	_preview_banner.size = Vector2(620.0, 20.0)
@@ -254,15 +256,15 @@ func _process(_delta: float) -> void:
 	_boost_bar.value = _controller.boost.energy
 	if _controller.boost.active:
 		_boost_value.text = "BOOST ENGAGED"
-		_boost_value.add_theme_color_override("font_color", AMBER)
+		_boost_value.add_theme_color_override("font_color", LUMINOUS_VIOLET)
 	elif _controller.boost.locked:
 		_boost_value.text = "RECHARGING"
-		_boost_value.add_theme_color_override("font_color", COPPER)
+		_boost_value.add_theme_color_override("font_color", MAGENTA)
 	else:
-		_boost_value.text = "READY  ·  %02d%%" % int(round(_controller.boost.energy * 100.0))
-		_boost_value.add_theme_color_override("font_color", AMBER)
+		_boost_value.text = "READY  Â·  %02d%%" % int(round(_controller.boost.energy * 100.0))
+		_boost_value.add_theme_color_override("font_color", LUMINOUS_VIOLET)
 	_assist_value.text = "ASSIST  /  ON" if _ship.intent.assist else "ASSIST  /  OFF"
-	_assist_value.add_theme_color_override("font_color", TURQUOISE if _ship.intent.assist else STONE)
+	_assist_value.add_theme_color_override("font_color", COSMIC_PURPLE if _ship.intent.assist else MUTED_TEXT)
 	_update_heading()
 
 
@@ -273,8 +275,8 @@ func _update_heading() -> void:
 	var pitch_degrees: float = rad_to_deg(asin(clampf(forward.y, -1.0, 1.0)))
 	var roll_degrees: float = rad_to_deg(atan2(basis.x.y, basis.y.y))
 	var cardinal: String = "N" if heading_degrees < 22.5 or heading_degrees >= 337.5 else "E" if heading_degrees < 112.5 else "S" if heading_degrees < 202.5 else "W"
-	_heading_label.text = "%03d°  /  %s" % [int(round(heading_degrees)) % 360, cardinal]
-	_pitch_roll_label.text = "PITCH  %+03d°     ROLL  %+03d°" % [int(round(pitch_degrees)), int(round(roll_degrees))]
+	_heading_label.text = "%03dÂ°  /  %s" % [int(round(heading_degrees)) % 360, cardinal]
+	_pitch_roll_label.text = "PITCH  %+03dÂ°     ROLL  %+03dÂ°" % [int(round(pitch_degrees)), int(round(roll_degrees))]
 	_heading_ribbon.heading_degrees = heading_degrees
 	_heading_ribbon.queue_redraw()
 
@@ -291,8 +293,8 @@ func _resize_spatial_display() -> void:
 
 func _render_preview() -> void:
 	var heading: float = [0.0, 36.0, 126.0, 218.0, 302.0][_preview_state - 1]
-	_heading_label.text = "%03d°  /  %s" % [int(heading), ["N", "N", "E", "S", "W"][_preview_state - 1]]
-	_pitch_roll_label.text = ["PITCH  +02°     ROLL  +00°", "PITCH  +05°     ROLL  +08°", "PITCH  -02°     ROLL  -04°", "PITCH  +01°     ROLL  +00°", "PITCH  -06°     ROLL  +13°"][_preview_state - 1]
+	_heading_label.text = "%03dÂ°  /  %s" % [int(heading), ["N", "N", "E", "S", "W"][_preview_state - 1]]
+	_pitch_roll_label.text = ["PITCH  +02Â°     ROLL  +00Â°", "PITCH  +05Â°     ROLL  +08Â°", "PITCH  -02Â°     ROLL  -04Â°", "PITCH  +01Â°     ROLL  +00Â°", "PITCH  -06Â°     ROLL  +13Â°"][_preview_state - 1]
 	_heading_ribbon.heading_degrees = heading
 	_heading_ribbon.queue_redraw()
 	_speed_value.text = ["000", "286", "142", "094", "061"][_preview_state - 1]
@@ -300,28 +302,28 @@ func _render_preview() -> void:
 	_throttle_value.text = ["0%", "100%", "68%", "42%", "26%"][_preview_state - 1]
 	_throttle_bar.value = [0.0, 1.0, 0.68, 0.42, 0.26][_preview_state - 1]
 	_boost_bar.value = [1.0, 0.43, 0.72, 0.88, 0.18][_preview_state - 1]
-	_boost_value.text = ["READY  ·  100%", "BOOST ENGAGED", "READY  ·  72%", "READY  ·  88%", "RECHARGING"][_preview_state - 1]
-	_boost_value.add_theme_color_override("font_color", COPPER if _preview_state == 5 else AMBER)
+	_boost_value.text = ["READY  Â·  100%", "BOOST ENGAGED", "READY  Â·  72%", "READY  Â·  88%", "RECHARGING"][_preview_state - 1]
+	_boost_value.add_theme_color_override("font_color", MAGENTA if _preview_state == 5 else LUMINOUS_VIOLET)
 	_assist_value.text = "ASSIST  /  ON"
-	_target_name.text = "RELAY K-07  ·  MOCK" if _preview_state == 3 else "NO TARGET LOCK"
-	_target_name.add_theme_color_override("font_color", TURQUOISE if _preview_state == 3 else STONE)
+	_target_name.text = "RELAY K-07  Â·  MOCK" if _preview_state == 3 else "NO TARGET LOCK"
+	_target_name.add_theme_color_override("font_color", COSMIC_PURPLE if _preview_state == 3 else MUTED_TEXT)
 	_target_distance.text = "18.4 KM  /  MOCK FEED" if _preview_state == 3 else "NAV FEED  /  UNAVAILABLE"
 	if _preview_state == 4:
 		_alert_value.text = "WARNING  /  HULL STRESS"
-		_alert_value.add_theme_color_override("font_color", AMBER)
+		_alert_value.add_theme_color_override("font_color", LUMINOUS_VIOLET)
 	elif _preview_state == 5:
 		_alert_value.text = "CRITICAL  /  MOCK ALERT"
-		_alert_value.add_theme_color_override("font_color", COPPER)
+		_alert_value.add_theme_color_override("font_color", MAGENTA)
 	else:
 		_alert_value.text = "ALERT FEED  /  NO DATA"
-		_alert_value.add_theme_color_override("font_color", STONE)
+		_alert_value.add_theme_color_override("font_color", MUTED_TEXT)
 
 
 func _refresh_preview_hint() -> void:
 	_help_label.visible = _help_visible
 	var banner := _root.get_node_or_null("PreviewBanner") as Label
 	if banner != null:
-		banner.text = "VISUAL PREVIEW  ·  MOCK DATA  ·  STATE %d  ·  1–5 CHANGE  ·  H TOGGLE HELP" % _preview_state
+		banner.text = "VISUAL PREVIEW  Â·  MOCK DATA  Â·  STATE %d  Â·  1â€“5 CHANGE  Â·  H TOGGLE HELP" % _preview_state
 
 
 func _format_speed(speed: float) -> String:
@@ -336,7 +338,7 @@ func _group(group_name: String, origin: Vector2, group_size: Vector2, radius: fl
 	backing.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(GRAPHITE.r, GRAPHITE.g, GRAPHITE.b, 0.74 if depth_level == 0 else 0.82)
-	style.border_color = Color(AMBER.r, AMBER.g, AMBER.b, 0.48) if depth_level == 0 else Color(STEEL.r, STEEL.g, STEEL.b, 0.62)
+	style.border_color = Color(LUMINOUS_VIOLET.r, LUMINOUS_VIOLET.g, LUMINOUS_VIOLET.b, 0.48) if depth_level == 0 else Color(PURPLE_SURFACE.r, PURPLE_SURFACE.g, PURPLE_SURFACE.b, 0.62)
 	style.set_border_width_all(1)
 	style.corner_radius_top_left = 2
 	style.corner_radius_top_right = 2
@@ -427,10 +429,10 @@ func _rebuild_surface_panels() -> void:
 		var sine_theta := sin(theta)
 		var center_depth := radius * cos_theta
 		var center_y_world := (0.5 - center_y / float(_ui_viewport.size.y)) * 2.0 * center_depth * tan(vertical_fov * 0.5)
-		# Keep physical panel dimensions tied to the center viewing distance. Their
-		# tangent orientation then creates real perspective foreshortening at the sides.
-		var horizontal_scale := 2.0 * radius * tan(horizontal_fov * 0.5) / float(_ui_viewport.size.x)
-		var vertical_scale := 2.0 * radius * tan(vertical_fov * 0.5) / float(_ui_viewport.size.y)
+		# Compensate for the shorter camera-space depth at the sides so the panels
+		# remain inside their authored safe areas instead of ballooning toward the edges.
+		var horizontal_scale := 2.0 * radius * cos_theta * cos_theta * tan(horizontal_fov * 0.5) / float(_ui_viewport.size.x)
+		var vertical_scale := 2.0 * center_depth * tan(vertical_fov * 0.5) / float(_ui_viewport.size.y)
 		var plane_size := Vector2(source_rect.size.x * horizontal_scale, source_rect.size.y * vertical_scale)
 		var mesh_instance := MeshInstance3D.new()
 		mesh_instance.name = control.name + "SpatialPanel"
@@ -447,8 +449,9 @@ func _rebuild_surface_panels() -> void:
 func _make_panel_mesh(source_rect: Rect2, plane_size: Vector2) -> ArrayMesh:
 	var left := source_rect.position.x / float(_ui_viewport.size.x)
 	var right := (source_rect.position.x + source_rect.size.x) / float(_ui_viewport.size.x)
-	var top := 1.0 - source_rect.position.y / float(_ui_viewport.size.y)
-	var bottom := 1.0 - (source_rect.position.y + source_rect.size.y) / float(_ui_viewport.size.y)
+	# ViewportTexture samples in viewport screen order: V=0 is the top row.
+	var top := source_rect.position.y / float(_ui_viewport.size.y)
+	var bottom := (source_rect.position.y + source_rect.size.y) / float(_ui_viewport.size.y)
 	var vertices := PackedVector3Array([
 		Vector3(-plane_size.x * 0.5, -plane_size.y * 0.5, 0.0),
 		Vector3(plane_size.x * 0.5, -plane_size.y * 0.5, 0.0),
@@ -518,7 +521,7 @@ func _make_bar(color: Color) -> ProgressBar:
 	var fill := StyleBoxFlat.new()
 	fill.bg_color = color
 	var back := StyleBoxFlat.new()
-	back.bg_color = Color(STEEL.r, STEEL.g, STEEL.b, 0.20)
+	back.bg_color = Color(PURPLE_SURFACE.r, PURPLE_SURFACE.g, PURPLE_SURFACE.b, 0.20)
 	bar.add_theme_stylebox_override("fill", fill)
 	bar.add_theme_stylebox_override("background", back)
 	return bar
@@ -534,19 +537,19 @@ class _HeadingRibbon:
 			return
 		var center := size.x * 0.5
 		var baseline := size.y - 2.0
-		draw_line(Vector2(0.0, baseline), Vector2(size.x, baseline), Color(STONE.r, STONE.g, STONE.b, 0.40), 1.0, true)
+		draw_line(Vector2(0.0, baseline), Vector2(size.x, baseline), Color(MUTED_TEXT.r, MUTED_TEXT.g, MUTED_TEXT.b, 0.40), 1.0, true)
 		for index in range(-6, 7):
 			var degrees := wrapf(heading_degrees + index * 10.0, 0.0, 360.0)
 			var x := center + index * 22.0
 			var cardinal := int(round(degrees / 90.0)) % 4 == 0
 			var tick_height := 15.0 if index == 0 else 9.0 if cardinal else 5.0
-			draw_line(Vector2(x, baseline - tick_height), Vector2(x, baseline), Color(IVORY.r, IVORY.g, IVORY.b, 0.60), 1.0, true)
-		draw_colored_polygon(PackedVector2Array([Vector2(center - 4.0, 0.0), Vector2(center + 4.0, 0.0), Vector2(center, 6.0)]), AMBER)
+			draw_line(Vector2(x, baseline - tick_height), Vector2(x, baseline), Color(ICE_WHITE.r, ICE_WHITE.g, ICE_WHITE.b, 0.60), 1.0, true)
+		draw_colored_polygon(PackedVector2Array([Vector2(center - 4.0, 0.0), Vector2(center + 4.0, 0.0), Vector2(center, 6.0)]), LUMINOUS_VIOLET)
 
 
 class _FlightReticle:
 	extends Control
-	var color: Color = IVORY
+	var color: Color = ICE_WHITE
 	var screen_point: Vector2 = Vector2.ZERO
 
 	func set_screen_point(point: Vector2) -> void:
@@ -562,7 +565,7 @@ class _FlightReticle:
 		draw_line(point + Vector2(0.0, 12.0), point + Vector2(0.0, 30.0), tint, 1.0, true)
 		draw_arc(point, 8.0, deg_to_rad(35.0), deg_to_rad(145.0), 16, tint, 1.0, true)
 		draw_arc(point, 8.0, deg_to_rad(215.0), deg_to_rad(325.0), 16, tint, 1.0, true)
-		draw_circle(point, 1.5, AMBER)
+		draw_circle(point, 1.5, LUMINOUS_VIOLET)
 
 
 
