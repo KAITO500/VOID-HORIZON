@@ -27,3 +27,6 @@
 | KI-023 | `ShipConfig.visual_scene` is declared (comment says "empty = built-in placeholder") but nothing reads it. `LightFighterModel` and `ShipHullBuilder` are unused by any scene (only the phase02 test uses `ShipHullBuilder`). Decide: wire it up or remove. | Low | Open |
 | KI-024 | No `.uid` files committed (Godot 4.4+ creates them next to scripts/resources). Scenes reference by path so nothing breaks; committing them keeps UIDs stable across clones. | Low | Open |
 | KI-025 | 2026-11-24 static review (no Godot available): phase03 test engine-point check, `.blend` import setting and HUD reticle interpolation fixed on `fix/review-phase03-findings`; not run in Godot. | Low | Fixed in branch, unverified |
+| KI-026 | HUD target lock and alert severity sources do not exist yet; production HUD correctly displays unavailable/no-data states. | Low | By design until those gameplay feeds are added |
+| KI-027 | WRAITH HUD has passed headless data, viewport scaling and scene-start checks but has not received interactive visual review in a rendered window. | Medium | Open |
+
