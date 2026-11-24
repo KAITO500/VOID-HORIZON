@@ -2,9 +2,9 @@
 
 ## Design intent
 
-The HUD translates the supplied design brief into an editable, native Godot `Control` composition. It follows **ABYSSAL RETROFUTURISM**, a hybrid industrial and elegant instrument style with low information density. The layout keeps the center open and uses aged ivory, graphite, copper, amber, muted turquoise, steel and stone. It uses Godot's built-in font fallback so no external font asset is required.
+The HUD follows **ABYSSAL RETROFUTURISM** with open instrument groups, a clear typographic hierarchy, fine curved perimeter rails and an unobstructed center. It uses aged ivory, graphite, copper, amber, muted turquoise, steel and stone. No opaque cards cover the flight view.
 
-The companion editable Figma design is [VOID HORIZON — WRAITH Flight HUD](https://www.figma.com/design/57sH4Zv7fkGF1cF8Te9CRs). It contains foundations/tokens, reusable component states and the 1920×1080 HUD with prototype navigation. The account's Starter plan limits the file to three pages, so the six requested content areas are grouped into those three pages.
+The visual target was made first as an editable SVG composition at [wraith_flight_hud_concept.svg](art/wraith_flight_hud_concept.svg), then re-created with native Godot controls and custom drawing. The concept includes a representative spacecraft silhouette; in game, the existing rendered ship and environment provide that imagery, while the HUD only draws instrumentation. Example values in the concept are illustrative; the game HUD uses live flight state or explicitly says when a feed is unavailable.
 
 ## In-game composition
 
@@ -16,9 +16,9 @@ The companion editable Figma design is [VOID HORIZON — WRAITH Flight HUD](http
 - Lower left: alert feed marked no data until a warning system exists.
 - Center: small geometric nose reticle projected from the ship's forward direction.
 
-Reference layout is authored around 1920×1080. The entire overlay scales with viewport height, clamped from 0.78× to 1.35×, and remains centered. The same rule supports 1600×900, 1920×1080, and 2560×1440 while retaining a clear center region.
+Reference layout is authored around 1920×1080. The entire overlay scales uniformly to fit the viewport's smaller dimension, caps at 1.35×, and remains centered. It supports 1280×720, 1600×900, 1920×1080, and 2560×1440 while retaining a clear center region.
 
-Peripheral linework and slight panel rotations suggest a shallow inward curve without distorting text. Panels use a subdued graphite fill, fine copper edge and shallow shadow. Camera-relative parallax is configurable with `parallax_strength` (default 4 px); the central reticle is excluded from parallax.
+Peripheral linework follows a shallow inward curve. Readouts remain unboxed so the live game stays visible behind them. Camera-relative parallax is configurable with `parallax_strength` (default 4 px); the central reticle is excluded from parallax.
 
 ## Data sources
 
@@ -39,6 +39,7 @@ Open `scenes/flight/flight_hud_preview.tscn` to see a visual-only state prototyp
 
 ## Validation and known limits
 
-Validated with Godot 4.7.2 headless on 2026-11-24: HUD data/layout check, existing Phase 03 flight check and Phase 02 ship regression check pass; the main flight scene and preview scene start without HUD script errors. Viewport scale was checked at 1280×720, 1920×1080 and 2560×1440 in the HUD test.
+The prior HUD implementation passed the Phase 03 HUD, Phase 03 flight and Phase 02 ship headless checks on Godot 4.7.2. This redesigned HUD has not yet been run: the Godot executable is not currently available in the attached workspace, and there is no open Godot window to inspect. Run `tests/unit/phase03_hud_check.gd`, `tests/unit/phase03_flight_check.gd` and `tests/unit/phase02_ship_check.gd` before merging.
 
-Interactive visual review in a rendered window has not been performed. The test environment reports inability to write `user://logs/godot.log`; this is an environment logging warning, not a reported HUD script error.
+
+
