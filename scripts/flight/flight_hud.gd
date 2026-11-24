@@ -134,6 +134,7 @@ func _build() -> void:
 
 	_speed_panel = _make_panel("VELOCITY  /  M/S", 228.0, 136.0)
 	_place(_speed_panel, Control.PRESET_CENTER_LEFT, 42.0, -45.0, 228.0, 136.0)
+	_speed_panel.rotation_degrees = -0.55
 	var speed_box := _content(_speed_panel)
 	var speed_row := HBoxContainer.new()
 	speed_row.alignment = BoxContainer.ALIGNMENT_BEGIN
@@ -150,8 +151,9 @@ func _build() -> void:
 
 	_engine_panel = _make_panel("PROPULSION", 228.0, 186.0)
 	_place(_engine_panel, Control.PRESET_CENTER_RIGHT, -270.0, -90.0, 228.0, 186.0)
+	_engine_panel.rotation_degrees = 0.55
 	var engine_box := _content(_engine_panel)
-	var throttle_row := _readout_row("THRUST", "0%", IVORY)
+	var throttle_row := _readout_row("ENGINE OUTPUT", "0%", IVORY)
 	engine_box.add_child(throttle_row[0])
 	_throttle_value = throttle_row[1]
 	var boost_label := _label("BOOST RESERVE", 9, STEEL)
@@ -165,6 +167,7 @@ func _build() -> void:
 
 	_target_panel = _make_panel("NAVIGATION TARGET", 228.0, 92.0)
 	_place(_target_panel, Control.PRESET_BOTTOM_RIGHT, -270.0, -152.0, 228.0, 92.0)
+	_target_panel.rotation_degrees = 0.4
 	var target_box := _content(_target_panel)
 	_target_name = _label("NO TARGET LOCK", 12, STONE)
 	target_box.add_child(_target_name)
@@ -173,6 +176,7 @@ func _build() -> void:
 
 	_alert_panel = _make_panel("SYSTEM FEED", 228.0, 58.0)
 	_place(_alert_panel, Control.PRESET_BOTTOM_LEFT, 42.0, -52.0, 228.0, 58.0)
+	_alert_panel.rotation_degrees = -0.4
 	var alert_box := _content(_alert_panel)
 	_alert_value = _label("ALERT FEED  /  NO DATA", 10, STONE)
 	alert_box.add_child(_alert_value)
@@ -217,7 +221,8 @@ func _process(_delta: float) -> void:
 	var maximum: float = config.max_speed * config.boost_speed_multiplier if config != null else 1.0
 	_speed_value.text = _format_speed(speed)
 	_speed_bar.value = clampf(speed / maxf(maximum, 0.001), 0.0, 1.0)
-	_throttle_value.text = "%d%%" % int(round(clampf(_controller.throttle, -1.0, 1.0) * 100.0))
+	var engine_output: float = _ship.network_state.thrust if _ship.network_state != null else clampf(maxf(_controller.throttle, 0.0), 0.0, 1.0)
+	_throttle_value.text = "%d%%" % int(round(clampf(engine_output, 0.0, 1.0) * 100.0))
 	_boost_bar.value = _controller.boost.energy
 	if _controller.boost.active:
 		_boost_value.text = "BOOST ENGAGED"
@@ -507,4 +512,5 @@ class _FlightReticle:
 		draw_line(point + Vector2(0.0, -17.0), point + Vector2(0.0, -11.0), tint, 1.0, true)
 		draw_line(point + Vector2(0.0, 11.0), point + Vector2(0.0, 17.0), tint, 1.0, true)
 		draw_circle(point, 1.5, AMBER)
+
 
