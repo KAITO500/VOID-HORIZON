@@ -24,3 +24,6 @@
 | KI-020 | HUD layout (anchors/min sizes) and the reticle are unverified; `SpaceDust` shader (POSITION override, never culled) never compiled. | Medium | Open |
 | KI-021 | No collision response beyond `move_and_slide()`: no damage, bounce or stop. Nothing solid exists in the test scene. | Low | Open |
 | KI-022 | Gamepad not supported; mouse/keyboard only. Flight assist is a simple lateral damper, not a full flight-assist model. | Low | Open |
+| KI-023 | `ShipConfig.visual_scene` is declared (comment says "empty = built-in placeholder") but nothing reads it. `LightFighterModel` and `ShipHullBuilder` are unused by any scene (only the phase02 test uses `ShipHullBuilder`). Decide: wire it up or remove. | Low | Open |
+| KI-024 | No `.uid` files committed (Godot 4.4+ creates them next to scripts/resources). Scenes reference by path so nothing breaks; committing them keeps UIDs stable across clones. | Low | Open |
+| KI-025 | 2026-11-24 static review (no Godot available): phase03 test engine-point check, `.blend` import setting and HUD reticle interpolation fixed on `fix/review-phase03-findings`; not run in Godot. | Low | Fixed in branch, unverified |

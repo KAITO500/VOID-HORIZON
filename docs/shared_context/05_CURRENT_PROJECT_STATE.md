@@ -2,7 +2,7 @@
 
 Last updated: 2026-11-24
 
-**Phase:** 03 - Flight System implemented on `feature/phase03-flight-system` (NOT run in Godot; see `docs/PHASE_03_FLIGHT_SYSTEM.md`). Previous: 02 - Light Fighter: the GLB root orientation was corrected on main by PR #4 (GLB re-export) and verified with Godot 4.7.2 headless import, ship checks and main-scene startup by another agent; interactive visual review of appearance and collision fit is still pending.
+**Phase:** 03 - Flight System, merged into `main` via PR #5. The author never ran it in Godot (see `docs/PHASE_03_FLIGHT_SYSTEM.md`). On 2026-11-24 the user reported "todo funciona bien" without saying which scene or checks were run, so item-by-item validation is still open. Previous: 02 - Light Fighter: the GLB root orientation was corrected on main by PR #4 (GLB re-export) and verified with Godot 4.7.2 headless import, ship checks and main-scene startup by another agent; interactive visual review of appearance and collision fit is still pending.
 **User test 2026-11-23 21:23:** the user opened the earlier Phase 02 build in Godot 4.7.2, pressed F5 and reported "funciona perfecto". That report predates the GLB model and is not a visual review of the current asset.
 Phase 00 has not been validated. The user's earlier F5 test showed the Phase 02 inspection scene with its Phase 01 environment; it was a general smoke test, not a formal phase checklist. Each new phase was started on the user's phase prompt (D-018, D-023).
 **Godot version:** 4.7.2 (confirmed by the user). Hardware target (Q-002) unknown.
@@ -13,7 +13,8 @@ Phase 00 has not been validated. The user's earlier F5 test showed the Phase 02 
 | main | Phase 00 + Phase 01: the user merged PR #1 (phase 01) at 13:44, merge commit 0ea9c3a. Whether the user ran it in Godot before merging is unknown. |
 | develop | Phase 00 scaffold only (0de06b8); not updated by the PR |
 | feature/phase01-space-environment | Phase 01, pushed (16660f5), already merged into main |
-| feature/phase03-flight-system | Phase 03, pushed; merged with main after PR #4 (conflicts in docs 05/06 resolved). Not merged into main. |
+| feature/phase03-flight-system | Phase 03; merged into main via PR #5 (main HEAD e1586b1 at the time of the 2026-11-24 review). |
+| fix/review-phase03-findings | Review fixes: phase03 test, Blender import setting, HUD reticle interpolation, docs 05/06/07. |
 | feature/phase02-light-fighter, fix/phase02-light-fighter-orientation | Phase 02, merged into main (PR #3, PR #4). |
 
 ## Status per item

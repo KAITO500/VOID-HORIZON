@@ -98,7 +98,10 @@ func _check_scene() -> void:
 		_check(ship.config != null and ship.config.flight_config != null, "ship config has a FlightConfig")
 		_check(ship.get_node_or_null("FlightController") is FlightController, "FlightController present")
 		_check(ship.get_node_or_null("FlightInput") is FlightInput, "FlightInput present")
-		_check(ship.get_engine_points().size() == 3, "three engine points")
+		# The scene is not added to the tree, so Spaceship's @onready vars are still null here:
+		# inspect the EnginePoints node directly instead of ship.get_engine_points().
+		var engine_points := ship.get_node_or_null("EnginePoints")
+		_check(engine_points != null and engine_points.get_child_count() == 3, "three engine points")
 	root.free()
 
 
