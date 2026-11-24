@@ -20,7 +20,7 @@ Peripheral linework and slight panel rotations suggest a shallow inward curve wi
 
 ## Data sources
 
-`FlightHud` reads the existing `Spaceship`, `FlightController`, `FlightBoost`, `FlightConfig`, ship transform and `FlightCamera`. It displays actual speed, heading, pitch, roll, throttle, boost reserve/activity and assist state. It does not write to the controller or input intent.
+`FlightHud` reads the existing `Spaceship`, `FlightController`, `FlightBoost`, `FlightConfig`, `ShipNetworkState.thrust`, ship transform and `FlightCamera`. It displays actual speed, heading, pitch, roll, engine output, boost reserve/activity and assist state. It does not write to the controller or input intent.
 
 The project has no target-lock or warning-feed system yet. The HUD says `NAV FEED / UNAVAILABLE` and `ALERT FEED / NO DATA` rather than inventing a production state. No multiplayer coupling was added.
 
@@ -40,4 +40,5 @@ Open `scenes/flight/flight_hud_preview.tscn` to see a visual-only state prototyp
 Validated with Godot 4.7.2 headless on 2026-11-24: HUD data/layout check, existing Phase 03 flight check and Phase 02 ship regression check pass; the main flight scene and preview scene start without HUD script errors. Viewport scale was checked at 1280×720, 1920×1080 and 2560×1440 in the HUD test.
 
 Interactive visual review in a rendered window has not been performed. The test environment reports inability to write `user://logs/godot.log`; this is an environment logging warning, not a reported HUD script error.
+
 
