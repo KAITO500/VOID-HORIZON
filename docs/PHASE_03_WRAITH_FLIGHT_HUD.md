@@ -2,43 +2,47 @@
 
 ## Design intent
 
-The HUD translates the supplied design brief into an editable, native Godot `Control` composition. It follows **ABYSSAL RETROFUTURISM**, a hybrid industrial and elegant instrument style with low information density. The layout keeps the center open and uses aged ivory, graphite, copper, amber, muted turquoise, steel and stone. It uses Godot's built-in font fallback so no external font asset is required.
+The flight display is a concave, wraparound instrument surface for the **ABYSSAL RETROFUTURISM** art direction: aged ivory, graphite, weathered steel, oxidized copper, restrained amber and muted turquoise. The central flight instruments face the pilot; side instruments turn away across the cockpit arc. Their labels stay flat on each panel rather than bending with a decorative curve.
 
-The companion editable Figma design is [VOID HORIZON — WRAITH Flight HUD](https://www.figma.com/design/57sH4Zv7fkGF1cF8Te9CRs). It contains foundations/tokens, reusable component states and the 1920×1080 HUD with prototype navigation. The account's Starter plan limits the file to three pages, so the six requested content areas are grouped into those three pages.
+The two review boards are [front view](art/wraith_flight_hud_front_view.svg) and [three-quarter perspective](art/wraith_flight_hud_three_quarter_view.svg). The front view documents the full 1920×1080 layout. The three-quarter view makes the separate panel planes, rotation and depth layering easy to inspect. These are design presentations; the runnable scenes below render the actual HUD implementation.
 
-## In-game composition
+## Spatial composition and rendering
 
-- Upper left: ship identification `VH-01 / WRAITH` and flight system status.
-- Upper center: current compass heading, a tick ribbon, pitch and roll.
-- Left edge: large readable speed, units and relative velocity bar.
-- Right edge: throttle, boost reserve/state and flight-assist status.
-- Lower right: target lock placeholder, explicitly marked unavailable until a targeting feed exists.
-- Lower left: alert feed marked no data until a warning system exists.
-- Center: small geometric nose reticle projected from the ship's forward direction.
+`FlightHud` keeps its interface controls in a transparent 1920×1080 `SubViewport`. It crops each instrument group as a separate texture and maps those textures to independent `MeshInstance3D` planes inside a second 3D viewport. A curved, subtle glass backing completes the panoramic display. The whole 3D result is composited over the flight scene through a `TextureRect`.
 
-Reference layout is authored around 1920×1080. The entire overlay scales with viewport height, clamped from 0.78× to 1.35×, and remains centered. The same rule supports 1600×900, 1920×1080, and 2560×1440 while retaining a clear center region.
+Each panel sits tangent to a horizontal concave arc and has a world-space position and orientation of its own. The central heading, speed and reticle sit closest to the pilot, near the frontal direction. Propulsion and navigation-target groups occupy a recessed middle layer, while ship identity, sector context and the system feed sit farther around the sides. Their greater side angle makes them visibly narrower in projection. The reticle remains centered and stable on its own frontal plane.
 
-Peripheral linework and slight panel rotations suggest a shallow inward curve without distorting text. Panels use a subdued graphite fill, fine copper edge and shallow shadow. Camera-relative parallax is configurable with `parallax_strength` (default 4 px); the central reticle is excluded from parallax.
+- Upper center: compass heading, heading ticks, pitch and roll.
+- Center: steady flight reticle.
+- Lower center: speed and relative velocity bar.
+- Lower left: propulsion, throttle, boost reserve and flight assist.
+- Upper right: target-lock status.
+- Outer regions: ship identity, sector context and system feed.
+
+The source artwork keeps text and numerals planar and readable within each panel. Perspective comes from panel placement, rotation, physical dimensions and depth, not text deformation or drawn curved borders.
 
 ## Data sources
 
-`FlightHud` reads the existing `Spaceship`, `FlightController`, `FlightBoost`, `FlightConfig`, `ShipNetworkState.thrust`, ship transform and `FlightCamera`. It displays actual speed, heading, pitch, roll, engine output, boost reserve/activity and assist state. It does not write to the controller or input intent.
+`FlightHud` reads the existing `Spaceship`, `FlightController`, `FlightBoost`, `FlightConfig`, `ShipNetworkState.thrust` and ship transform. It displays live speed, heading, pitch, roll, engine output, boost reserve/activity and flight-assist state. It does not write to flight input or controller state.
 
-The project has no target-lock or warning-feed system yet. The HUD says `NAV FEED / UNAVAILABLE` and `ALERT FEED / NO DATA` rather than inventing a production state. No multiplayer coupling was added.
+The project does not yet provide target-lock or warning-feed data. The gameplay HUD identifies these as unavailable or empty. Only the visual preview scenes use mock target and alert states, with a visible preview banner.
 
-## Visual state preview
+## Review scenes
 
-Open `scenes/flight/flight_hud_preview.tscn` to see a visual-only state prototype over the flight scene. Its banner marks the values as mock data. Keys `1`–`5` switch normal flight, boost, target-selected, warning and critical-warning examples. `H` toggles the input help. This preview does not feed mock values into the gameplay flight controller.
+- `scenes/flight/flight_hud_front_view.tscn` opens the flight HUD from the pilot-facing camera.
+- `scenes/flight/flight_hud_three_quarter_view.tscn` moves the HUD presentation camera off-axis to expose the concave surface and panel orientations.
+- `scenes/flight/flight_hud_preview.tscn` remains the interactive mock-state preview. Keys `1`–`5` switch example states and `H` toggles help.
+
+The normal `scenes/flight/flight_test.tscn` continues to instance the production HUD; no mock state is injected into gameplay.
 
 ## Godot files
 
-- `scripts/flight/flight_hud.gd` — responsive UI, live readouts, reticle, compass, parallax and isolated visual states.
-- `scripts/flight/flight_hud_preview.gd`, `scenes/flight/flight_hud_preview.tscn` — labeled mock presentation harness.
-- `scenes/flight/flight_test.tscn` already instances `FlightHud`; no duplicate production HUD scene was added.
-- `tests/unit/phase03_hud_check.gd` — layout, live data and preview checks.
+- `scripts/flight/flight_hud.gd` — 2D source artwork, live readouts and the spatial display construction.
+- `scripts/flight/flight_hud_preview.gd` — labelled visual-review harness and camera selection.
+- `tests/unit/phase03_hud_check.gd` — checks independent spatial surfaces, depth radii, viewport sizing, live values and preview controls.
+- `docs/art/wraith_flight_hud_front_view.svg` and `docs/art/wraith_flight_hud_three_quarter_view.svg` — editable concept and presentation views.
 
 ## Validation and known limits
 
-Validated with Godot 4.7.2 headless on 2026-11-24: HUD data/layout check, existing Phase 03 flight check and Phase 02 ship regression check pass; the main flight scene and preview scene start without HUD script errors. Viewport scale was checked at 1280×720, 1920×1080 and 2560×1440 in the HUD test.
+The earlier flat HUD passed the Phase 03 HUD, Phase 03 flight and Phase 02 ship checks on Godot 4.7.2. This spatial redesign has not yet been executed in Godot: the executable is unavailable in the attached workspace, and no Godot window is open. Run `tests/unit/phase03_hud_check.gd`, `tests/unit/phase03_flight_check.gd` and `tests/unit/phase02_ship_check.gd` in Godot 4.7.2, then inspect both review scenes in the renderer before merging. The three-quarter SVG is a design presentation of the intended geometry, while the Godot scene is the runtime version to validate.
 
-Interactive visual review in a rendered window has not been performed. The test environment reports inability to write `user://logs/godot.log`; this is an environment logging warning, not a reported HUD script error.

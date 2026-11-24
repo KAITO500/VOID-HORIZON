@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/flight/flight_test.tscn" id="1_test"]
+[ext_resource type="Script" path="res://scripts/flight/flight_hud_preview.gd" id="2_preview"]
+
+[node name="FlightHudFrontView" type="Node3D"]
+script = ExtResource("2_preview")
+three_quarter_view = false
+
+[node name="FlightTest" parent="." instance=ExtResource("1_test")]
+
