@@ -2,8 +2,8 @@
 
 Last updated: 2026-11-24
 
-**Phase:** 03 - Flight System implemented on `feature/phase03-flight-system` (NOT run in Godot; see `docs/PHASE_03_FLIGHT_SYSTEM.md`). Previous: 02 - Light Fighter. The earlier procedural-model build was opened by the user in Godot 4.7.2 and reported working; the new GLB replacement is integrated on the feature branch but has not yet been run or visually checked.
-**User test 2026-11-23 21:23:** the user opened the earlier Phase 02 build in Godot 4.7.2, pressed F5 and reported "funciona perfecto" (works perfectly). No details were given (no checklist, errors, FPS or GPU); the new GLB model still needs its own check.
+**Phase:** 03 - Flight System implemented on `feature/phase03-flight-system` (NOT run in Godot; see `docs/PHASE_03_FLIGHT_SYSTEM.md`). Previous: 02 - Light Fighter: the GLB root orientation was corrected on main by PR #4 (GLB re-export) and verified with Godot 4.7.2 headless import, ship checks and main-scene startup by another agent; interactive visual review of appearance and collision fit is still pending.
+**User test 2026-11-23 21:23:** the user opened the earlier Phase 02 build in Godot 4.7.2, pressed F5 and reported "funciona perfecto". That report predates the GLB model and is not a visual review of the current asset.
 Phase 00 has not been validated. The user's earlier F5 test showed the Phase 02 inspection scene with its Phase 01 environment; it was a general smoke test, not a formal phase checklist. Each new phase was started on the user's phase prompt (D-018, D-023).
 **Godot version:** 4.7.2 (confirmed by the user). Hardware target (Q-002) unknown.
 
@@ -13,8 +13,8 @@ Phase 00 has not been validated. The user's earlier F5 test showed the Phase 02 
 | main | Phase 00 + Phase 01: the user merged PR #1 (phase 01) at 13:44, merge commit 0ea9c3a. Whether the user ran it in Godot before merging is unknown. |
 | develop | Phase 00 scaffold only (0de06b8); not updated by the PR |
 | feature/phase01-space-environment | Phase 01, pushed (16660f5), already merged into main |
-| feature/phase03-flight-system | Phase 03, based on main (PR #3 merged 2026-11-23 23:24, 7928dcb). Local; not pushed until the user authorizes. |
-| feature/phase02-light-fighter | Phase 02 based on Phase 01 (merged into main via PR #2 and #3); custom GLB integration pushed in commit `f4e74b6`; updated model still needs Godot inspection. |
+| feature/phase03-flight-system | Phase 03, pushed; merged with main after PR #4 (conflicts in docs 05/06 resolved). Not merged into main. |
+| feature/phase02-light-fighter, fix/phase02-light-fighter-orientation | Phase 02, merged into main (PR #3, PR #4). |
 
 ## Status per item
 | Item | State |

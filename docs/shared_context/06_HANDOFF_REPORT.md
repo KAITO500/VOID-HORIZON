@@ -9,12 +9,12 @@ TASK:
 Arcade flight for the Light Fighter: controller, rotation, boost, third-person camera, engine feedback, speed HUD.
 
 STATUS:
-Implemented on local branch `feature/phase03-flight-system` (from main 7928dcb). NOT run in Godot. Not committed or pushed (waiting for the user's authorization).
+Implemented and pushed on `feature/phase03-flight-system`, merged with main (edc3762). NOT run in Godot. Not merged into main.
 
 SUMMARY:
 See `docs/PHASE_03_FLIGHT_SYSTEM.md` (architecture, input map, parameters, run steps). FlightInput fills `ShipIntent`; FlightController
 applies `FlightMath` + `FlightBoost` to the Spaceship (CharacterBody3D). FlightCamera, FlightHud and SpaceDust read the ship.
-Phase 02 check found a blocker: the integrated GLB is authored length-on-Y, so it would import standing up. A corrective rotation was added (D-025), unverified.
+Phase 02 check found the GLB authored length-on-Y (standing up). While this branch was in progress, PR #4 on main fixed it by re-exporting the GLB (bounds 15.2 x 3.5 x 19.0, nose -Z, verified headless in Godot 4.7.2 by another agent). My redundant `ShipModel` rotation was removed during the merge; D-025 is superseded by PR #4.
 
 FILES CREATED:
 scripts/flight/*.gd (10), assets/materials/space/space_dust.gdshader, resources/flight/light_fighter_flight.tres,

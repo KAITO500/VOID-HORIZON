@@ -9,11 +9,7 @@ Branch: `feature/phase03-flight-system` (based on `main` after PR #3). Not merge
 ## Phase 02 check (done before building)
 - PR #3 replaced the procedural ship with a custom GLB (`assets/models/ships/light_fighter_model.glb`). Its internal
   root node is named "VH-02 Vesper"; the Phase 03 prompt calls the ship "VH-01 WRAITH". Names disagree: ask the user.
-- **Blocker found and fixed (D-025):** the GLB is authored with length on its Y axis and height on Z (computed from the
-  glTF node transforms: extents X 15.2, Y 19.0, Z 3.5). Godot imports glTF without changing axes, so the ship would
-  stand on its tail. `VisualRoot/ShipModel` now has the rotation `Transform3D(-1,0,0, 0,0,1, 0,1,0)` (proper rotation, det +1):
-  nose -Z, engines +Z, up +Y. This is computed, **not seen in Godot**. `Spaceship.validate()` warns in the Output if the
-  model's length is not along Z. If it looks wrong, change only that one transform.
+- Orientation: the GLB was authored length-on-Y (standing up). PR #4 on main re-exported it (nose -Z, up +Y, bounds 15.2 x 3.5 x 19.0; verified headless in Godot 4.7.2 by another agent). My earlier scene rotation was removed in the merge (D-025 superseded). `Spaceship.validate()` still warns if the length is not along Z.
 - The GLB has three rear engines (x = -3.75, 0, +3.75; z = 9.8). `EnginePoints` now has EngineLeft/EngineCenter/EngineRight there.
 - Weapon points and collision boxes were NOT changed (Phase 04 / later). Collision boxes were sized for the old model.
 
@@ -84,9 +80,9 @@ Headless check (after one `--import`): `godot --headless --path . -s res://tests
   boost empties in 4.02 s and recovers.
 - Static review: tab indentation, bracket balance, all `res://` paths exist, GDScript reviewed by hand for known pitfalls
   (a member named `_input` was found and renamed).
-- Orientation of the GLB computed from its glTF nodes (extents above).
+- Orientation of the new GLB re-checked from its glTF nodes after the merge (extents 15.2 x 3.5 x 19.0, engines at x -3.75/0/3.75, z 9.15, bay above the hull).
 ## NOT performed
-Opening the project in Godot; any real flight; the headless GDScript test; checking the ship orientation after the fix;
+Opening the project in Godot; any real flight; the headless GDScript test; 
 HUD layout; dust shader compilation; camera feel and FOV values; collision fit; performance.
 
 ## Known limits

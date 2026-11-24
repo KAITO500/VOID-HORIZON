@@ -1,7 +1,6 @@
 # Phase 02: Light Fighter (reference)
 
-Status: **Custom GLB integrated; this model revision has NOT been executed or tested in Godot.** The user previously opened the procedural-model build in Godot 4.7.2 and reported that F5 works; that does not verify this imported model.
-Phase 01 (the environment it is shown in) is also untested. Treat the new model and scene integration as unvalidated until opened in Godot.
+Status: **Custom GLB integrated; its orientation and dimensions are verified with Godot 4.7.2.** The full inspection scene still needs a visual F5 review.
 
 ## Asset strategy (what was and was not created)
 
@@ -10,10 +9,11 @@ Phase 01 (the environment it is shown in) is also untested. Treat the new model 
 - Editable source: `assets/models/ships/light_fighter_source.blend`. It was authored in Blender as a one-off asset at the user's request. The game imports the GLB directly and has
   no Blender runtime or build-time dependency; D-002 remains unchanged.
 - The export root maps the source axes to ship space (nose -Z, up +Y, right +X) and scales the model to approximately
-  15.2 m span, 3.5 m height and 19 m length. The studio stage, camera and lights are not in the game GLB.
+  15.2 m span, 3.5 m height and 19 m length. The GLB root rotation is part of this mapping; preserve it when editing or re-exporting.
+  The studio stage, camera and lights are not in the game GLB.
 - `scenes/ships/light_fighter.tscn` instances the imported GLB as `VisualRoot/ShipModel`. The procedural
   `ShipHullBuilder` and `light_fighter_model.gd` remain as an unused fallback/reference; engine visuals stay separate.
-- Phase 03 note (D-025): the GLB is authored length-on-Y/height-on-Z; `ShipModel` carries a corrective rotation and `EnginePoints` now has three engines. See `docs/PHASE_03_FLIGHT_SYSTEM.md`.
+- Phase 03 note: `EnginePoints` now has three engines (x -3.75, 0, 3.75; z 9.8) matching the GLB.
 - Do NOT touch `EnginePoints`, `WeaponPoints`, `CameraTarget` or the collision shapes for this visual replacement.
 
 ## Coordinate convention (ALL future ships)
@@ -125,3 +125,4 @@ Steps (Godot 4.7.2):
 - Collision uses simple boxes (nose and wing tips are over-approximated). Convex shapes can replace them later.
 - Provisional root type CharacterBody3D (D-019); physics body type is still open.
 - Inspect imported model orientation, appearance and collision fit in the Godot views before validating.
+
