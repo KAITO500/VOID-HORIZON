@@ -31,8 +31,10 @@ func _run() -> void:
 	ship.velocity = Vector3(0.0, 0.0, -150.0)
 	controller.boost.energy = 0.5
 	controller.boost.active = true
+	ship.network_state.thrust = 0.62
 	hud._process(0.0)
 	assert((hud.get("_speed_value") as Label).text == "150", "speed must use live ship velocity")
+	assert((hud.get("_throttle_value") as Label).text == "62%", "engine output must use live network state")
 	assert(is_equal_approx((hud.get("_boost_bar") as ProgressBar).value, 0.5), "boost meter must use live reserve")
 	assert((hud.get("_boost_value") as Label).text == "BOOST ENGAGED", "boost state must be reflected")
 
@@ -59,4 +61,5 @@ func _key_event(code: Key) -> InputEventKey:
 	event.keycode = code
 	event.pressed = true
 	return event
+
 
