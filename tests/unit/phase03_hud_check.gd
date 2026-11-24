@@ -13,10 +13,14 @@ func _run() -> void:
 	await process_frame
 	var hud := flight.get_node("FlightHud") as FlightHud
 	assert(hud != null, "main flight scene must include FlightHud")
-	assert(hud.get("_identity") is PanelContainer, "identity panel must be built")
+	assert(hud.get("_identity") is Control, "open identity group must be built")
+	assert(not hud.get("_identity") is PanelContainer, "HUD readouts must not use opaque card panels")
 	assert(hud.get("_heading_ribbon") is Control, "heading scale must be built")
 	assert(hud.get("_speed_value") is Label, "speed readout must be built")
-	assert(is_equal_approx(hud.get("_root").scale.x, 0.78), "HUD must adapt to the 720p viewport")
+	assert(is_equal_approx(hud.get("_root").scale.x, 1280.0 / 1920.0), "HUD must fit the width and height of a 720p viewport")
+	root.size = Vector2i(1600, 900)
+	await process_frame
+	assert(is_equal_approx(hud.get("_root").scale.x, 1600.0 / 1920.0), "HUD must fit the 900p viewport")
 	root.size = Vector2i(1920, 1080)
 	await process_frame
 	assert(is_equal_approx(hud.get("_root").scale.x, 1.0), "HUD must use reference scale at 1080p")
@@ -35,6 +39,7 @@ func _run() -> void:
 	hud._process(0.0)
 	assert((hud.get("_speed_value") as Label).text == "150", "speed must use live ship velocity")
 	assert((hud.get("_throttle_value") as Label).text == "62%", "engine output must use live network state")
+	assert(is_equal_approx((hud.get("_throttle_bar") as ProgressBar).value, 0.62), "engine bar must use live network state")
 	assert(is_equal_approx((hud.get("_boost_bar") as ProgressBar).value, 0.5), "boost meter must use live reserve")
 	assert((hud.get("_boost_value") as Label).text == "BOOST ENGAGED", "boost state must be reflected")
 
@@ -61,5 +66,6 @@ func _key_event(code: Key) -> InputEventKey:
 	event.keycode = code
 	event.pressed = true
 	return event
+
 
 
