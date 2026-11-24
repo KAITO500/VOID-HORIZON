@@ -85,5 +85,8 @@ Headless check (after one `--import`): `godot --headless --path . -s res://tests
 Opening the project in Godot; any real flight; the headless GDScript test; 
 HUD layout; dust shader compilation; camera feel and FOV values; collision fit; performance.
 
+## Ship materials (user report: model rendered white)
+The GLB has no colors for its 4 main materials (see KI-023). `scripts/ships/ship_material_palette.gd` (node `VisualRoot/ShipModel/MaterialPalette`) recolors by material-name prefix with override materials. Palette lives in its exported `palette` dictionary. Untested in Godot.
+
 ## Known limits
 See `docs/shared_context/07_KNOWN_ISSUES.md` KI-016 to KI-022.

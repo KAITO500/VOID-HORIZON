@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/ships/spaceship.gd" id="1_ship"]
 [ext_resource type="Resource" path="res://resources/ships/light_fighter.tres" id="2_cfg"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/ships/ship_engine_visuals.gd" id="4_engine"]
 [ext_resource type="Script" path="res://scripts/ships/ship_network_state.gd" id="5_net"]
 [ext_resource type="Script" path="res://scripts/flight/flight_controller.gd" id="6_flight"]
+[ext_resource type="Script" path="res://scripts/ships/ship_material_palette.gd" id="7_palette"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fuselage"]
 size = Vector3(3.2, 1.9, 17.0)
@@ -23,6 +24,9 @@ config = ExtResource("2_cfg")
 [node name="VisualRoot" type="Node3D" parent="."]
 
 [node name="ShipModel" parent="VisualRoot" instance=ExtResource("3_model")]
+
+[node name="MaterialPalette" type="Node" parent="VisualRoot/ShipModel"]
+script = ExtResource("7_palette")
 
 [node name="EngineVisuals" type="Node3D" parent="VisualRoot"]
 script = ExtResource("4_engine")

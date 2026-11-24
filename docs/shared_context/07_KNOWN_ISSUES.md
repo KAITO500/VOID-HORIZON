@@ -24,3 +24,4 @@
 | KI-020 | HUD layout (anchors/min sizes) and the reticle are unverified; `SpaceDust` shader (POSITION override, never culled) never compiled. | Medium | Open |
 | KI-021 | No collision response beyond `move_and_slide()`: no damage, bounce or stop. Nothing solid exists in the test scene. | Low | Open |
 | KI-022 | Gamepad not supported; mouse/keyboard only. Flight assist is a simple lateral damper, not a full flight-assist model. | Low | Open |
+| KI-023 | GLB materials 01-04 have no baseColor, textures or vertex colors (glTF default = white), so the ship rendered white (user report 2026-11-24). Workaround: `ShipMaterialPalette` recolors by material name in Godot (colors are my picks from the art direction, not the author's). Proper fix: re-export the GLB from Blender with colors, then delete the node. Fix untested in Godot. | Medium | Workaround, unverified |
