@@ -20,6 +20,10 @@ func _run() -> void:
 	assert(hud.get("_surface_camera") is Camera3D, "HUD must have a separate pilot presentation camera")
 	var spatial_panels: Array = hud.get("_surface_panels")
 	assert(spatial_panels.size() >= 8, "each HUD instrument must have an independent spatial surface")
+	var surface_root := hud.get("_surface_root") as Node3D
+	var navigation_surface := surface_root.get_node("NavigationSpatialPanel") as MeshInstance3D
+	var navigation_uvs: PackedVector2Array = navigation_surface.mesh.surface_get_arrays(0)[Mesh.ARRAY_TEX_UV]
+	assert(navigation_uvs[2].y < navigation_uvs[0].y, "SubViewport text must be upright on the 3D panels")
 	var radii: Array[float] = []
 	for panel: Dictionary in spatial_panels:
 		if not radii.has(float(panel["radius"])):
