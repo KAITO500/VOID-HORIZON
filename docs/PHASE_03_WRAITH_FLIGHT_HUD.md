@@ -4,6 +4,8 @@
 
 The HUD translates the supplied design brief into an editable, native Godot `Control` composition. It follows **ABYSSAL RETROFUTURISM**, a hybrid industrial and elegant instrument style with low information density. The layout keeps the center open and uses aged ivory, graphite, copper, amber, muted turquoise, steel and stone. It uses Godot's built-in font fallback so no external font asset is required.
 
+The companion editable Figma design is [VOID HORIZON — WRAITH Flight HUD](https://www.figma.com/design/57sH4Zv7fkGF1cF8Te9CRs). It contains foundations/tokens, reusable component states and the 1920×1080 HUD with prototype navigation. The account's Starter plan limits the file to three pages, so the six requested content areas are grouped into those three pages.
+
 ## In-game composition
 
 - Upper left: ship identification `VH-01 / WRAITH` and flight system status.
@@ -40,5 +42,3 @@ Open `scenes/flight/flight_hud_preview.tscn` to see a visual-only state prototyp
 Validated with Godot 4.7.2 headless on 2026-11-24: HUD data/layout check, existing Phase 03 flight check and Phase 02 ship regression check pass; the main flight scene and preview scene start without HUD script errors. Viewport scale was checked at 1280×720, 1920×1080 and 2560×1440 in the HUD test.
 
 Interactive visual review in a rendered window has not been performed. The test environment reports inability to write `user://logs/godot.log`; this is an environment logging warning, not a reported HUD script error.
-
-
