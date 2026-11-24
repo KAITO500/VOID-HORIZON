@@ -121,8 +121,11 @@ func _process(_delta: float) -> void:
 	_status_label.text = "   ".join(status)
 
 	if _camera != null:
-		var forward: Vector3 = -_ship.global_transform.basis.z
-		var point: Vector3 = _ship.global_position + forward * 300.0
+		# Interpolated transform: this runs in _process, so the physics-tick transform would make the
+		# reticle step at the physics rate (60 Hz) on higher refresh-rate displays.
+		var ship_tf: Transform3D = _ship.get_global_transform_interpolated()
+		var forward: Vector3 = -ship_tf.basis.z.normalized()
+		var point: Vector3 = ship_tf.origin + forward * 300.0
 		_reticle.visible = not _camera.is_position_behind(point)
 		if _reticle.visible:
 			(_reticle as _Reticle).screen_point = _camera.unproject_position(point)

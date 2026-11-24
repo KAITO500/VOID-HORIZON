@@ -17,6 +17,12 @@ config/features=PackedStringArray("4.7", "Forward Plus")
 window/size/viewport_width=1280
 window/size/viewport_height=720
 
+[filesystem]
+
+; assets/models/ships/light_fighter_source.blend is the editable source only; the game uses the
+; exported .glb. Disabling this stops the editor from requiring Blender to open the project.
+import/blender/enabled=false
+
 [physics]
 
 common/physics_interpolation=true

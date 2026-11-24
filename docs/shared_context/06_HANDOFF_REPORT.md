@@ -9,7 +9,7 @@ TASK:
 Arcade flight for the Light Fighter: controller, rotation, boost, third-person camera, engine feedback, speed HUD.
 
 STATUS:
-Implemented and pushed on `feature/phase03-flight-system`, merged with main (edc3762). NOT run in Godot. Not merged into main.
+Implemented on `feature/phase03-flight-system` and merged into `main` via PR #5. The author never ran it in Godot. User report 2026-11-24: "todo funciona bien" (scene and checks not specified). Static review the same day: see KI-023 and the fixes on `fix/review-phase03-findings`.
 
 SUMMARY:
 See `docs/PHASE_03_FLIGHT_SYSTEM.md` (architecture, input map, parameters, run steps). FlightInput fills `ShipIntent`; FlightController
