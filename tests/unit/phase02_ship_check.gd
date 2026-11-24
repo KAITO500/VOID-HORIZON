@@ -27,7 +27,7 @@ func _init() -> void:
 			root.add_child(ship)
 			var problems: PackedStringArray = ship.validate()
 			_check(problems.is_empty(), "ship validates (%s)" % "; ".join(problems))
-			_check(ship.get_engine_points().size() == 2, "two engine points")
+			_check(ship.get_engine_points().size() == 3, "three engine points")
 			_check(ship.get_weapon_points().size() == 2, "two weapon points")
 			_check(ship.get_collision_shapes().size() == 4, "four collision shapes")
 			_check(ship.network_state != null and ship.network_state.is_owned_locally(), "offline owner is local")

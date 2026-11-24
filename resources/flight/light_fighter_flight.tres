@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="FlightConfig" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/flight/flight_config.gd" id="1_flight"]
+
+[resource]
+script = ExtResource("1_flight")
+max_speed = 220.0
+acceleration = 90.0
+boost_speed_multiplier = 1.7
+boost_acceleration_multiplier = 2.2
+boost_duration = 4.0
+boost_recharge_time = 8.0

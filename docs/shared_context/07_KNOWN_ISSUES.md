@@ -17,3 +17,10 @@
 | KI-013 | Custom GLB replaces the procedural visual, but its Godot import, appearance and fit against the collision boxes have not been checked. | Medium | Validation open |
 | KI-014 | Collision is four boxes (over-approximates nose and wing tips); body type CharacterBody3D is provisional. | Low | Open |
 | KI-015 | `@tool` scripts (`ShipHullBuilder`, `LightFighterModel`) run in the editor; an error there appears in the editor Output when opening the ship scene. | Low | Open |
+| KI-016 | Phase 03 was never run in Godot. Scripts, scenes, shader and HUD may contain errors. Only the flight math was checked (Python re-implementation). | High | Open |
+| KI-017 | GLB orientation fix (D-025) is computed, not seen. Model root is named "VH-02 Vesper" while the prompt says VH-01 WRAITH; naming needs a decision. | High | Open |
+| KI-018 | Collision boxes and weapon points were sized for the old procedural model; they do not match the GLB (wings span 15.2 m, 3 engines). | Medium | Open |
+| KI-019 | All flight numbers (speeds, rates, boost, camera) are untuned first guesses; mouse feel and camera lag need human flying. | Medium | Open |
+| KI-020 | HUD layout (anchors/min sizes) and the reticle are unverified; `SpaceDust` shader (POSITION override, never culled) never compiled. | Medium | Open |
+| KI-021 | No collision response beyond `move_and_slide()`: no damage, bounce or stop. Nothing solid exists in the test scene. | Low | Open |
+| KI-022 | Gamepad not supported; mouse/keyboard only. Flight assist is a simple lateral damper, not a full flight-assist model. | Low | Open |

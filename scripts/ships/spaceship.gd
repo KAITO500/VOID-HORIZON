@@ -2,7 +2,7 @@ class_name Spaceship
 extends CharacterBody3D
 ## Generic spaceship entity: ties together config, attachment points, visuals and network state.
 ##
-## NO flight logic here (Phase 03). The root is a CharacterBody3D provisionally (D-019): arcade
+## NO flight logic here (Phase 03 lives in scripts/flight/: FlightInput fills `intent`, FlightController moves this body). The root is a CharacterBody3D provisionally (D-019): arcade
 ## flight sets velocity directly. If Phase 03 prefers RigidBody3D, only this root type changes;
 ## CollisionShape3D children, markers and visuals stay as they are.
 ##
@@ -13,7 +13,7 @@ extends CharacterBody3D
 
 @export var config: ShipConfig
 
-## What the pilot wants (human, AI or network). Not consumed until Phase 03.
+## What the pilot wants (human, AI or network). Consumed by FlightController (Phase 03).
 var intent: ShipIntent = ShipIntent.new()
 
 @onready var visual_root: Node3D = get_node_or_null("VisualRoot")
@@ -73,6 +73,28 @@ func set_visual_thrust(value: float) -> void:
 		engine_visuals.set_thrust(value)
 
 
+## Bounding box of the visible model in ship-root space (empty AABB if there are no meshes).
+func get_model_aabb() -> AABB:
+	var model: Node = get_node_or_null("VisualRoot/ShipModel")
+	var result := AABB()
+	if model == null:
+		return result
+	var inverse: Transform3D = global_transform.affine_inverse()
+	var first: bool = true
+	for node in model.find_children("*", "MeshInstance3D", true, false):
+		var mesh_node := node as MeshInstance3D
+		var box: AABB = (inverse * mesh_node.global_transform) * mesh_node.get_aabb()
+		result = box if first else result.merge(box)
+		first = false
+	return result
+
+
+## Presentation hook: boost glow/flame stretch (0..1).
+func set_visual_boost(value: float) -> void:
+	if engine_visuals != null:
+		engine_visuals.set_boost(value)
+
+
 ## Returns human-readable problems with this ship's setup (empty array = OK).
 func validate() -> PackedStringArray:
 	var problems := PackedStringArray()
@@ -85,6 +107,9 @@ func validate() -> PackedStringArray:
 		for point_name in config.weapon_point_names:
 			if get_weapon_point(point_name) == null:
 				problems.append("missing weapon point '%s'" % point_name)
+	var model_box: AABB = get_model_aabb()
+	if model_box.size != Vector3.ZERO and (model_box.size.z < model_box.size.y or model_box.size.z < model_box.size.x * 0.8):
+		problems.append("model orientation looks wrong: extents %s (length must be along Z, height Y, nose -Z)" % model_box.size)
 	if camera_target == null:
 		problems.append("missing CameraTarget")
 	if network_state == null:

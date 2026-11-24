@@ -1,8 +1,8 @@
 # 05 CURRENT PROJECT STATE
 
-Last updated: 2026-11-23
+Last updated: 2026-11-24
 
-**Phase:** 02 - Light Fighter. The earlier procedural-model build was opened by the user in Godot 4.7.2 and reported working; the new GLB replacement is integrated on the feature branch but has not yet been run or visually checked.
+**Phase:** 03 - Flight System implemented on `feature/phase03-flight-system` (NOT run in Godot; see `docs/PHASE_03_FLIGHT_SYSTEM.md`). Previous: 02 - Light Fighter. The earlier procedural-model build was opened by the user in Godot 4.7.2 and reported working; the new GLB replacement is integrated on the feature branch but has not yet been run or visually checked.
 **User test 2026-11-23 21:23:** the user opened the earlier Phase 02 build in Godot 4.7.2, pressed F5 and reported "funciona perfecto" (works perfectly). No details were given (no checklist, errors, FPS or GPU); the new GLB model still needs its own check.
 Phase 00 has not been validated. The user's earlier F5 test showed the Phase 02 inspection scene with its Phase 01 environment; it was a general smoke test, not a formal phase checklist. Each new phase was started on the user's phase prompt (D-018, D-023).
 **Godot version:** 4.7.2 (confirmed by the user). Hardware target (Q-002) unknown.
@@ -13,7 +13,8 @@ Phase 00 has not been validated. The user's earlier F5 test showed the Phase 02 
 | main | Phase 00 + Phase 01: the user merged PR #1 (phase 01) at 13:44, merge commit 0ea9c3a. Whether the user ran it in Godot before merging is unknown. |
 | develop | Phase 00 scaffold only (0de06b8); not updated by the PR |
 | feature/phase01-space-environment | Phase 01, pushed (16660f5), already merged into main |
-| feature/phase02-light-fighter | Phase 02 based on Phase 01; custom GLB integration pushed in commit `f4e74b6`; updated model still needs Godot inspection. |
+| feature/phase03-flight-system | Phase 03, based on main (PR #3 merged 2026-11-23 23:24, 7928dcb). Local; not pushed until the user authorizes. |
+| feature/phase02-light-fighter | Phase 02 based on Phase 01 (merged into main via PR #2 and #3); custom GLB integration pushed in commit `f4e74b6`; updated model still needs Godot inspection. |
 
 ## Status per item
 | Item | State |
@@ -23,7 +24,8 @@ Phase 00 has not been validated. The user's earlier F5 test showed the Phase 02 
 | Light Fighter scene, imported custom GLB, procedural fallback, collision boxes, markers, config, state classes | Earlier build reported working; new GLB wiring not yet run in Godot |
 | Ship inspection scene and headless checks | Inspection scene was run by the user before GLB replacement; headless checks remain unrun |
 | Blender/glTF ship model | Custom GLB and editable source integrated; new import appearance/orientation and collision fit unvalidated |
-| Flight, camera controller, weapons, networking | Not implemented (later phases) |
+| Flight controller, input, boost, chase camera, HUD, speed dust, flight test scene | Implemented, not run in Godot; math simulated in Python |
+| Weapons, networking | Not implemented (later phases) |
 | Statically checked | Indentation, brackets, `res://` paths, Python simulation of hull triangle winding and sizes |
 
 ## Remaining work
@@ -31,4 +33,5 @@ Phase 00 has not been validated. The user's earlier F5 test showed the Phase 02 
 2. Fix first-run errors (likely in shaders and procedural mesh code) on the feature branches.
 3. Approve phases in order, merge branches into `develop`.
 4. Reconcile Drive docs with repo docs (KI-002).
-5. Phase 03 (Flight System) only after approval.
+5. Run `scenes/flight/flight_test.tscn` (F5): check ship orientation, then flight feel, camera, HUD, dust; report errors.
+6. Phase 04 only after Phase 03 is validated and approved.

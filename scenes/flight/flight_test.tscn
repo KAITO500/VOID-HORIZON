@@ -1,0 +1,35 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/flight/flight_test_scene.gd" id="1_test"]
+[ext_resource type="PackedScene" path="res://scenes/environment/space_environment.tscn" id="2_env"]
+[ext_resource type="PackedScene" path="res://scenes/ships/light_fighter.tscn" id="3_ship"]
+[ext_resource type="Script" path="res://scripts/flight/flight_input.gd" id="4_input"]
+[ext_resource type="Script" path="res://scripts/flight/flight_camera.gd" id="5_cam"]
+[ext_resource type="Script" path="res://scripts/flight/space_dust.gd" id="6_dust"]
+[ext_resource type="Script" path="res://scripts/flight/flight_hud.gd" id="7_hud"]
+
+[node name="FlightTest" type="Node3D"]
+script = ExtResource("1_test")
+
+[node name="SpaceEnvironment" parent="." instance=ExtResource("2_env")]
+
+[node name="LightFighter" parent="." instance=ExtResource("3_ship")]
+
+[node name="FlightInput" type="Node" parent="LightFighter"]
+script = ExtResource("4_input")
+
+[node name="SpaceDust" type="MultiMeshInstance3D" parent="."]
+script = ExtResource("6_dust")
+ship_path = NodePath("../LightFighter")
+
+[node name="FlightCamera" type="Camera3D" parent="."]
+fov = 70.0
+near = 0.3
+far = 500000.0
+script = ExtResource("5_cam")
+ship_path = NodePath("../LightFighter")
+
+[node name="FlightHud" type="CanvasLayer" parent="."]
+script = ExtResource("7_hud")
+ship_path = NodePath("../LightFighter")
+camera_path = NodePath("../FlightCamera")

@@ -13,6 +13,7 @@ Phase 01 (the environment it is shown in) is also untested. Treat the new model 
   15.2 m span, 3.5 m height and 19 m length. The studio stage, camera and lights are not in the game GLB.
 - `scenes/ships/light_fighter.tscn` instances the imported GLB as `VisualRoot/ShipModel`. The procedural
   `ShipHullBuilder` and `light_fighter_model.gd` remain as an unused fallback/reference; engine visuals stay separate.
+- Phase 03 note (D-025): the GLB is authored length-on-Y/height-on-Z; `ShipModel` carries a corrective rotation and `EnginePoints` now has three engines. See `docs/PHASE_03_FLIGHT_SYSTEM.md`.
 - Do NOT touch `EnginePoints`, `WeaponPoints`, `CameraTarget` or the collision shapes for this visual replacement.
 
 ## Coordinate convention (ALL future ships)

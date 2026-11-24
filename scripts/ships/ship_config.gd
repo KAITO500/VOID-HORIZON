@@ -3,7 +3,8 @@ extends Resource
 ## Data describing one ship type. One .tres per ship under res://resources/ships/.
 ##
 ## IMPORTANT: every "_ref" value is a PLACEHOLDER reference, not final gameplay balance.
-## Phase 03 (Flight System) decides what these numbers actually mean and replaces them.
+## Phase 03: real flight parameters live in `flight_config` (FlightConfig); the _ref values below are
+## kept only for reference and are NOT read by the flight system.
 
 enum ShipClass { UNSPECIFIED, LIGHT_FIGHTER }
 
@@ -12,6 +13,8 @@ enum ShipClass { UNSPECIFIED, LIGHT_FIGHTER }
 @export var ship_class: ShipClass = ShipClass.UNSPECIFIED
 ## Optional replacement visual (imported model scene). Empty = use the built-in placeholder model.
 @export var visual_scene: PackedScene
+## Flight parameters (Phase 03). Read by FlightController.
+@export var flight_config: FlightConfig
 
 @export_group("Reference values (PLACEHOLDERS, not balance)")
 @export var is_placeholder_balance: bool = true

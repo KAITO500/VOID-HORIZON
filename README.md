@@ -14,6 +14,7 @@ Arcade flight, third-person camera, stylized sci-fi.
 ## Status
 
 Phase 00 is not validated in Godot. The user opened the earlier Phase 02 build in Godot 4.7.2 and reported that F5 works; the current custom GLB replacement in `VisualRoot/ShipModel` still needs to be checked in Godot.
+Phase 03 (flight) is on `feature/phase03-flight-system`: press F5 to fly (`docs/PHASE_03_FLIGHT_SYSTEM.md`), untested in Godot.
 To see Phase 01: open `scenes/environment/space_environment_test.tscn` and press F6 (details in `docs/PHASE_01_SPACE_ENVIRONMENT.md`).
 To see the ship: open `scenes/ships/ship_inspection.tscn` and press F6 (`docs/PHASE_02_LIGHT_FIGHTER.md`). See `docs/shared_context/05_CURRENT_PROJECT_STATE.md`.
 

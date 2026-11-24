@@ -13,6 +13,11 @@ extends Node3D
 @export_range(0.0, 1.0, 0.01) var thrust: float = 0.35:
 	set = set_thrust
 
+## Boost look: nozzle and flame shift toward this warm color and the flame stretches.
+@export var boost_color: Color = Color(1.0, 0.62, 0.22)
+@export_range(0.0, 3.0, 0.05) var boost_length_gain: float = 0.9
+var boost: float = 0.0
+
 var _nozzle_material: StandardMaterial3D
 var _flame_material: StandardMaterial3D
 var _flame_scalers: Array[Node3D] = []
@@ -25,6 +30,12 @@ func _ready() -> void:
 
 func set_thrust(value: float) -> void:
 	thrust = clampf(value, 0.0, 1.0)
+	_apply_thrust()
+
+
+## 0..1 from the flight system. Presentation only.
+func set_boost(value: float) -> void:
+	boost = clampf(value, 0.0, 1.0)
 	_apply_thrust()
 
 
@@ -92,8 +103,11 @@ func _build_engine(local_position: Vector3) -> void:
 func _apply_thrust() -> void:
 	if _nozzle_material == null:
 		return
-	_nozzle_material.emission_energy_multiplier = lerpf(2.0, 6.0, thrust)
-	_flame_material.albedo_color.a = lerpf(0.25, 0.8, thrust)
-	var length_scale: float = lerpf(0.3, 1.0, thrust)
+	var color: Color = engine_color.lerp(boost_color, boost)
+	_nozzle_material.emission = color
+	_nozzle_material.emission_energy_multiplier = lerpf(2.0, 6.0, thrust) + 4.0 * boost
+	_flame_material.albedo_color = Color(color.r, color.g, color.b, lerpf(0.25, 0.8, thrust))
+	var length_scale: float = lerpf(0.3, 1.0, thrust) * (1.0 + boost_length_gain * boost)
+	var width_scale: float = 1.0 + 0.25 * boost
 	for scaler in _flame_scalers:
-		scaler.scale = Vector3(1.0, length_scale, 1.0)
+		scaler.scale = Vector3(width_scale, length_scale, width_scale)
