@@ -1,13 +1,17 @@
 # 05 CURRENT PROJECT STATE
 
-Last updated: 2026-11-24
+Last updated: 2026-11-25
 
-**Phase:** 03 - Flight System, merged into `main` via PR #5. The author never ran it in Godot (see `docs/PHASE_03_FLIGHT_SYSTEM.md`). On 2026-11-24 the user reported "todo funciona bien" without saying which scene or checks were run, so item-by-item validation is still open. Previous: 02 - Light Fighter: the GLB root orientation was corrected on main by PR #4 (GLB re-export) and verified with Godot 4.7.2 headless import, ship checks and main-scene startup by another agent; interactive visual review of appearance and collision fit is still pending.
+**Current phase: 05 — Planetary Approach. Status: IMPLEMENTED, not VERIFIED.** The user assigned Phase 05 on 2026-11-25. Planet resources/bodies, radius-relative approach states, high-speed swept transitions, atmosphere visuals/sky blend, navigation registration and a compact HUD readout are implemented on the current local workspace branch. The Phase 01–05 headless checks and the dedicated approach scene startup check pass. Interactive visual flight and hardware/GPU performance review remain open.
+**Phase 03:** Flight prototype is implemented; its math and HUD checks pass headless. Manual handling, camera feel and visual review remain unverified. No Phase 03 physics or flight controls were changed by Phase 04.
+**Project copy:** `D:\Angel\VOID-HORIZON-main` has no `.git` metadata and has not received the Phase 04/05 workspace changes. This environment granted read access only to that path, so the implementation currently lives in the Codex workspace copy.
+Previous: 02 - Light Fighter: the GLB root orientation was corrected on main via PR #4 and headless ship checks pass; interactive appearance and collision-fit review remains pending.
 **User test 2026-11-23 21:23:** the user opened the earlier Phase 02 build in Godot 4.7.2, pressed F5 and reported "funciona perfecto". That report predates the GLB model and is not a visual review of the current asset.
 Phase 00 has not been validated. The user's earlier F5 test showed the Phase 02 inspection scene with its Phase 01 environment; it was a general smoke test, not a formal phase checklist. Each new phase was started on the user's phase prompt (D-018, D-023).
 **Godot version:** 4.7.2 (confirmed by the user). Hardware target (Q-002) unknown.
 
-**HUD update 2026-11-24:** the Phase 03 flight HUD has been restyled to the supplied ABYSSAL RETROFUTURISM brief and integrated with the live `FlightController`. Speed, heading, attitude, throttle, boost and assist are live; target and alert feeds explicitly show unavailable/no data. See `docs/PHASE_03_WRAITH_FLIGHT_HUD.md`. Headless HUD, Phase 03 and Phase 02 checks pass; interactive visual review remains open.
+**HUD update 2026-11-24:** the Phase 03 flight HUD uses live flight telemetry and Phase 04 target/waypoint services. Combat alert data is still unavailable. See `docs/PHASE_03_WRAITH_FLIGHT_HUD.md` and `docs/PHASE_04_SPACE_NAVIGATION.md`.
+**Planetary update 2026-11-25:** the F5 scene now includes the Khepri test planet; `scenes/planetary/planetary_approach_test.tscn` is a dedicated entry point. See `docs/PHASE_05_PLANETARY_APPROACH.md`. Phase 04 remains implemented but not visually verified.
 
 ## Branches (GitHub KAITO500/VOID-HORIZON)
 | Branch | State |
@@ -17,27 +21,30 @@ Phase 00 has not been validated. The user's earlier F5 test showed the Phase 02 
 | feature/phase01-space-environment | Phase 01, pushed (16660f5), already merged into main |
 | feature/phase03-flight-system | Phase 03; merged into main via PR #5 (main HEAD e1586b1 at the time of the 2026-11-24 review). |
 | fix/review-phase03-findings | Review fixes: phase03 test, Blender import setting, HUD reticle interpolation, docs 05/06/07. |
-| feature/phase03-wraith-flight-hud | Panoramic HUD visual pass and preview harness; headless checks pass, interactive review pending. |
+| feature/phase03-wraith-flight-hud | Earlier panoramic HUD work; its implementation and preview files were removed at the user's request. A simple temporary HUD is active. |
+| feature/phase04-space-navigation | Phase 04 implementation and tests are included in the Phase 05 branch. |
+| feature/phase05-planetary-approach | Published to GitHub with Phase 04 integration and Phase 05 implementation; not copied to D:. |
 | feature/phase02-light-fighter, fix/phase02-light-fighter-orientation | Phase 02, merged into main (PR #3, PR #4). |
 
 ## Status per item
 | Item | State |
 |------|-------|
-| Phase 00 scaffold | Implemented, not tested in Godot |
-| Phase 01 environment (stars, nebulae, gas giant, lighting, test scene) | Implemented, never compiled or run |
-| Light Fighter scene, imported custom GLB, procedural fallback, collision boxes, markers, config, state classes | Earlier build reported working; new GLB wiring not yet run in Godot |
-| Ship inspection scene and headless checks | Inspection scene was run by the user before GLB replacement; headless checks remain unrun |
-| Blender/glTF ship model | Custom GLB and editable source integrated; new import appearance/orientation and collision fit unvalidated |
-| Flight controller, input, boost, chase camera, HUD, speed dust, flight test scene | Implemented, not run in Godot; math simulated in Python |
-| WRAITH panoramic HUD visual pass | Implemented in main flight scene; headless data and scaling checks pass; interactive review pending |
+| Phase 00 scaffold | Implemented; no separate formal checklist run |
+| Phase 01 environment math | Implemented; `phase01_math_check.gd` passes |
+| Environment rendering | Implemented; visual and GPU performance review pending |
+| VH-01 ship rig and imported GLB | Implemented; `phase02_ship_check.gd` passes; visual collision-fit review pending |
+| Flight controller, boost, brakes and assist | Implemented; `phase03_flight_check.gd` passes; human flight tuning pending |
+| Third-person camera and controls | Implemented; loaded headless; interactive response/feel review pending |
+| WRAITH flight HUD | Simple temporary 2D readout active; final interface design deferred by the user |
+| Phase 04 space navigation | Implemented locally; navigation check passes; visual/performance review pending |
+| Phase 05 planetary approach | Implemented locally; 30 approach assertions and scene check pass; rendered and hardware performance review pending |
 | Weapons, networking | Not implemented (later phases) |
-| Statically checked | Indentation, brackets, `res://` paths, Python simulation of hull triangle winding and sizes |
+| Interstellar precision strategy | Named coordinate frames implemented; floating origin/double precision deferred |
 
 ## Remaining work
-1. Open the updated `scenes/ships/ship_inspection.tscn` in Godot 4.7.2 and check the imported GLB orientation, materials, silhouette and collision fit; the earlier F5 report predates this model replacement.
-2. Fix first-run errors (likely in shaders and procedural mesh code) on the feature branches.
-3. Approve phases in order, merge branches into `develop`.
-4. Reconcile Drive docs with repo docs (KI-002).
-5. Run `scenes/flight/flight_test.tscn` (F5): check ship orientation, then flight feel, camera, HUD, dust; report errors.
-6. Phase 04 only after Phase 03 is validated and approved.
+1. Open `scenes/flight/flight_test.tscn` (F5) or `scenes/planetary/planetary_approach_test.tscn` and review the Khepri limb, sky tint, state/altitude HUD, controlled ingress and egress.
+2. Profile the space environment, navigation overlay and planetary shell on the intended PC/GPU; no hardware performance measurements exist.
+3. Finish visual review of the imported GLB and collision fit in `scenes/ships/ship_inspection.tscn`.
+4. Reconcile the repo context with the Drive originals (KI-002).
+5. Mark Phase 05 VERIFIED only after rendered interaction and performance checks; retain the Phase 04 visual review as an open validation item.
 

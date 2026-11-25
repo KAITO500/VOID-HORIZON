@@ -1,20 +1,24 @@
 # 04 DEVELOPMENT ROADMAP
 
+**Actualizada:** 2026-11-25, a partir del encargo Phase 05 más reciente del usuario.
+
+**Fase actual:** 05 — Planetary Approach.
+
 | Phase | Name | Scope | Status |
 |-------|------|-------|--------|
-| 00 | Project Foundation | Architecture, documentation, repository, configuration, workflow, task tracking | Implemented, awaiting validation |
-| 01 | Space Environment | Space rendering, stars, nebulae, lighting, scale, background | Merged into main (PR #1). User ran an F5 smoke test only; no formal validation |
-| 02 | First Spacecraft | Initial fighter, spacecraft scene, camera, basic structure | Merged into main (PR #3, #4). Headless orientation and ship checks reported passing by another agent; visual review pending |
-| 03 | Flight System | Arcade controls, acceleration, rotation, boost, overdrive, speed effects | Merged into main (PR #5); WRAITH HUD visual pass in `feature/phase03-wraith-flight-hud`, headless checked; interactive review pending. Overdrive not implemented |
-| 04 | Star Systems | Stars, planets, orbital organization, navigation, travel | Not started |
-| 05 | Planetary Systems | Planet classes, rendering, scale, procedural/modular generation | Not started |
-| 06 | Atmospheres and Landing | Atmospheric transitions, terrain streaming, landing, surface exploration | Not started |
-| 07 | Space Combat | Weapons, shields, targeting, combat mechanics | Not started |
-| 08 | Cooperative Multiplayer | Sessions, synchronization, shared worlds, co-op gameplay | Not started |
-| 09 | Artificial Intelligence | Enemy/allied ships, patrols, encounters | Not started |
-| 10 | Exploration and Progression | Missions, stations, discoveries, upgrades, economy | Not started |
-| 11 | Polish and Optimization | Performance, audio, UI, VFX, accessibility, release | Not started |
+| 00 | Project Foundation | Architecture, documentation, repository, configuration, workflow, task tracking | Implemented; validation history remains incomplete |
+| 01 | Space Environment | Space rendering, stars, nebulae, lighting, scale, background | Implemented; math check passes, visual/performance review pending |
+| 02 | First Spacecraft | Initial fighter, spacecraft scene, camera, basic structure | Implemented; headless ship check passes, visual/collision review pending |
+| 03 | Flight System | Complete WRAITH flight: acceleration, rotation, boost and camera | Prototype implemented; headless checks pass. Manual feel validation remains open |
+| 04 | Space Navigation | Space navigation, HUD, speed, orientation, targets, points of interest and coordinate system | IMPLEMENTED — rendered/performance review pending |
+| 05 | Planetary Approach | Acercamiento a planetas, escala orbital, atmósferas, efectos de entrada y transición espacial | IMPLEMENTED — headless validated; rendered/performance review pending |
+| 06 | Planetary Generation | Generación procedural de planetas, terrenos, biomas, montañas, océanos y recursos | Not started |
+| 07 | Planetary Exploration | Descenso, vuelo atmosférico, aterrizaje, exploración de superficies y puntos de interés | Not started |
+| 08 | Interstellar Travel | Sistemas estelares, navegación interestelar, saltos espaciales y generación de sistemas | Not started |
+| 09 | Spacecraft Systems | Energía, escudos, integridad, motores, módulos y personalización de naves | Not started |
+| 10 | Multiplayer Foundation | Arquitectura de red, sincronización de naves, sesiones cooperativas y servidores | Not started |
+| 11 | Combat & AI | Enemigos, IA, armamento, combate espacial y encuentros dinámicos | Not started |
+| 12 | World & Progression | Exploración, descubrimientos, economía, recursos, estaciones, misiones y progresión | Not started |
+| 13 | Alpha Integration | Optimización, interfaz, sonido, pruebas multijugador, estabilidad y pulido general | Not started |
 
-Rule: a phase starts only after the user approves the previous one.
-
-
+This roadmap supersedes the previous phase names and ordering from Phase 03 onward. Complete and validate each phase in sequence before starting the next.

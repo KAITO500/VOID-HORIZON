@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/navigation/space_coordinate_system.gd" id="1_coordinates"]
+[ext_resource type="Script" path="res://scripts/navigation/navigation_telemetry.gd" id="2_telemetry"]
+[ext_resource type="Script" path="res://scripts/navigation/navigation_target_registry.gd" id="3_registry"]
+[ext_resource type="Script" path="res://scripts/navigation/navigation_target_manager.gd" id="4_targets"]
+[ext_resource type="Script" path="res://scripts/navigation/navigation_waypoint_manager.gd" id="5_waypoints"]
+[ext_resource type="Script" path="res://scripts/navigation/navigation_input.gd" id="6_input"]
+
+[node name="SpaceNavigation" type="Node"]
+
+[node name="Coordinates" type="Node" parent="."]
+script = ExtResource("1_coordinates")
+
+[node name="Registry" type="Node" parent="."]
+script = ExtResource("3_registry")
+
+[node name="Telemetry" type="Node" parent="."]
+script = ExtResource("2_telemetry")
+ship_path = NodePath("../../LightFighter")
+coordinate_system_path = NodePath("../Coordinates")
+
+[node name="TargetManager" type="Node" parent="."]
+script = ExtResource("4_targets")
+registry_path = NodePath("../Registry")
+
+[node name="WaypointManager" type="Node" parent="."]
+script = ExtResource("5_waypoints")
+registry_path = NodePath("../Registry")
+coordinate_system_path = NodePath("../Coordinates")
+
+[node name="NavigationInput" type="Node" parent="."]
+script = ExtResource("6_input")
+target_manager_path = NodePath("../TargetManager")
+waypoint_manager_path = NodePath("../WaypointManager")

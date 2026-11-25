@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://scripts/flight/flight_test_scene.gd" id="1_test"]
 [ext_resource type="PackedScene" path="res://scenes/environment/space_environment.tscn" id="2_env"]
@@ -7,6 +7,12 @@
 [ext_resource type="Script" path="res://scripts/flight/flight_camera.gd" id="5_cam"]
 [ext_resource type="Script" path="res://scripts/flight/space_dust.gd" id="6_dust"]
 [ext_resource type="Script" path="res://scripts/flight/flight_hud.gd" id="7_hud"]
+[ext_resource type="PackedScene" path="res://scenes/navigation/space_navigation.tscn" id="8_navigation"]
+[ext_resource type="Script" path="res://scripts/navigation/navigation_hud_overlay.gd" id="9_navigation_hud"]
+[ext_resource type="Script" path="res://scripts/navigation/navigation_poi_beacon.gd" id="10_navigation_beacon"]
+[ext_resource type="Script" path="res://scripts/planetary/planetary_body.gd" id="11_planet_body"]
+[ext_resource type="Resource" path="res://resources/planets/wraith_test_world.tres" id="12_planet_profile"]
+[ext_resource type="Script" path="res://scripts/planetary/planetary_approach_controller.gd" id="13_planetary_approach"]
 
 [node name="FlightTest" type="Node3D"]
 script = ExtResource("1_test")
@@ -33,3 +39,61 @@ ship_path = NodePath("../LightFighter")
 script = ExtResource("7_hud")
 ship_path = NodePath("../LightFighter")
 camera_path = NodePath("../FlightCamera")
+telemetry_path = NodePath("../SpaceNavigation/Telemetry")
+target_manager_path = NodePath("../SpaceNavigation/TargetManager")
+waypoint_manager_path = NodePath("../SpaceNavigation/WaypointManager")
+coordinate_system_path = NodePath("../SpaceNavigation/Coordinates")
+planetary_approach_path = NodePath("../PlanetaryApproachController")
+
+[node name="SpaceNavigation" parent="." instance=ExtResource("8_navigation")]
+
+[node name="PlanetaryApproachController" type="Node" parent="."]
+script = ExtResource("13_planetary_approach")
+telemetry_path = NodePath("../SpaceNavigation/Telemetry")
+target_manager_path = NodePath("../SpaceNavigation/TargetManager")
+space_environment_path = NodePath("../SpaceEnvironment")
+
+[node name="KhepriTestWorld" type="Node3D" parent="."]
+position = Vector3(0, 0, -230000)
+script = ExtResource("11_planet_body")
+profile = ExtResource("12_planet_profile")
+navigation_registry_path = NodePath("../SpaceNavigation/Registry")
+
+[node name="NavigationBeacon_RelayK07" type="Node3D" parent="."]
+position = Vector3(0, 40, -1600)
+script = ExtResource("10_navigation_beacon")
+target_id = &"relay_k07"
+display_name = "RELAY K-07"
+category = 1
+
+[node name="NavigationBeacon_OrbitalSurvey" type="Node3D" parent="."]
+position = Vector3(-650, 180, -2500)
+script = ExtResource("10_navigation_beacon")
+target_id = &"survey_n12"
+display_name = "SURVEY N-12"
+category = 2
+
+[node name="NavigationBeacon_DriftCache" type="Node3D" parent="."]
+position = Vector3(950, -220, -3300)
+script = ExtResource("10_navigation_beacon")
+target_id = &"drift_cache_03"
+display_name = "DRIFT CACHE 03"
+category = 3
+
+[node name="NavigationHud" type="CanvasLayer" parent="."]
+layer = 11
+
+[node name="Overlay" type="Control" parent="NavigationHud"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_navigation_hud")
+camera_path = NodePath("../../FlightCamera")
+telemetry_path = NodePath("../../SpaceNavigation/Telemetry")
+registry_path = NodePath("../../SpaceNavigation/Registry")
+target_manager_path = NodePath("../../SpaceNavigation/TargetManager")
+waypoint_manager_path = NodePath("../../SpaceNavigation/WaypointManager")
+coordinate_system_path = NodePath("../../SpaceNavigation/Coordinates")
