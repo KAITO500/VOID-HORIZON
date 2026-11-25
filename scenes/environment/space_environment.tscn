@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/environment/space_environment.gd" id="1_env"]
 [ext_resource type="Script" path="res://scripts/environment/star_lighting_controller.gd" id="2_light"]
 [ext_resource type="Script" path="res://scripts/environment/star_field.gd" id="3_stars"]
 [ext_resource type="Script" path="res://scripts/environment/nebula_layer.gd" id="4_nebula"]
 [ext_resource type="Script" path="res://scripts/environment/celestial_backdrop.gd" id="5_backdrop"]
-[ext_resource type="Script" path="res://scripts/environment/celestial_body.gd" id="6_body"]
 
 [node name="SpaceEnvironment" type="Node3D"]
 script = ExtResource("1_env")
@@ -35,6 +34,3 @@ render_priority = -19
 
 [node name="CelestialBackdrop" type="Node3D" parent="."]
 script = ExtResource("5_backdrop")
-
-[node name="GasGiant" type="Node3D" parent="CelestialBackdrop"]
-script = ExtResource("6_body")

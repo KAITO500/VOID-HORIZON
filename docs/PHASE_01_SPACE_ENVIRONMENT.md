@@ -14,7 +14,7 @@ SpaceEnvironment            (Node3D)  space_environment.gd   owns WorldEnvironme
 |- NebulaFar                (Node3D)  nebula_layer.gd        sphere child "Nebula" built at runtime
 |- NebulaNear               (Node3D)  nebula_layer.gd
 `- CelestialBackdrop        (Node3D)  celestial_backdrop.gd
-   `- GasGiant              (Node3D)  celestial_body.gd      "Pivot" > "Body" (+ "Rings") built at runtime
+   `- GasGiant              (Node3D)  celestial_body.gd      old apparent-size placeholder (removed from shared scene in Phase 05)
 ```
 `res://scenes/environment/space_environment_test.tscn` instances the above plus a `DebugFreeCamera`
 and builds a HUD label in code.
@@ -45,7 +45,7 @@ Class relationships: `StarField`, `NebulaLayer`, `CelestialBackdrop` extend `Sky
 - **StarLight**: `star_yaw_deg` 55, `star_pitch_deg` 18 (where the star is in the sky), `star_color` warm, `star_energy` 1.8, sun disc/halo sizes.
 - **StarField**: `star_count` 4000, `seed_value` 1337, `radius` 300000, size 0.07 to 0.30 deg, `brightness_skew` 3, band settings, color ratios.
 - **NebulaLayer** (x2): `radius` 350000 / 340000, `seed_offset`, `noise_scale`, `density_threshold` (higher = sparser), `intensity` 0.35 / 0.22, colors, `band_tilt_deg` (match StarField).
-- **GasGiant (CelestialBody)**: see section 5 below; rings, band colors, atmosphere.
+- **GasGiant (CelestialBody)**: see section 5 below; its original camera-following instance was replaced in the flight testbed by the reachable profile-driven Nexus gas giant in Phase 05. The celestial-body visual script remains available for other distant backdrops.
 - After changing StarField/NebulaLayer exports at runtime call `rebuild()` / `apply_settings()`. In the editor, change values then run the scene (scripts are not `@tool`).
 
 ## F. Rendering configuration

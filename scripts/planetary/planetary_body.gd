@@ -3,6 +3,8 @@ extends Node3D
 ## A physical-scale, non-procedural planetary destination with a low-cost atmosphere shell.
 
 const ATMOSPHERE_SHADER: Shader = preload("res://scripts/planetary/planetary_atmosphere.gdshader")
+const GAS_GIANT_SHADER: Shader = preload("res://assets/materials/space/gas_giant.gdshader")
+const RING_SHADER: Shader = preload("res://assets/materials/space/planet_ring.gdshader")
 
 @export var profile: PlanetProfile
 @export var navigation_registry_path: NodePath
@@ -48,11 +50,10 @@ func _build_visuals() -> void:
 	_surface.name = "PlanetSurface"
 	_surface.mesh = sphere
 	_surface.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	var surface_material := StandardMaterial3D.new()
-	surface_material.albedo_color = profile.surface_color
-	surface_material.roughness = profile.surface_roughness
-	_surface.material_override = surface_material
+	_surface.material_override = _make_surface_material()
 	add_child(_surface)
+	if profile.rings_enabled:
+		add_child(_make_rings())
 
 	var atmosphere_mesh := SphereMesh.new()
 	atmosphere_mesh.radius = profile.get_atmosphere_radius_m()
@@ -71,6 +72,41 @@ func _build_visuals() -> void:
 	_atmosphere_material.set_shader_parameter("approach_blend", 0.0)
 	_atmosphere.material_override = _atmosphere_material
 	add_child(_atmosphere)
+
+
+func _make_surface_material() -> Material:
+	if profile.surface_style == PlanetProfile.SurfaceStyle.GAS_GIANT:
+		var gas_material := ShaderMaterial.new()
+		gas_material.shader = GAS_GIANT_SHADER
+		gas_material.set_shader_parameter("color_a", profile.band_color_a)
+		gas_material.set_shader_parameter("color_b", profile.band_color_b)
+		gas_material.set_shader_parameter("color_c", profile.band_color_c)
+		gas_material.set_shader_parameter("band_frequency", profile.band_frequency)
+		gas_material.set_shader_parameter("turbulence", profile.band_turbulence)
+		gas_material.set_shader_parameter("atmosphere_color", profile.atmosphere_color)
+		gas_material.set_shader_parameter("atmosphere_strength", profile.atmosphere_density)
+		return gas_material
+	var surface_material := StandardMaterial3D.new()
+	surface_material.albedo_color = profile.surface_color
+	surface_material.roughness = profile.surface_roughness
+	return surface_material
+
+
+func _make_rings() -> MeshInstance3D:
+	var ring_mesh := PlaneMesh.new()
+	ring_mesh.size = Vector2.ONE * profile.radius_m * profile.ring_outer_ratio * 2.0
+	var ring_material := ShaderMaterial.new()
+	ring_material.shader = RING_SHADER
+	ring_material.set_shader_parameter("ring_color", profile.ring_color)
+	ring_material.set_shader_parameter("inner", profile.ring_inner_ratio / profile.ring_outer_ratio)
+	ring_material.set_shader_parameter("opacity", profile.ring_opacity)
+	var ring_instance := MeshInstance3D.new()
+	ring_instance.name = "PlanetaryRings"
+	ring_instance.mesh = ring_mesh
+	ring_instance.material_override = ring_material
+	ring_instance.rotation_degrees.z = profile.ring_tilt_degrees
+	ring_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	return ring_instance
 
 
 func _register_navigation() -> void:

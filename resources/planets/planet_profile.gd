@@ -2,6 +2,8 @@ class_name PlanetProfile
 extends Resource
 ## Tunable data for a non-procedural planetary destination.
 
+enum SurfaceStyle { ROCKY, GAS_GIANT }
+
 @export var planet_id: StringName = &""
 @export var display_name: String = "UNNAMED WORLD"
 @export var available: bool = true
@@ -16,8 +18,22 @@ extends Resource
 @export_range(0.51, 0.95, 0.01) var active_start_progress: float = 0.78
 
 @export_group("Surface")
+@export_enum("Rocky", "Gas Giant") var surface_style: int = SurfaceStyle.ROCKY
 @export var surface_color: Color = Color("77746d")
 @export var surface_roughness: float = 0.92
+@export var band_color_a: Color = Color("101d46")
+@export var band_color_b: Color = Color("4d2a72")
+@export var band_color_c: Color = Color("4da6d9")
+@export_range(1.0, 30.0, 0.5) var band_frequency: float = 9.0
+@export_range(0.0, 1.0, 0.01) var band_turbulence: float = 0.35
+
+@export_group("Rings")
+@export var rings_enabled: bool = false
+@export_range(1.05, 4.0, 0.05) var ring_inner_ratio: float = 1.35
+@export_range(1.1, 5.0, 0.05) var ring_outer_ratio: float = 2.3
+@export_range(-80.0, 80.0, 0.5) var ring_tilt_degrees: float = 28.0
+@export var ring_color: Color = Color("9aadb6")
+@export_range(0.0, 1.0, 0.01) var ring_opacity: float = 0.55
 
 @export_group("Atmosphere")
 @export var atmosphere_color: Color = Color("c58a5c")

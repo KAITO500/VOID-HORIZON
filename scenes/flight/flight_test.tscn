@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://scripts/flight/flight_test_scene.gd" id="1_test"]
 [ext_resource type="PackedScene" path="res://scenes/environment/space_environment.tscn" id="2_env"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/planetary/planetary_body.gd" id="11_planet_body"]
 [ext_resource type="Resource" path="res://resources/planets/wraith_test_world.tres" id="12_planet_profile"]
 [ext_resource type="Script" path="res://scripts/planetary/planetary_approach_controller.gd" id="13_planetary_approach"]
+[ext_resource type="Resource" path="res://resources/planets/ringed_gas_giant.tres" id="14_ringed_planet_profile"]
 
 [node name="FlightTest" type="Node3D"]
 script = ExtResource("1_test")
@@ -66,6 +67,12 @@ space_environment_path = NodePath("../SpaceEnvironment")
 position = Vector3(0, 0, -85000)
 script = ExtResource("11_planet_body")
 profile = ExtResource("12_planet_profile")
+navigation_registry_path = NodePath("../SpaceNavigation/Registry")
+
+[node name="RingedGiantDestination" type="Node3D" parent="."]
+position = Vector3(-109400, 23000, -189200)
+script = ExtResource("11_planet_body")
+profile = ExtResource("14_ringed_planet_profile")
 navigation_registry_path = NodePath("../SpaceNavigation/Registry")
 
 [node name="NavigationBeacon_RelayK07" type="Node3D" parent="."]

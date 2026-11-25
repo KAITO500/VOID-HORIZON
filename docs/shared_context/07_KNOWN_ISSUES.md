@@ -37,4 +37,5 @@
 | KI-033 | The observed 0.013–0.016 ms/sample Phase 05 range measures only headless controller sampling in this sandbox; it is not a GPU or target-PC performance result. | Medium | Open — profile target hardware |
 | KI-034 | Planet approach still uses single-precision world `Vector3` coordinates. This test scale succeeds, but close-surface fidelity combined with system/interstellar distances needs a rebasing or other precision strategy before those scopes. | Medium | Open — architecture decision for later scale |
 | KI-035 | Shift now provides sustained high-speed overdrive and the Khepri fixture is reachable at 85 km, but there is no discrete hyperspace jump or interstellar travel mechanic yet; those remain Phase 08. | Medium | Deferred by roadmap |
+| KI-036 | Khepri enlargement and the new physical ringed-planet destination use single-precision scene coordinates and have not had visual/GPU validation; long-term planetary scales still need a precision strategy. | Medium | Validation open |
 

@@ -69,11 +69,11 @@ Full reference: `docs/PHASE_02_LIGHT_FIGHTER.md`.
 - Folder adaptation: `scripts/ships/` added (D-020).
 
 ## 13d. Phase 05 planetary approach (Implemented; visual review pending)
-- `PlanetProfile` resources define planet ID, display name, availability, radius, atmosphere height, radius-relative approach/orbital boundaries, hysteresis and visual colors/density.
-- `PlanetaryBody` is a physical-scale scene node with a basic lit sphere and one transparent atmosphere shell. It registers as a live `NavigationTarget.Category.PLANET` in the Phase 04 scene-local registry.
+- `PlanetProfile` resources define planet ID, display name, availability, radius, atmosphere height, radius-relative approach/orbital boundaries, hysteresis, surface style, optional gas-giant bands/rings and visual colors/density.
+- `PlanetaryBody` is a physical-scale scene node with a rocky or banded gas-giant surface, optional physical rings and one transparent atmosphere shell. It registers as a live `NavigationTarget.Category.PLANET` in the Phase 04 scene-local registry.
 - `PlanetaryApproachController` reads `NavigationTelemetry`, follows a selected planet target or nearest available planet, and emits radius-derived approach states and a `PlanetaryApproachSnapshot`. It uses swept segment/sphere crossings so a fast traversal can report intermediate states even when both sampled endpoints are in space.
 - The controller never modifies the ship or camera. `SpaceEnvironment.set_atmosphere_transition()` blends/restores its existing sky gradient and ambient color. The existing HUD receives state, progress and theoretical altitude.
-- Test fixture: Khepri at `(0, 0, -85000)`, 24 km radius, 6.2 km atmosphere. Shift uses sustained overdrive (20x speed limit, 5x acceleration multiplier; 4,400 m/s nominal maximum), and `SpeedStreakEffect` fades radial screen-space streaks in between 900 and 4,200 m/s. This makes the test approach reachable without implementing hyperspace jumps. Single-precision coordinates remain in use; no floating origin/LWC was enabled. Revisit before full planetary surfaces and interstellar scale.
+- Test fixtures: Khepri at `(0, 0, -85000)`, 35 km radius and 6.2 km atmosphere; Nexus, a banded ringed gas giant, about 220 km from the start and offset left. The old camera-following ringed backdrop is removed from the flight scene and replaced by this reachable destination. Shift uses sustained overdrive (20x speed limit, 5x acceleration multiplier; 4,400 m/s nominal maximum), and `SpeedStreakEffect` fades radial screen-space streaks in between 900 and 4,200 m/s. This makes both test approaches reachable without implementing hyperspace jumps. Single-precision coordinates remain in use; no floating origin/LWC was enabled. Revisit before full planetary surfaces and interstellar scale.
 - Full detail and validation limits: `docs/PHASE_05_PLANETARY_APPROACH.md`.
 
 ## 14. Unresolved questions

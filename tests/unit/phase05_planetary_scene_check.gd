@@ -16,10 +16,13 @@ func _run() -> void:
 	var flight := test_root.get_node_or_null("FlightTest")
 	var ship := test_root.get_node_or_null("FlightTest/LightFighter") as Spaceship
 	var planet := test_root.get_node_or_null("FlightTest/KhepriTestWorld") as PlanetaryBody
+	var ringed_planet := test_root.get_node_or_null("FlightTest/RingedGiantDestination") as PlanetaryBody
 	var approach := test_root.get_node_or_null("FlightTest/PlanetaryApproachController") as PlanetaryApproachController
-	var valid: bool = flight != null and ship != null and planet != null and approach != null
+	var valid: bool = flight != null and ship != null and planet != null and ringed_planet != null and approach != null
 	if valid:
 		valid = approach.snapshot != null and approach.snapshot.planet_id == planet.profile.planet_id
+		valid = valid and ringed_planet.profile.rings_enabled and ringed_planet.profile.surface_style == PlanetProfile.SurfaceStyle.GAS_GIANT
+		valid = valid and ringed_planet.get_node_or_null("PlanetaryRings") is MeshInstance3D
 		valid = valid and test_root.get_node_or_null("FlightTest/FlightCamera") is Camera3D
 		valid = valid and test_root.get_node_or_null("FlightTest/FlightHud") is FlightHud
 	print("PHASE05_PLANETARY_SCENE_CHECK: %s" % ("PASS" if valid else "FAIL"))

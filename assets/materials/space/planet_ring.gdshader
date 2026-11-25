@@ -1,7 +1,7 @@
 shader_type spatial;
 // Flat ring for the gas giant placeholder. Mesh is a PlaneMesh in the planet's equatorial plane.
 // UV 0..1 across the plane; the ring is an annulus between `inner` and 1.0 (normalized).
-render_mode blend_mix, depth_draw_never, cull_disabled, specular_disabled;
+render_mode blend_mix, cull_disabled, specular_disabled;
 
 uniform vec4 ring_color : source_color = vec4(0.55, 0.65, 0.85, 1.0);
 uniform float inner = 0.55;

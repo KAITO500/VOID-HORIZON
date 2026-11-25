@@ -6,7 +6,7 @@
 script = ExtResource("1_profile")
 planet_id = &"test_world_01"
 display_name = "KHEPRI / TEST WORLD"
-radius_m = 24000.0
+radius_m = 35000.0
 atmosphere_height_m = 6200.0
 approach_radius_ratio = 8.0
 orbital_radius_ratio = 2.5

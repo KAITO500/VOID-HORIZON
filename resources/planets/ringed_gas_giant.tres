@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="PlanetProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/planets/planet_profile.gd" id="1_profile"]
+
+[resource]
+script = ExtResource("1_profile")
+planet_id = &"ringed_gas_giant"
+display_name = "NEXUS / RINGED GIANT"
+available = true
+radius_m = 55000.0
+atmosphere_height_m = 12000.0
+approach_radius_ratio = 8.0
+orbital_radius_ratio = 2.5
+boundary_hysteresis_m = 1200.0
+surface_style = 1
+band_color_a = Color(0.06, 0.12, 0.34, 1)
+band_color_b = Color(0.3, 0.16, 0.52, 1)
+band_color_c = Color(0.3, 0.65, 0.85, 1)
+band_frequency = 9.0
+band_turbulence = 0.35
+rings_enabled = true
+ring_inner_ratio = 1.35
+ring_outer_ratio = 2.3
+ring_tilt_degrees = 35.0
+ring_color = Color(0.55, 0.65, 0.85, 1)
+ring_opacity = 0.55
+atmosphere_color = Color(0.25, 0.6, 1, 1)
+atmosphere_density = 0.3
+atmosphere_rim_power = 2.8
+sky_blend_strength = 0.1
