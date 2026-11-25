@@ -28,6 +28,8 @@ var lighting: StarLightingController
 var _world_environment: WorldEnvironment
 var _environment: Environment
 var _sky_material: ShaderMaterial
+var _current_atmosphere_color: Color = Color.WHITE
+var _current_atmosphere_blend: float = 0.0
 
 
 func _ready() -> void:
@@ -56,6 +58,22 @@ func set_glow_enabled(value: bool) -> void:
 		_environment.glow_enabled = value
 
 
+## Adds a restrained, reversible planetary tint to the existing space sky and ambient light.
+## The body atmosphere shader remains responsible for the visible planetary limb.
+func set_atmosphere_transition(atmosphere_color: Color, blend: float) -> void:
+	_current_atmosphere_color = atmosphere_color
+	_current_atmosphere_blend = clampf(blend, 0.0, 0.35)
+	if _sky_material == null:
+		return
+	var amount: float = _current_atmosphere_blend
+	_sky_material.set_shader_parameter("zenith_color", zenith_color.lerp(atmosphere_color, amount * 0.35))
+	_sky_material.set_shader_parameter("horizon_color", horizon_color.lerp(atmosphere_color, amount * 0.55))
+	if _environment != null:
+		_environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR if amount > 0.001 else Environment.AMBIENT_SOURCE_SKY
+		_environment.ambient_light_color = Color.WHITE.lerp(atmosphere_color, amount * 0.65)
+		_environment.ambient_light_energy = ambient_energy * (1.0 + amount * 0.08)
+
+
 func _collect_layers() -> void:
 	_world_environment = get_node_or_null("WorldEnvironment") as WorldEnvironment
 	for child in get_children():
@@ -74,6 +92,8 @@ func _build_environment() -> void:
 	_sky_material.shader = SKY_SHADER
 	_sky_material.set_shader_parameter("zenith_color", zenith_color)
 	_sky_material.set_shader_parameter("horizon_color", horizon_color)
+	if _current_atmosphere_blend > 0.0:
+		set_atmosphere_transition(_current_atmosphere_color, _current_atmosphere_blend)
 
 	var sky := Sky.new()
 	sky.sky_material = _sky_material

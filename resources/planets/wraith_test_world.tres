@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PlanetProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/planets/planet_profile.gd" id="1_profile"]
+
+[resource]
+script = ExtResource("1_profile")
+planet_id = &"test_world_01"
+display_name = "KHEPRI / TEST WORLD"
+radius_m = 24000.0
+atmosphere_height_m = 6200.0
+approach_radius_ratio = 8.0
+orbital_radius_ratio = 2.5
+boundary_hysteresis_m = 350.0
+surface_color = Color(0.34902, 0.337255, 0.313726, 1)
+atmosphere_color = Color(0.772549, 0.541176, 0.360784, 1)
+atmosphere_density = 0.42
+sky_blend_strength = 0.18

@@ -27,6 +27,13 @@
 | KI-023 | `ShipConfig.visual_scene` is declared (comment says "empty = built-in placeholder") but nothing reads it. `LightFighterModel` and `ShipHullBuilder` are unused by any scene (only the phase02 test uses `ShipHullBuilder`). Decide: wire it up or remove. | Low | Open |
 | KI-024 | No `.uid` files committed (Godot 4.4+ creates them next to scripts/resources). Scenes reference by path so nothing breaks; committing them keeps UIDs stable across clones. | Low | Open |
 | KI-025 | 2026-11-24 static review (no Godot available): phase03 test engine-point check, `.blend` import setting and HUD reticle interpolation fixed on `fix/review-phase03-findings`; not run in Godot. | Low | Fixed in branch, unverified |
-| KI-026 | HUD target lock and alert severity sources do not exist yet; production HUD correctly displays unavailable/no-data states. | Low | By design until those gameplay feeds are added |
+| KI-026 | Combat target-lock and alert-severity sources do not exist yet. Phase 04 now provides navigation POI selection, but this is not a combat lock system. | Low | By design until combat feeds are added |
 | KI-027 | WRAITH HUD has passed headless data, viewport scaling and scene-start checks but has not received interactive visual review in a rendered window. | Medium | Open |
+| KI-028 | Phase 04 coordinates use Godot `Vector3`/`Transform3D` precision and do not rebase the world. Suitable for current local navigation; precision strategy must be revisited before planetary/interstellar-scale coordinates. | Medium | Deferred by design |
+| KI-029 | The visible navigation beacons in `flight_test.tscn` are test fixtures. Generated planets/stations are not yet registered as production POIs. | Low | Open until universe content is integrated |
+| KI-030 | Phase 04 navigation and HUD checks pass headless, but rendered marker legibility, camera occlusion/turn behavior and hardware performance have not been reviewed. | Medium | Open |
+| KI-031 | The extracted `D:\Angel\VOID-HORIZON-main` copy has no `.git` metadata and did not receive the Phase 04 branch; the environment granted read access but denied write access. | Medium | Open — synchronize when writable |
+| KI-032 | Phase 05's planetary shell and sky tint compile and the integration checks pass headless, but their appearance through the rendered flight camera and actual ingress/egress have not been reviewed interactively. | Medium | Open — rendered review |
+| KI-033 | The observed 0.013–0.016 ms/sample Phase 05 range measures only headless controller sampling in this sandbox; it is not a GPU or target-PC performance result. | Medium | Open — profile target hardware |
+| KI-034 | Planet approach still uses single-precision world `Vector3` coordinates. This test scale succeeds, but close-surface fidelity combined with system/interstellar distances needs a rebasing or other precision strategy before those scopes. | Medium | Open — architecture decision for later scale |
 
