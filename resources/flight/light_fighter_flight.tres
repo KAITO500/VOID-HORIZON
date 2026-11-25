@@ -6,7 +6,6 @@
 script = ExtResource("1_flight")
 max_speed = 220.0
 acceleration = 90.0
-boost_speed_multiplier = 1.7
-boost_acceleration_multiplier = 2.2
-boost_duration = 4.0
-boost_recharge_time = 8.0
+hard_speed_cap = 5000.0
+boost_speed_multiplier = 20.0
+boost_acceleration_multiplier = 5.0

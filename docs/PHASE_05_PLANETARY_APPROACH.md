@@ -19,9 +19,9 @@ Adds physical-scale planetary approach, atmosphere-state telemetry, a low-cost c
 
 ## Test setup
 
-`scenes/flight/flight_test.tscn` includes Khepri, a fixture at `(0, 0, -230000)` with 24 km radius and 6.2 km atmosphere. It is both the normal F5 flight test and the integration fixture. `scenes/planetary/planetary_approach_test.tscn` is a named scene entry point that instances that test setup. The three existing POIs remain present; the planet is an additional navigable target.
+`scenes/flight/flight_test.tscn` includes Khepri, a fixture at `(0, 0, -85000)` with 24 km radius and 6.2 km atmosphere. It is both the normal F5 flight test and the integration fixture. `scenes/planetary/planetary_approach_test.tscn` is a named scene entry point that instances that test setup. The three existing POIs remain present; the planet is an additional navigable target.
 
-With the default forward (-Z) heading, Khepri is ahead. Use the existing navigation target cycle to select it; approach is classified relative to the configured 192 km approach boundary, 60 km orbital boundary, and 30.2 km atmosphere boundary. Atmosphere progress reaches 1 at the theoretical surface. No collision mesh or surface interaction is implied.
+With the default forward (-Z) heading, Khepri is ahead. Use the existing navigation target cycle to select it; approach is classified relative to the configured 192 km approach boundary, 60 km orbital boundary, and 30.2 km atmosphere boundary. Hold Shift for sustained overdrive (up to 4,400 m/s nominal) to make the test approach reachable without a jump mechanic. Atmosphere progress reaches 1 at the theoretical surface. No collision mesh or surface interaction is implied. Interstellar or teleporting hyperspace travel remains Phase 08 scope.
 
 ## Validation
 
@@ -36,7 +36,7 @@ The current world uses single-precision Godot `Vector3` positions in metres. Thi
 ## Files
 
 - Added: `resources/planets/planet_profile.gd`, `resources/planets/wraith_test_world.tres`, `scripts/planetary/planetary_approach_snapshot.gd`, `scripts/planetary/planetary_approach_controller.gd`, `scripts/planetary/planetary_body.gd`, `scripts/planetary/planetary_atmosphere.gdshader`, `scenes/planetary/planetary_approach_test.tscn`, `tests/unit/phase05_planetary_approach_check.gd`.
-- Modified: `scripts/environment/space_environment.gd`, `scripts/flight/flight_hud.gd`, `scenes/flight/flight_test.tscn`, `tests/unit/phase04_navigation_check.gd`, shared architecture/roadmap/current state/handoff/known issues.
+- Modified: `scripts/environment/space_environment.gd`, `scripts/flight/flight_hud.gd`, `scripts/flight/flight_config.gd`, `scripts/flight/flight_boost.gd`, `scenes/flight/flight_test.tscn`, `tests/unit/phase04_navigation_check.gd`, shared architecture/roadmap/current state/handoff/known issues.
 
 ## Phase 06 and 07 contracts
 

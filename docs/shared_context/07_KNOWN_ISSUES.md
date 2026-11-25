@@ -21,7 +21,7 @@
 | KI-017 | GLB orientation was fixed by PR #4 (headless-verified, not seen interactively). Model root is named "VH-02 Vesper" while the prompt says VH-01 WRAITH; naming needs a decision. | High | Open |
 | KI-018 | Collision boxes and weapon points were sized for the old procedural model; they do not match the GLB (wings span 15.2 m, 3 engines). | Medium | Open |
 | KI-019 | All flight numbers (speeds, rates, boost, camera) are untuned first guesses; mouse feel and camera lag need human flying. | Medium | Open |
-| KI-020 | HUD layout (anchors/min sizes) and the reticle are unverified; `SpaceDust` shader (POSITION override, never culled) never compiled. | Medium | Open |
+| KI-020 | HUD layout (anchors/min sizes) and reticle are unverified; the new speed-streak shader has not had rendered visual or GPU performance review. | Medium | Open |
 | KI-021 | No collision response beyond `move_and_slide()`: no damage, bounce or stop. Nothing solid exists in the test scene. | Low | Open |
 | KI-022 | Gamepad not supported; mouse/keyboard only. Flight assist is a simple lateral damper, not a full flight-assist model. | Low | Open |
 | KI-023 | `ShipConfig.visual_scene` is declared (comment says "empty = built-in placeholder") but nothing reads it. `LightFighterModel` and `ShipHullBuilder` are unused by any scene (only the phase02 test uses `ShipHullBuilder`). Decide: wire it up or remove. | Low | Open |
@@ -36,4 +36,5 @@
 | KI-032 | Phase 05's planetary shell and sky tint compile and the integration checks pass headless, but their appearance through the rendered flight camera and actual ingress/egress have not been reviewed interactively. | Medium | Open — rendered review |
 | KI-033 | The observed 0.013–0.016 ms/sample Phase 05 range measures only headless controller sampling in this sandbox; it is not a GPU or target-PC performance result. | Medium | Open — profile target hardware |
 | KI-034 | Planet approach still uses single-precision world `Vector3` coordinates. This test scale succeeds, but close-surface fidelity combined with system/interstellar distances needs a rebasing or other precision strategy before those scopes. | Medium | Open — architecture decision for later scale |
+| KI-035 | Shift now provides sustained high-speed overdrive and the Khepri fixture is reachable at 85 km, but there is no discrete hyperspace jump or interstellar travel mechanic yet; those remain Phase 08. | Medium | Deferred by roadmap |
 

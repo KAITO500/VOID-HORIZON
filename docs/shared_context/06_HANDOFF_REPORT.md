@@ -4,11 +4,11 @@
 
 UPDATED: 2026-11-25
 
-STATUS: IMPLEMENTED, not VERIFIED. Profile-driven planet body and atmosphere, scale-relative approach states with hysteresis and swept high-speed transitions, reversible sky tint, Phase 04 planet target registration, and minimal HUD readout are in the local workspace. Phase 05 headless integration check passes (30 assertions; repeated runs measured logic at 0.013–0.016 ms/sample average in this sandbox); the dedicated scene check passes. Phase 01–04 checks pass; the Phase 04 target-count expectation was updated for the additional planet target.
+STATUS: IMPLEMENTED, not VERIFIED. Profile-driven planet body and atmosphere, scale-relative approach states with hysteresis and swept high-speed transitions, reversible sky tint, Phase 04 planet target registration, and minimal HUD readout are in the workspace. User feedback tuning now provides sustained Shift overdrive, moves Khepri to 85 km, and replaces the old space-dust points with a high-speed radial streak overlay. The pre-tuning Phase 01–05 headless checks passed; these latest flight/shader changes have not been run or visually reviewed in Godot.
 
 SCENES: The main `scenes/flight/flight_test.tscn` has a navigable Khepri fixture. `scenes/planetary/planetary_approach_test.tscn` is a named entry point for the same setup.
 
-LIMITS: No rendered-window visual review, player-controlled physical ingress/egress review or target-PC GPU profiling. The 0.013–0.016 ms sample range covers controller logic only. Current positions remain single-precision `Vector3`; no floating origin/LWC. The extracted `D:\Angel\VOID-HORIZON-main` directory was granted read only and remains unchanged. Changes are published on GitHub branch `feature/phase05-planetary-approach`; no PR has been created.
+LIMITS: No rendered-window visual review, player-controlled physical ingress/egress review or target-PC GPU profiling. The 0.013–0.016 ms sample range covers prior controller logic only. Current positions remain single-precision `Vector3`; no floating origin/LWC. No discrete hyperspace jump is implemented; it remains Phase 08 scope. The extracted `D:\Angel\VOID-HORIZON-main` directory was granted read only and remains unchanged. Phase 04/05 and the latest travel-tuning update are published on GitHub branch `feature/phase05-planetary-approach`.
 
 NEXT: Run the full rendered approach in Godot 4.7.2, inspect planet limb/sky transitions and HUD legibility, profile the target GPU, then mark Phase 05 VERIFIED only after those checks. Preserve `PlanetProfile` radius/world-center contracts when Phase 06 introduces planet surfaces; Phase 07 flight physics must stay modular and leave the current Phase 03 control/camera contract intact.
 

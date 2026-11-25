@@ -31,7 +31,7 @@ Hay dos discrepancias de continuidad importantes:
 - `scenes/main/main.tscn` y `scripts/core/main.gd`: escena raíz mínima de arranque; no es la escena que ejecuta F5.
 - `scenes/environment/` y `scripts/environment/`: cielo, estrellas, nebulosas, cuerpo celeste de fondo, iluminación y escena de inspección espacial.
 - `scenes/ships/`, `scripts/ships/`, `resources/ships/`, `assets/models/ships/`: nave, modelo GLB, puntos de anclaje, colisiones y datos.
-- `scenes/flight/`, `scripts/flight/`, `resources/flight/`: escena de vuelo, entrada, controlador, matemática, boost, cámara, HUD y polvo.
+- `scenes/flight/`, `scripts/flight/`, `resources/flight/`: escena de vuelo, entrada, controlador, matemática, overdrive, cámara, HUD y estelas de velocidad.
 - `tests/unit/`: checks headless de las fases 01, 02, vuelo y HUD.
 - `systems/`: no contiene sistemas de gameplay de carrera en la copia inspeccionada.
 
@@ -40,7 +40,7 @@ El vuelo separa las responsabilidades de forma razonable:
 ```text
 FlightInput → ShipIntent → FlightController → FlightMath / FlightBoost → Spaceship
                                            ↘ ShipEngineVisuals
-FlightCamera, FlightHud y SpaceDust leen el estado de la nave/controlador.
+FlightCamera, FlightHud y SpeedStreakEffect leen el estado de la nave/controlador.
 ```
 
 `FlightMath`, `FlightBoost` y `FlightConfig` son reutilizables y no dependen de nodos. `ShipNetworkState` separa algunas propiedades y ofrece capturar/aplicar una instantánea, pero no replica datos ni abre conexiones.
@@ -62,7 +62,7 @@ Se usan exactamente las categorías solicitadas.
 | Aros de práctica del testbed | PARCIALMENTE IMPLEMENTADO | Se dibujan 18 toros en zigzag; no tienen `Area3D`, colisión, IDs ni progreso. |
 | Carreras abiertas y checkpoints | DISEÑADO, PERO NO IMPLEMENTADO | El encargo define la experiencia; todavía no hay definición técnica de carrera en el código. Este informe propone una primera estructura. |
 | Drift dedicado / maniobras | PARCIALMENTE IMPLEMENTADO | Con asistencia desactivada se conserva velocidad lateral; no hay estado, input ni curva de drift dedicados. |
-| Overdrive | NO IMPLEMENTADO | No hay sistema aparte del boost. |
+| Overdrive sostenido | IMPLEMENTADO EN ESTE AJUSTE | Shift mantiene la sobreaceleración mientras se pulsa; no hay timer de energía. Un hipersalto discreto sigue pendiente para Fase 08. |
 | Combate, armas, escudos y selección de objetivo | NO IMPLEMENTADO | `fire_primary` solo es un campo de intención; no existe arma ni blanco. |
 | IA de rivales | NO IMPLEMENTADO | No hay pilotos de IA. |
 | Gravedad, vuelo atmosférico y transición a superficie | DISEÑADO, PERO NO IMPLEMENTADO | Existen cuerpos decorativos de fondo, pero no física planetaria ni transición continua. |
@@ -72,8 +72,9 @@ Se usan exactamente las categorías solicitadas.
 
 - `FlightInput` llena `ShipIntent`; `FlightController` solo procesa la nave localmente si `ShipNetworkState.is_owned_locally()` lo permite.
 - La velocidad es un vector en m/s. `FlightMath.step_velocity()` separa velocidad longitudinal y lateral; la asistencia aplica amortiguación exponencial lateral, mientras que sin asistencia se conserva el drift.
-- Valores principales de `FlightConfig`: máximo normal 220 m/s, reversa 30%, tope absoluto 1200 m/s, aceleración 90 m/s², deceleración 110 m/s², freno 160 m/s².
-- El boost fuerza acelerador hacia delante, aumenta el máximo hasta ×1,7 (374 m/s nominales) y la aceleración hasta ×2,2. Consume una reserva de 4 s, recarga en 8 s tras 1 s de demora y exige soltar la tecla si se agota.
+- Valores principales de `FlightConfig`: máximo normal 220 m/s, reversa 30%, tope absoluto 5.000 m/s, aceleración 90 m/s², deceleración 110 m/s², freno 160 m/s².
+- Shift fuerza acelerador hacia delante con sobreaceleración sostenida mientras se mantiene pulsado, hasta ×20 de velocidad nominal (4.400 m/s) y ×5 de aceleración. No tiene reserva temporal ni bloqueo por energía. El polvo de puntos se sustituyó por estelas radiales de pantalla, visibles solo entre 900 y 4.200 m/s.
+- El testbed Khepri está a 85 km frente a la nave. Las estelas radiales están apagadas por debajo de 900 m/s y ganan intensidad hasta 4.200 m/s. El nuevo shader no se ha probado en una ventana renderizada.
 - Pitch, yaw y roll son velocidades angulares locales suavizadas; pitch/yaw/roll nominales son 100/80/160 grados por segundo, con penalización de giro del 25% a velocidad máxima.
 - La prueba cubre matemática y estados de boost, pero no latencia de input, respuesta percibida, maniobras en circuito, interacción con obstáculos ni tuning de carrera. Los números son valores iniciales, no balance validado.
 
@@ -81,7 +82,7 @@ Se usan exactamente las categorías solicitadas.
 
 La cámara mantiene su posición ligada a la nave, pero interpola orientación; usa distancia 26 m, altura 6,5 m y anticipación 45 m. Amplía FOV y se aleja levemente con velocidad/boost. El entorno requiere una distancia de visión muy alta, y la escena F5 fija `far` en 500000 m. Estos valores necesitan revisión visual, en particular el compromiso entre ver el espacio y la precisión de profundidad cercana.
 
-Acciones registradas en tiempo de ejecución: W/S aceleración/reversa, flechas para pitch y yaw junto con A/D, Q/E roll, Shift boost, X freno, F asistencia, H ayuda, Escape libera el ratón y R reinicia el testbed. No hay menú de reasignación ni gamepad.
+Acciones registradas en tiempo de ejecución: W/S aceleración/reversa, flechas para pitch y yaw junto con A/D, Q/E roll, Shift sobreaceleración sostenida (mantener), X freno, F asistencia, H ayuda, Escape libera el ratón y R reinicia el testbed. No hay menú de reasignación ni gamepad.
 
 ## 4. Comprobaciones realizadas
 

@@ -11,7 +11,7 @@ Phase 00 has not been validated. The user's earlier F5 test showed the Phase 02 
 **Godot version:** 4.7.2 (confirmed by the user). Hardware target (Q-002) unknown.
 
 **HUD update 2026-11-24:** the Phase 03 flight HUD uses live flight telemetry and Phase 04 target/waypoint services. Combat alert data is still unavailable. See `docs/PHASE_03_WRAITH_FLIGHT_HUD.md` and `docs/PHASE_04_SPACE_NAVIGATION.md`.
-**Planetary update 2026-11-25:** the F5 scene now includes the Khepri test planet; `scenes/planetary/planetary_approach_test.tscn` is a dedicated entry point. See `docs/PHASE_05_PLANETARY_APPROACH.md`. Phase 04 remains implemented but not visually verified.
+**Travel tuning update 2026-11-25:** Shift now sustains overdrive while held (4,400 m/s nominal cap), Khepri in the F5 fixture is 85 km ahead, and radial speed streaks replace the old space-dust points. This makes the test approach reachable without a discrete hyperspace jump; true jumps remain Phase 08. Visual review remains pending.
 
 ## Branches (GitHub KAITO500/VOID-HORIZON)
 | Branch | State |

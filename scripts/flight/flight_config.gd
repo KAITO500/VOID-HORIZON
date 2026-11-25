@@ -12,7 +12,7 @@ extends Resource
 ## Reverse top speed as a fraction of max_speed.
 @export_range(0.0, 1.0, 0.01) var reverse_speed_fraction: float = 0.3
 ## Absolute safety cap, applied after everything else (m/s).
-@export_range(100.0, 5000.0, 1.0) var hard_speed_cap: float = 1200.0
+@export_range(100.0, 10000.0, 1.0) var hard_speed_cap: float = 5000.0
 
 @export_group("Acceleration and inertia")
 ## Forward acceleration at full throttle (m/s^2).
@@ -53,16 +53,8 @@ extends Resource
 @export var invert_pitch: bool = false
 
 @export_group("Boost")
-@export_range(1.0, 5.0, 0.05) var boost_speed_multiplier: float = 1.7
-@export_range(1.0, 8.0, 0.05) var boost_acceleration_multiplier: float = 2.2
-## Seconds of continuous boost from a full tank.
-@export_range(0.5, 60.0, 0.1) var boost_duration: float = 4.0
-## Seconds to refill an empty tank (after the recovery delay).
-@export_range(0.5, 120.0, 0.1) var boost_recharge_time: float = 8.0
-## Seconds after releasing boost before recharge starts.
-@export_range(0.0, 10.0, 0.1) var boost_recharge_delay: float = 1.0
-## After the tank hits zero, boost stays locked until this fraction is recovered.
-@export_range(0.0, 1.0, 0.01) var boost_unlock_fraction: float = 0.25
-## Boost strength ramp up / down (1/s). Used for smooth speed and visual transitions.
+@export_range(1.0, 30.0, 0.05) var boost_speed_multiplier: float = 20.0
+@export_range(1.0, 12.0, 0.05) var boost_acceleration_multiplier: float = 5.0
+## Overdrive strength ramp up / down (1/s). Shift sustains it until released.
 @export_range(0.5, 30.0, 0.1) var boost_ramp_up: float = 5.0
 @export_range(0.5, 30.0, 0.1) var boost_ramp_down: float = 2.5

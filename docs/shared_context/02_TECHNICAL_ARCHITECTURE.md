@@ -73,7 +73,7 @@ Full reference: `docs/PHASE_02_LIGHT_FIGHTER.md`.
 - `PlanetaryBody` is a physical-scale scene node with a basic lit sphere and one transparent atmosphere shell. It registers as a live `NavigationTarget.Category.PLANET` in the Phase 04 scene-local registry.
 - `PlanetaryApproachController` reads `NavigationTelemetry`, follows a selected planet target or nearest available planet, and emits radius-derived approach states and a `PlanetaryApproachSnapshot`. It uses swept segment/sphere crossings so a fast traversal can report intermediate states even when both sampled endpoints are in space.
 - The controller never modifies the ship or camera. `SpaceEnvironment.set_atmosphere_transition()` blends/restores its existing sky gradient and ambient color. The existing HUD receives state, progress and theoretical altitude.
-- Test fixture: Khepri at `(0, 0, -230000)`, 24 km radius, 6.2 km atmosphere. Single-precision coordinates remain in use; no floating origin/LWC was enabled. Revisit before full planetary surfaces and interstellar scale.
+- Test fixture: Khepri at `(0, 0, -85000)`, 24 km radius, 6.2 km atmosphere. Shift uses sustained overdrive (20x speed limit, 5x acceleration multiplier; 4,400 m/s nominal maximum), and `SpeedStreakEffect` fades radial screen-space streaks in between 900 and 4,200 m/s. This makes the test approach reachable without implementing hyperspace jumps. Single-precision coordinates remain in use; no floating origin/LWC was enabled. Revisit before full planetary surfaces and interstellar scale.
 - Full detail and validation limits: `docs/PHASE_05_PLANETARY_APPROACH.md`.
 
 ## 14. Unresolved questions

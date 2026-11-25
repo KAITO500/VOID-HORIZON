@@ -27,9 +27,10 @@ func _init() -> void:
 	for i in 300:
 		vb = FlightMath.step_velocity(vb, forward, 1.0, false, true, 1.0, cfg, 1.0 / 60.0)
 	_check(vb.length() > cfg.max_speed * 1.6, "boost exceeds normal max speed (%.1f)" % vb.length())
+	var peak_speed: float = vb.length()
 	for i in 600:
 		vb = FlightMath.step_velocity(vb, forward, 1.0, false, true, 0.0, cfg, 1.0 / 60.0)
-	_check(absf(vb.length() - cfg.max_speed) < 1.0, "speed returns to max after boost (%.1f)" % vb.length())
+	_check(vb.length() < peak_speed and vb.length() > cfg.max_speed, "overdrive release eases speed toward normal (%.1f)" % vb.length())
 
 	# Brake stops the ship; hard cap holds.
 	var vs := forward * cfg.max_speed
@@ -64,22 +65,17 @@ func _init() -> void:
 		spun = FlightMath.apply_rotation(spun, Vector3(1.0, 2.0, 3.0), 1.0 / 60.0)
 	_check(absf(spun.determinant() - 1.0) < 0.0001 and spun.is_equal_approx(spun.orthonormalized()), "basis stays orthonormal")
 
-	# Boost energy: drains, locks, needs key release, recharges.
+	# Sustained overdrive remains active while held and fades smoothly after release.
 	var boost := FlightBoost.new()
-	var t: float = 0.0
-	while boost.energy > 0.0 and t < 20.0:
+	for i in 60 * 20:
 		boost.update(true, 1.0 / 60.0, cfg)
-		t += 1.0 / 60.0
-	_check(absf(t - cfg.boost_duration) < 0.1, "boost lasts boost_duration (%.2f s)" % t)
-	_check(boost.locked, "boost locks when empty")
-	for i in 60 * 10:
-		boost.update(true, 1.0 / 60.0, cfg)
-	_check(not boost.active, "boost stays off while the key is held after running dry")
+	_check(boost.active and boost.strength == 1.0, "overdrive stays at full strength while Shift is held")
 	boost.update(false, 1.0 / 60.0, cfg)
-	for i in 60 * 3:
+	_check(not boost.active and boost.strength < 1.0, "overdrive releases and ramps down after Shift is released")
+	for i in 60:
 		boost.update(false, 1.0 / 60.0, cfg)
 	boost.update(true, 1.0 / 60.0, cfg)
-	_check(boost.active, "boost works again after release and recovery")
+	_check(boost.active, "overdrive can be engaged again immediately")
 
 	_check_scene()
 	print("phase03_flight_check: %s" % ("PASS" if _failures == 0 else "FAIL (%d)" % _failures))

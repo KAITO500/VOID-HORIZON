@@ -25,14 +25,13 @@ func _run() -> void:
 	var ship := flight.get_node("LightFighter") as Spaceship
 	var controller := ship.get_node("FlightController") as FlightController
 	ship.velocity = Vector3(0.0, 0.0, -150.0)
-	controller.boost.energy = 0.5
 	controller.boost.active = true
 	ship.network_state.thrust = 0.62
 	(flight.get_node("SpaceNavigation/Telemetry") as NavigationTelemetry).capture_now()
 	hud._process(0.0)
 	assert((hud.get("_speed_value") as Label).text == "SPEED  150 M/S", "speed must use live ship velocity")
 	assert((hud.get("_thrust_value") as Label).text == "THRUST  62%", "thrust must use live ship state")
-	assert((hud.get("_boost_value") as Label).text == "BOOST  ACTIVE  /  50%", "boost state must be reflected")
+	assert((hud.get("_boost_value") as Label).text == "OVERDRIVE  ACTIVE", "held overdrive state must be reflected")
 	assert((hud.get("_target_name") as Label).text == "NO TARGET SELECTED", "navigation defaults to no selected destination")
 
 	flight.queue_free()

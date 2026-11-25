@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ships/light_fighter.tscn" id="3_ship"]
 [ext_resource type="Script" path="res://scripts/flight/flight_input.gd" id="4_input"]
 [ext_resource type="Script" path="res://scripts/flight/flight_camera.gd" id="5_cam"]
-[ext_resource type="Script" path="res://scripts/flight/space_dust.gd" id="6_dust"]
+[ext_resource type="Script" path="res://scripts/flight/speed_streak_effect.gd" id="6_streaks"]
 [ext_resource type="Script" path="res://scripts/flight/flight_hud.gd" id="7_hud"]
 [ext_resource type="PackedScene" path="res://scenes/navigation/space_navigation.tscn" id="8_navigation"]
 [ext_resource type="Script" path="res://scripts/navigation/navigation_hud_overlay.gd" id="9_navigation_hud"]
@@ -24,9 +24,18 @@ script = ExtResource("1_test")
 [node name="FlightInput" type="Node" parent="LightFighter"]
 script = ExtResource("4_input")
 
-[node name="SpaceDust" type="MultiMeshInstance3D" parent="."]
-script = ExtResource("6_dust")
-ship_path = NodePath("../LightFighter")
+[node name="SpeedStreaks" type="CanvasLayer" parent="."]
+layer = 8
+
+[node name="Overlay" type="ColorRect" parent="SpeedStreaks"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_streaks")
+ship_path = NodePath("../../LightFighter")
 
 [node name="FlightCamera" type="Camera3D" parent="."]
 fov = 70.0
@@ -54,7 +63,7 @@ target_manager_path = NodePath("../SpaceNavigation/TargetManager")
 space_environment_path = NodePath("../SpaceEnvironment")
 
 [node name="KhepriTestWorld" type="Node3D" parent="."]
-position = Vector3(0, 0, -230000)
+position = Vector3(0, 0, -85000)
 script = ExtResource("11_planet_body")
 profile = ExtResource("12_planet_profile")
 navigation_registry_path = NodePath("../SpaceNavigation/Registry")

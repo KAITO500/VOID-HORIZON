@@ -148,10 +148,9 @@ func _update_hud() -> void:
 		_heading_value.text = "HEADING  %03d°  /  PITCH %+03d°" % [int(round(sample.heading_degrees)) % 360, int(round(sample.pitch_degrees))]
 	else:
 		_heading_value.text = "HEADING  ---°"
-	var boost_percent: int = int(round(_controller.boost.energy * 100.0))
 	var thrust: float = _ship.network_state.thrust if _ship.network_state != null else clampf(_controller.throttle, 0.0, 1.0)
 	_thrust_value.text = "THRUST  %d%%" % int(round(clampf(thrust, 0.0, 1.0) * 100.0))
-	_boost_value.text = "BOOST  %s  /  %d%%" % ["ACTIVE" if _controller.boost.active else "READY", boost_percent]
+	_boost_value.text = "OVERDRIVE  %s" % ("ACTIVE" if _controller.boost.active else "SHIFT: HOLD")
 	_update_navigation(sample)
 	_update_planetary_approach()
 

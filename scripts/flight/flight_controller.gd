@@ -6,7 +6,7 @@ extends Node
 ## (later) remote ships: only the peer that owns the ship simulates it (see _is_simulating()).
 ## Math lives in FlightMath / FlightBoost so it can be tested without a scene.
 
-signal boost_state_changed(active: bool, locked: bool)
+signal boost_state_changed(active: bool)
 
 ## Optional override. Empty = use `ship.config.flight_config`.
 @export var config_override: FlightConfig
@@ -19,7 +19,6 @@ var angular_velocity: Vector3 = Vector3.ZERO
 
 var _ship: Spaceship
 var _last_boost_active: bool = false
-var _last_boost_locked: bool = false
 
 
 func _ready() -> void:
@@ -65,10 +64,9 @@ func _physics_process(delta: float) -> void:
 	var intent: ShipIntent = _ship.intent
 
 	boost.update(intent.boost, delta, cfg)
-	if boost.active != _last_boost_active or boost.locked != _last_boost_locked:
+	if boost.active != _last_boost_active:
 		_last_boost_active = boost.active
-		_last_boost_locked = boost.locked
-		boost_state_changed.emit(boost.active, boost.locked)
+		boost_state_changed.emit(boost.active)
 
 	# Throttle: boosting always pushes forward (arcade), otherwise follow the smoothed input.
 	var throttle_request: float = 1.0 if boost.active else intent.throttle
